@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, User, Bot } from 'lucide-react';
+import { MessageCircle, X, Send, User, Bot, Loader2 } from 'lucide-react';
+import { aiService } from '../../services/aiService';
 
 interface Message {
   id: string;
@@ -10,10 +11,11 @@ interface Message {
 
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',
-      text: "Hi! I'm Wellpath Bot. How can I help you today? You can ask me about finding a professional, booking a session, pricing, or jobs.",
+      text: "Hi! I'm Wellpath's AI Assistant. How can I help you today? You can ask me about finding a professional, booking a session, pricing, or jobs.",
       sender: 'bot',
       timestamp: new Date()
     }
@@ -29,36 +31,51 @@ export function ChatBot() {
     if (isOpen) {
       scrollToBottom();
     }
-  }, [messages, isOpen]);
+  }, [messages, isOpen, isTyping]);
 
-  const handleSend = () => {
-    if (!inputText.trim()) return;
+  const handleSend = async () => {
+    if (!inputText.trim() || isTyping) return;
 
+    const userText = inputText.trim();
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: inputText,
+      text: userText,
       sender: 'user',
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInputText('');
+    setIsTyping(true);
     
-    // Process rule-based response
-    setTimeout(() => {
-      let botResponse = "I'm sorry, I didn't understand that. Could you try asking about finding a professional, booking, pricing, or jobs?";
-      const lowerInput = userMessage.text.toLowerCase();
+    try {
+      let botResponse = '';
+      
+      if (aiService.isConfigured()) {
+        const history = messages
+          .filter(m => m.id !== 'welcome')
+          .map(m => ({
+            role: m.sender === 'user' ? ('user' as const) : ('model' as const),
+            parts: [{ text: m.text }]
+          }));
+          
+        botResponse = await aiService.getChatResponse(userText, history);
+      } else {
+        // Fallback rule-based response
+        botResponse = "I'm sorry, I'm currently running in limited mode. Could you try asking about finding a professional, booking, pricing, or jobs?";
+        const lowerInput = userText.toLowerCase();
 
-      if (lowerInput.includes('book') || lowerInput.includes('schedule') || lowerInput.includes('appointment')) {
-        botResponse = "To book a session, please sign up or log in, then browse our professionals. You can select a time slot on their profile page.";
-      } else if (lowerInput.includes('find') || lowerInput.includes('search') || lowerInput.includes('professional')) {
-        botResponse = "You can find professionals by browsing our directory. Use filters for specialty, language, and availability to find the right match.";
-      } else if (lowerInput.includes('price') || lowerInput.includes('pricing') || lowerInput.includes('cost')) {
-        botResponse = "Pricing varies by professional. Each professional lists their session rates on their profile page.";
-      } else if (lowerInput.includes('job') || lowerInput.includes('career') || lowerInput.includes('internship') || lowerInput.includes('work') || lowerInput.includes('opportunity')) {
-        botResponse = "Check out our Jobs & Internships board for mental health opportunities! You can also post your own openings if you're a professional. Visit the 'Jobs & Internships' link in the navigation.";
-      } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
-        botResponse = "Hello there! How can I assist you with Wellpath today?";
+        if (lowerInput.includes('book') || lowerInput.includes('schedule') || lowerInput.includes('appointment')) {
+          botResponse = "To book a session, please sign up or log in, then browse our professionals. You can select a time slot on their profile page.";
+        } else if (lowerInput.includes('find') || lowerInput.includes('search') || lowerInput.includes('professional')) {
+          botResponse = "You can find professionals by browsing our directory. Use filters for specialty, language, and availability to find the right match.";
+        } else if (lowerInput.includes('price') || lowerInput.includes('pricing') || lowerInput.includes('cost')) {
+          botResponse = "Pricing varies by professional. Each professional lists their session rates on their profile page.";
+        } else if (lowerInput.includes('job') || lowerInput.includes('career') || lowerInput.includes('internship')) {
+          botResponse = "Check out our Jobs & Internships board for mental health opportunities! Visit the 'Jobs' link in the navigation.";
+        } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
+          botResponse = "Hello there! How can I assist you with Wellpath today?";
+        }
       }
 
       const botMsg: Message = {
@@ -69,7 +86,16 @@ export function ChatBot() {
       };
 
       setMessages(prev => [...prev, botMsg]);
-    }, 600);
+    } catch (error) {
+      setMessages(prev => [...prev, {
+        id: (Date.now() + 1).toString(),
+        text: "I encountered an error trying to respond. Please try again.",
+        sender: 'bot',
+        timestamp: new Date()
+      }]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -123,6 +149,19 @@ export function ChatBot() {
                 </div>
               </div>
             ))}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="flex max-w-[85%] flex-row">
+                  <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-sm mr-2">
+                    <Bot className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <div className="p-3 rounded-2xl bg-white text-gray-800 shadow-sm border border-gray-100 rounded-tl-none flex items-center space-x-2">
+                    <Loader2 className="w-4 h-4 animate-spin text-emerald-500" />
+                    <span className="text-sm text-gray-500">Thinking...</span>
+                  </div>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -135,13 +174,14 @@ export function ChatBot() {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Type your message..."
-                className="flex-1 bg-transparent border-none focus:outline-none py-2 text-sm text-gray-700"
+                disabled={isTyping}
+                className="flex-1 bg-transparent border-none focus:outline-none py-2 text-sm text-gray-700 disabled:opacity-50"
               />
               <button 
                 onClick={handleSend}
-                disabled={!inputText.trim()}
+                disabled={!inputText.trim() || isTyping}
                 className={`p-2 rounded-full flex items-center justify-center transition-colors ${
-                  inputText.trim() 
+                  inputText.trim() && !isTyping
                     ? 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm' 
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
