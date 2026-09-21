@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -149,7 +149,7 @@ export default function Login() {
             </Button>
             <div className="text-center text-sm text-text-muted space-x-2">
               <span>New to WELLPath?</span>
-              <a href="/signup" className="text-primary hover:underline font-semibold">Join here</a>
+              <Link to="/signup" className="text-primary hover:underline font-semibold">Join here</Link>
             </div>
           </CardFooter>
         </Card>
