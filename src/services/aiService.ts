@@ -58,9 +58,9 @@ export const aiService = {
       const result = await chat.sendMessage(userMessage);
       const response = await result.response;
       return response.text();
-    } catch (error) {
+    } catch (error: any) {
       console.error("AI Error:", error);
-      throw new Error("Failed to get response from AI. Please try again later.");
+      throw new Error(error?.message || "Failed to get response from AI. Please try again later.");
     }
   }
 };

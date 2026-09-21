@@ -86,10 +86,11 @@ export function ChatBot() {
       };
 
       setMessages(prev => [...prev, botMsg]);
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Chat Error:", error);
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
-        text: "I encountered an error trying to respond. Please try again.",
+        text: `Error: ${error?.message || 'Unknown error occurred'}`,
         sender: 'bot',
         timestamp: new Date()
       }]);
