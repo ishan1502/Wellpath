@@ -7,7 +7,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 export default function Signup() {
   const navigate = useNavigate();
-  const { signup, loginWithGoogle } = useAuth();
+  const { user, isAuthenticated, signup, loginWithGoogle } = useAuth();
+  
+  React.useEffect(() => {
+    if (user && isAuthenticated) {
+      const role = user.role || 'patient';
+      if (role === 'admin') navigate('/admin');
+      else navigate(`/${role}/dashboard`);
+    }
+  }, [user, isAuthenticated, navigate]);
   
   const [formData, setFormData] = useState({
     firstName: '',

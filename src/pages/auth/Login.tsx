@@ -8,13 +8,21 @@ import { Mail, Shield } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
-  const { loginWithEmailAndPassword, resetPassword, loginWithGoogle } = useAuth();
+  const { user, isAuthenticated, loginWithEmailAndPassword, resetPassword, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  React.useEffect(() => {
+    if (user && isAuthenticated) {
+      const role = user.role || 'patient';
+      if (role === 'admin') navigate('/admin');
+      else navigate(`/${role}/dashboard`);
+    }
+  }, [user, isAuthenticated, navigate]);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();

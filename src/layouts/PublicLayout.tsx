@@ -1,9 +1,11 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { HeartPulse, Menu, ChevronDown } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
 
 const PublicLayout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-gray-50 text-gray-900">
@@ -41,8 +43,21 @@ const PublicLayout = () => {
               <Link to="/resources" className="text-gray-600 hover:text-emerald-600 font-medium text-sm transition-colors">Resources</Link>
 
               <div className="flex items-center gap-3 ml-4 border-l pl-6 border-gray-200">
-                <Link to="/login" className="px-4 py-2 text-emerald-600 hover:bg-emerald-50 border border-emerald-600 rounded-lg font-semibold text-sm transition-colors">Login</Link>
-                <Link to="/find-professional" className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-sm transition-colors shadow-sm">Find Professional</Link>
+                {isAuthenticated ? (
+                  <>
+                    <Link to={user?.role === 'admin' ? '/admin' : `/${user?.role || 'patient'}/dashboard`} className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-sm transition-colors shadow-sm">
+                      Dashboard
+                    </Link>
+                    <button onClick={logout} className="px-4 py-2 text-gray-600 hover:text-emerald-600 font-medium text-sm transition-colors">
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="px-4 py-2 text-emerald-600 hover:bg-emerald-50 border border-emerald-600 rounded-lg font-semibold text-sm transition-colors">Login</Link>
+                    <Link to="/signup" className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-sm transition-colors shadow-sm">Sign Up</Link>
+                  </>
+                )}
               </div>
             </nav>
             
@@ -72,8 +87,17 @@ const PublicLayout = () => {
                 <Link to="/resources" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium text-sm rounded-lg">Resources</Link>
               </div>
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center px-4 py-2 text-emerald-600 border border-emerald-600 font-semibold text-sm rounded-lg">Login</Link>
-                <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center px-4 py-2 bg-emerald-600 text-white font-semibold text-sm rounded-lg">Sign Up</Link>
+                {isAuthenticated ? (
+                  <>
+                    <Link to={user?.role === 'admin' ? '/admin' : `/${user?.role || 'patient'}/dashboard`} onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center px-4 py-2 bg-emerald-600 text-white font-semibold text-sm rounded-lg">Dashboard</Link>
+                    <button onClick={() => { logout(); setMobileMenuOpen(false); }} className="flex items-center justify-center px-4 py-2 text-gray-600 border border-gray-300 font-semibold text-sm rounded-lg">Logout</button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center px-4 py-2 text-emerald-600 border border-emerald-600 font-semibold text-sm rounded-lg">Login</Link>
+                    <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center px-4 py-2 bg-emerald-600 text-white font-semibold text-sm rounded-lg">Sign Up</Link>
+                  </>
+                )}
               </div>
             </div>
           )}
