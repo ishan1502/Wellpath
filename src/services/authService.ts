@@ -128,6 +128,20 @@ export const authService = {
         console.error('Failed to create OAuth profile:', error);
         return null;
       }
+
+      if (pendingRole === 'professional') {
+        const { error: proError } = await supabase
+          .from('professionals')
+          .insert([
+            {
+              id: session.user.id,
+              title: 'Licensed Professional',
+              specialty: 'General Practice',
+              verification_status: 'pending'
+            }
+          ]);
+        if (proError) console.error('Failed to create OAuth professional record:', proError);
+      }
       
       profile = newProfile;
       
