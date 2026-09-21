@@ -22,7 +22,7 @@ export default function Signup() {
     lastName: '',
     email: '',
     password: '',
-    role: 'patient' as 'patient' | 'professional' | 'student'
+    role: '' as 'patient' | 'professional' | 'student' | ''
   });
   
   const [error, setError] = useState('');
@@ -37,6 +37,11 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.role) {
+      setError('Please select how you want to join (Patient, Professional, or Student).');
+      return;
+    }
+    
     setError('');
     setIsLoading(true);
 
@@ -59,6 +64,11 @@ export default function Signup() {
   };
 
   const handleGoogleSignup = async () => {
+    if (!formData.role) {
+      setError('Please select how you want to join (Patient, Professional, or Student) before continuing with Google.');
+      return;
+    }
+    
     setIsLoading(true);
     setError('');
     try {
