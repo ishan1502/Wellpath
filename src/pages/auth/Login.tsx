@@ -86,19 +86,13 @@ export default function Login() {
   };
 
 
-
   return (
-    <div className="flex flex-1 items-center justify-center bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-primary">WELLPath</h1>
-          <p className="text-text-muted mt-2">Welcome back</p>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Log In</CardTitle>
-            <CardDescription>Access your WELLPath account</CardDescription>
+    <div className="flex flex-1 items-center justify-center bg-gray-50/50 py-4 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <Card className="border-0 shadow-lg sm:border sm:shadow-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
+            <CardDescription className="text-center">Log in to your account</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4">
