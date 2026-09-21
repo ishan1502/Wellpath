@@ -135,7 +135,7 @@ const PublicLayout = () => {
               <ul className="space-y-2 text-sm text-gray-600">
                 <li><Link to="/about" className="hover:text-emerald-600">About Us</Link></li>
                 <li><Link to="/for-professionals" className="hover:text-emerald-600">For Professionals</Link></li>
-                <li><Link to="/student/signup" className="hover:text-emerald-600">Student Internships</Link></li>
+                <li><Link to="/jobs" className="hover:text-emerald-600">Student Internships</Link></li>
               </ul>
             </div>
             <div>

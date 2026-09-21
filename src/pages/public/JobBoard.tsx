@@ -3,6 +3,58 @@ import { useNavigate } from 'react-router-dom';
 import { Briefcase, GraduationCap, Clock, DollarSign, Calendar, CheckCircle, X } from 'lucide-react';
 import { mockJobPostings } from '../../data/mockData';
 import { useAuth } from '../../hooks/useAuth';
+import { JobPosting } from '../../types';
+
+const defaultJobs: JobPosting[] = [
+  {
+    id: 'job-1',
+    professionalId: 'prof-demo',
+    title: 'Associate Licensed Clinical Psychologist',
+    description: 'Seeking a compassionate clinical psychologist to join our multidisciplinary outpatient mental health practice. Flexible telehealth and in-person hybrid schedule.',
+    type: 'job',
+    requirements: ['Ph.D. or Psy.D. in Clinical Psychology', 'Active state medical/clinical license', '2+ years outpatient experience'],
+    compensation: '$90,000 - $115,000 / year',
+    deadline: '2026-12-31',
+    postedAt: '2026-09-01',
+    status: 'open'
+  },
+  {
+    id: 'job-2',
+    professionalId: 'prof-demo',
+    title: 'Adolescent & Family Behavioral Counselor',
+    description: 'Focus on adolescent anxiety, school stress, and parent-child communication therapy in an innovative digital-first clinic.',
+    type: 'job',
+    requirements: ['Master in Counseling or Social Work (LCSW / LMFT)', 'Proven child and family counseling background', 'Proficiency with telehealth tools'],
+    compensation: '$75,000 - $95,000 / year',
+    deadline: '2026-11-30',
+    postedAt: '2026-09-10',
+    status: 'open'
+  },
+  {
+    id: 'intern-1',
+    professionalId: 'prof-demo',
+    title: 'Clinical Psychology Graduate Internship (Fall 2026)',
+    description: 'Supervised clinical internship for advanced master or doctoral students. Gain direct hours under board-certified supervisors with comprehensive case reviews.',
+    type: 'internship',
+    requirements: ['Enrolled in an accredited clinical psychology program', 'Completed practicum coursework', 'Commitment of 15-20 hours/week'],
+    compensation: '$25 / hour stipend',
+    deadline: '2026-10-31',
+    postedAt: '2026-09-15',
+    status: 'open'
+  },
+  {
+    id: 'intern-2',
+    professionalId: 'prof-demo',
+    title: 'Mental Health Research & Psychoeducation Intern',
+    description: 'Work alongside leading clinicians to develop evidence-based wellness modules and analyze telehealth patient outcome metrics.',
+    type: 'internship',
+    requirements: ['Undergraduate senior or graduate student in psychology/neuroscience', 'Strong statistical & scientific writing skills'],
+    compensation: 'Academic Credit + $500 monthly stipend',
+    deadline: '2026-11-15',
+    postedAt: '2026-09-18',
+    status: 'open'
+  }
+];
 
 const JobBoard = () => {
   const [activeTab, setActiveTab] = useState<'job' | 'internship'>('job');
@@ -25,7 +77,8 @@ const JobBoard = () => {
     showToast(`Application submitted for "${jobTitle}". You'll hear back soon!`);
   };
 
-  const filteredJobs = mockJobPostings.filter((job) => job.type === activeTab);
+  const allJobs = mockJobPostings.length > 0 ? mockJobPostings : defaultJobs;
+  const filteredJobs = allJobs.filter((job) => job.type === activeTab);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -117,7 +170,7 @@ const JobBoard = () => {
                 <div className="mt-4">
                   <h3 className="text-sm font-semibold text-gray-900 mb-2">Requirements:</h3>
                   <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-                    {job.requirements.map((req, index) => (
+                    {job.requirements.map((req: string, index: number) => (
                       <li key={index}>{req}</li>
                     ))}
                   </ul>

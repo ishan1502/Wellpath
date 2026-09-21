@@ -4,6 +4,48 @@ import { Calendar, Clock, Video, Users, Search, CheckCircle, X } from 'lucide-re
 import { mockEvents } from '../../data/mockData';
 import { useAuth } from '../../hooks/useAuth';
 
+const defaultEvents: any[] = [
+  {
+    id: 'evt-1',
+    title: 'Mindfulness & Cognitive Restructuring for Anxiety',
+    description: 'An interactive 90-minute clinical workshop on practical CBT techniques to break worry loops and build emotional resilience.',
+    date: '2026-10-05',
+    time: '18:00 - 19:30',
+    platform: 'Zoom Telehealth',
+    speaker: 'Dr. Sarah Jenkins (Clinical Psychologist)',
+    attendees: 42,
+    maxAttendees: 100,
+    price: 'Free Community Event',
+    tags: ['Anxiety', 'CBT', 'Workshop']
+  },
+  {
+    id: 'evt-2',
+    title: 'Burnout Recovery & Work-Life Boundary Architecture',
+    description: 'Designed for healthcare practitioners, educators, and tech workers navigating chronic workplace fatigue and occupational exhaustion.',
+    date: '2026-10-12',
+    time: '19:00 - 20:30',
+    platform: 'Google Meet',
+    speaker: 'Dr. Marcus Vance (Psychiatrist)',
+    attendees: 78,
+    maxAttendees: 150,
+    price: '$15 General / Free for Students',
+    tags: ['Burnout', 'Workplace Wellness', 'Webinar']
+  },
+  {
+    id: 'evt-3',
+    title: 'Navigating Neurodivergence: ADHD & Adult Executive Function',
+    description: 'Strategies for managing attention, motivation, and time perception with practical behavioral scaffolding.',
+    date: '2026-10-20',
+    time: '17:30 - 19:00',
+    platform: 'Zoom Telehealth',
+    speaker: 'Elena Rostova, LMFT',
+    attendees: 95,
+    maxAttendees: 100,
+    price: 'Free Community Event',
+    tags: ['ADHD', 'Neurodivergence', 'Executive Function']
+  }
+];
+
 const Events = () => {
   const [dateFilter, setDateFilter] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,7 +68,8 @@ const Events = () => {
     showToast(`You're registered for "${eventTitle}"! Check your email for details.`, eventId);
   };
 
-  const filteredEvents = mockEvents.filter(event => {
+  const allEvents = mockEvents.length > 0 ? mockEvents : defaultEvents;
+  const filteredEvents = allEvents.filter(event => {
     const matchesDate = !dateFilter || event.date >= dateFilter;
     const matchesSearch =
       !searchTerm ||

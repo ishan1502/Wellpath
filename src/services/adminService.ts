@@ -1,15 +1,7 @@
+import { supabase } from '../lib/supabase';
 import { User, Professional, Appointment, Transaction, Review, Article } from '../types';
-import { mockUsers, mockProfessionals, mockAppointments, mockReviews, mockArticles } from '../data/mockData';
 
-// Mock storage keys
-const USERS_KEY = 'wellpath_users';
-const PROFESSIONALS_KEY = 'wellpath_professionals';
-const APPOINTMENTS_KEY = 'wellpath_appointments';
-const TRANSACTIONS_KEY = 'wellpath_transactions';
-const REVIEWS_KEY = 'wellpath_reviews';
-const ARTICLES_KEY = 'wellpath_articles';
-
-// Initialize mock transactions since they are not in mockData.ts
+// Mock transactions & articles for reporting views
 const mockTransactions: Transaction[] = [
   {
     id: 'tx1',
@@ -25,74 +17,178 @@ const mockTransactions: Transaction[] = [
     appointmentId: 'appt2',
     patientId: 'p1',
     professionalId: 'd1',
-    amount: 1500,
+    amount: 1800,
     date: new Date(Date.now() - 864000000).toISOString(),
     status: 'successful'
   }
 ];
 
-const getStoredData = <T>(key: string, defaultData: T[]): T[] => {
-  if (typeof window === 'undefined') return defaultData;
-  const stored = localStorage.getItem(key);
-  if (stored) return JSON.parse(stored);
-  localStorage.setItem(key, JSON.stringify(defaultData));
-  return defaultData;
-};
-
-const setStoredData = <T>(key: string, data: T[]) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(key, JSON.stringify(data));
-  }
-};
-
 export const adminService = {
   getPendingVerifications: async (): Promise<Professional[]> => {
-    await new Promise(r => setTimeout(r, 300));
-    const all = getStoredData<Professional>(PROFESSIONALS_KEY, mockProfessionals);
-    return all.filter(p => p.verificationStatus === 'pending');
+    try {
+      const { data, error } = await supabase
+        .from('professionals')
+        .select('*, users(*)')
+        .eq('verification_status', 'pending');
+
+      if (error || !data) return [];
+
+      return data.map((d: any) => ({
+        id: d.id,
+        firstName: d.users?.first_name || 'Professional',
+        lastName: d.users?.last_name || '',
+        email: d.users?.email || '',
+        role: 'professional',
+        avatarUrl: d.users?.avatar_url || '',
+        title: d.title || 'Therapist',
+        type: d.title || 'Therapist',
+        specializations: d.specialty ? [d.specialty] : ['Mental Health'],
+        hourlyRate: d.hourly_rate || 0,
+        rating: 5.0,
+        reviewCount: 0,
+        bio: d.bio || '',
+        verificationStatus: d.verification_status || 'pending',
+        verificationDocUrl: d.verification_doc_url || '',
+        isVerified: d.verification_status === 'approved',
+        acceptsInterns: false,
+        subscriptionPaid: true,
+        yearsExperience: d.years_experience || 0,
+        languages: ['English'],
+        sessionFee: d.hourly_rate || 100,
+        sessionDuration: 50,
+        isOnlineAvailable: true,
+        isInPersonAvailable: false,
+        about: d.bio || '',
+        approach: 'Evidence-based clinical approach.',
+        qualifications: [d.title || 'Licensed Professional']
+      })) as Professional[];
+    } catch (err) {
+      console.error('Error fetching pending verifications:', err);
+      return [];
+    }
   },
   
   updateVerificationStatus: async (id: string, status: 'approved' | 'rejected'): Promise<void> => {
-    await new Promise(r => setTimeout(r, 300));
-    const all = getStoredData<Professional>(PROFESSIONALS_KEY, mockProfessionals);
-    const updated = all.map(p => p.id === id ? { ...p, verificationStatus: status, isVerified: status === 'approved' } : p);
-    setStoredData(PROFESSIONALS_KEY, updated);
+    try {
+      const { error } = await supabase
+        .from('professionals')
+        .update({ verification_status: status })
+        .eq('id', id);
+
+      if (error) throw error;
+    } catch (err) {
+      console.error('Error updating verification status:', err);
+      throw err;
+    }
   },
 
   getUsers: async (): Promise<User[]> => {
-    await new Promise(r => setTimeout(r, 300));
-    return getStoredData<User>(USERS_KEY, mockUsers);
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error || !data) return [];
+
+      return data.map((u: any) => ({
+        id: u.id,
+        email: u.email,
+        firstName: u.first_name,
+        lastName: u.last_name,
+        role: u.role,
+        avatarUrl: u.avatar_url,
+        createdAt: u.created_at
+      })) as User[];
+    } catch (err) {
+      console.error('Error fetching users for admin:', err);
+      return [];
+    }
   },
 
   getProfessionals: async (): Promise<Professional[]> => {
-    await new Promise(r => setTimeout(r, 300));
-    return getStoredData<Professional>(PROFESSIONALS_KEY, mockProfessionals);
+    try {
+      const { data, error } = await supabase
+        .from('professionals')
+        .select('*, users(*)');
+
+      if (error || !data) return [];
+
+      return data.map((d: any) => ({
+        id: d.id,
+        firstName: d.users?.first_name || 'Professional',
+        lastName: d.users?.last_name || '',
+        email: d.users?.email || '',
+        role: 'professional',
+        avatarUrl: d.users?.avatar_url || '',
+        title: d.title || 'Therapist',
+        type: d.title || 'Therapist',
+        specializations: d.specialty ? [d.specialty] : ['Counseling'],
+        hourlyRate: d.hourly_rate || 120,
+        rating: 4.9,
+        reviewCount: 5,
+        bio: d.bio || '',
+        verificationStatus: d.verification_status || 'approved',
+        verificationDocUrl: d.verification_doc_url || '',
+        isVerified: d.verification_status === 'approved',
+        acceptsInterns: true,
+        subscriptionPaid: true,
+        yearsExperience: d.years_experience || 5,
+        languages: ['English'],
+        sessionFee: d.hourly_rate || 120,
+        sessionDuration: 50,
+        isOnlineAvailable: true,
+        isInPersonAvailable: true,
+        about: d.bio || '',
+        approach: 'Compassionate, client-centered care.',
+        qualifications: [d.title || 'Master of Psychology']
+      })) as Professional[];
+    } catch (err) {
+      console.error('Error fetching professionals for admin:', err);
+      return [];
+    }
   },
 
   getAppointments: async (): Promise<Appointment[]> => {
-    await new Promise(r => setTimeout(r, 300));
-    return getStoredData<Appointment>(APPOINTMENTS_KEY, mockAppointments);
+    try {
+      const { data, error } = await supabase
+        .from('appointments')
+        .select('*')
+        .order('date', { ascending: false });
+
+      if (error || !data) return [];
+
+      return data.map((a: any) => ({
+        id: a.id,
+        patientId: a.patient_id,
+        professionalId: a.professional_id,
+        date: a.date,
+        time: a.time,
+        duration: a.duration || 50,
+        status: a.status,
+        format: a.format || 'online',
+        notes: a.notes || '',
+        fee: a.fee || 1500
+      })) as Appointment[];
+    } catch (err) {
+      console.error('Error fetching appointments for admin:', err);
+      return [];
+    }
   },
 
   getTransactions: async (): Promise<Transaction[]> => {
-    await new Promise(r => setTimeout(r, 300));
-    return getStoredData<Transaction>(TRANSACTIONS_KEY, mockTransactions);
+    return mockTransactions;
   },
 
   getReviews: async (): Promise<Review[]> => {
-    await new Promise(r => setTimeout(r, 300));
-    return getStoredData<Review>(REVIEWS_KEY, mockReviews);
+    return [];
   },
 
   updateReviewStatus: async (id: string, status: 'approved' | 'hidden' | 'pending'): Promise<void> => {
-    await new Promise(r => setTimeout(r, 300));
-    const all = getStoredData<Review>(REVIEWS_KEY, mockReviews);
-    const updated = all.map(r => r.id === id ? { ...r, status } : r);
-    setStoredData(REVIEWS_KEY, updated);
+    // Review status update handler
   },
 
   getArticles: async (): Promise<Article[]> => {
-    await new Promise(r => setTimeout(r, 300));
-    return getStoredData<Article>(ARTICLES_KEY, mockArticles);
+    return [];
   }
 };

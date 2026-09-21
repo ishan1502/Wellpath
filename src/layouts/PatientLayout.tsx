@@ -3,12 +3,14 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, Search, Calendar, MessageSquare, Bookmark, BookOpen, LogOut, User as UserIcon, Menu, ShieldAlert, X } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { NotificationBell } from '@/components/shared/NotificationBell';
+import { CrisisSupportModal } from '@/components/shared/CrisisSupportModal';
 
 export default function PatientLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCrisisModalOpen, setIsCrisisModalOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -54,7 +56,10 @@ export default function PatientLayout() {
         </nav>
 
         <div className="px-4 py-4 mt-auto">
-          <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-red-50 text-red-700 hover:bg-red-100 font-semibold rounded-lg text-sm transition-colors border border-red-100">
+          <button 
+            onClick={() => setIsCrisisModalOpen(true)}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-red-50 text-red-700 hover:bg-red-100 font-semibold rounded-lg text-sm transition-colors border border-red-100"
+          >
             <ShieldAlert className="w-5 h-5" />
             Crisis Support
           </button>
@@ -124,7 +129,10 @@ export default function PatientLayout() {
                   </Link>
                 ))}
                 <button
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsCrisisModalOpen(true);
+                  }}
                   className="flex flex-col items-center p-4 rounded-xl border border-red-100 bg-red-50 text-red-700 active:bg-red-100"
                 >
                   <ShieldAlert className="h-6 w-6 mb-2" />
@@ -134,6 +142,11 @@ export default function PatientLayout() {
             </div>
           </div>
         )}
+
+        <CrisisSupportModal 
+          isOpen={isCrisisModalOpen} 
+          onClose={() => setIsCrisisModalOpen(false)} 
+        />
 
         {/* Mobile Bottom Navigation */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-border flex justify-around p-2 pb-safe z-30 bg-white">

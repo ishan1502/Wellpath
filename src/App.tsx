@@ -112,6 +112,8 @@ const JobBoard = React.lazy(() => import('./pages/public/JobBoard').catch(() => 
 const Events = React.lazy(() => import('./pages/public/Events').catch(() => ({ default: () => <Placeholder title="Events & Webinars" /> })));
 const PostJob = React.lazy(() => import('./pages/professional/PostJob').catch(() => ({ default: () => <Placeholder title="Post Job/Internship" /> })));
 const PostEvent = React.lazy(() => import('./pages/professional/PostEvent').catch(() => ({ default: () => <Placeholder title="Post Event" /> })));
+const Privacy = React.lazy(() => import('./pages/public/Privacy').catch(() => ({ default: () => <Placeholder title="Privacy Policy" /> })));
+const Terms = React.lazy(() => import('./pages/public/Terms').catch(() => ({ default: () => <Placeholder title="Terms of Service" /> })));
 
 // Chatbot
 const ChatBot = React.lazy(() => import('./components/chatbot/ChatBot').catch(() => ({ default: () => <></> })));
@@ -135,6 +137,8 @@ function App() {
               <Route path="for-professionals" element={<ForProfessionals />} />
               <Route path="jobs" element={<JobBoard />} />
               <Route path="events" element={<Events />} />
+              <Route path="privacy" element={<Privacy />} />
+              <Route path="terms" element={<Terms />} />
             </Route>
             
             {/* Auth Routes */}
