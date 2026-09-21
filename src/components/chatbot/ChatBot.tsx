@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, User, Bot, Loader2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { aiService } from '../../services/aiService';
 
 interface Message {
@@ -142,7 +143,24 @@ export function ChatBot() {
                         : 'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-tl-none'
                     }`}
                   >
-                    <p className="text-sm">{msg.text}</p>
+                    <div className="text-sm whitespace-pre-wrap flex flex-col space-y-2">
+                      {msg.sender === 'user' ? (
+                        <p>{msg.text}</p>
+                      ) : (
+                        <ReactMarkdown 
+                          components={{
+                            p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                            ul: ({node, ...props}) => <ul className="list-disc pl-4 mb-2" {...props} />,
+                            ol: ({node, ...props}) => <ol className="list-decimal pl-4 mb-2" {...props} />,
+                            li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                            a: ({node, ...props}) => <a className="text-emerald-600 underline" {...props} />,
+                            strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
+                          }}
+                        >
+                          {msg.text}
+                        </ReactMarkdown>
+                      )}
+                    </div>
                     <span className={`text-[10px] block mt-1 ${msg.sender === 'user' ? 'text-emerald-200' : 'text-gray-400'}`}>
                       {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
