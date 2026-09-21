@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { professionalService } from '../../services/professionalService';
+import { Professional, Review } from '../../types';
 import { Star, MapPin, Video, Calendar, Clock, CheckCircle, Shield, Languages, BookOpen, ArrowLeft } from 'lucide-react';
-import { mockProfessionals, mockReviews } from '../../data/mockData';
 import { useAuth } from '../../hooks/useAuth';
 import BookingModal from '../../components/appointment/BookingModal';
-import { useState } from 'react';
 
 const ProfessionalProfile = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,18 +12,43 @@ const ProfessionalProfile = () => {
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  const professional = mockProfessionals.find(p => p.id === id);
-  const reviews = mockReviews.filter(r => r.professionalId === id);
+  const [professional, setProfessional] = useState<Professional | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!id) return;
+      try {
+        const prof = await professionalService.getProfessionalById(id);
+        if (prof) setProfessional(prof);
+        // Reviews service not implemented yet with Supabase, return empty
+        setReviews([]);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gray-50">
+        <div className="text-emerald-600 font-medium">Loading profile...</div>
+      </div>
+    );
+  }
 
   if (!professional) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Professional not found</h2>
-          <button onClick={() => navigate(-1)} className="text-emerald-600 hover:underline">
-            Go back
-          </button>
-        </div>
+      <div className="min-h-screen pt-24 pb-12 px-4 flex flex-col items-center justify-center bg-gray-50">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Professional not found</h2>
+        <p className="text-gray-600 mb-6">The professional you're looking for doesn't exist or has been removed.</p>
+        <button onClick={() => navigate(-1)} className="text-emerald-600 hover:underline">
+          Go back
+        </button>
       </div>
     );
   }

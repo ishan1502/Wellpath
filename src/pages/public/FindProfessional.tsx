@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, Filter, Star, MapPin, Video, CheckCircle } from 'lucide-react';
-import { mockProfessionals } from '../../data/mockData';
+import { professionalService } from '../../services/professionalService';
+import { Professional } from '../../types';
 import { useAuth } from '@/hooks/useAuth';
 import { LoginPromptModal } from '@/components/shared/LoginPromptModal';
 
@@ -16,6 +17,11 @@ const FindProfessional = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [professionals, setProfessionals] = useState<Professional[]>([]);
+
+  useEffect(() => {
+    professionalService.getProfessionals().then(setProfessionals);
+  }, []);
 
   const toggleSpec = (spec: string) =>
     setSelectedSpecs(prev => prev.includes(spec) ? prev.filter(s => s !== spec) : [...prev, spec]);
@@ -23,11 +29,11 @@ const FindProfessional = () => {
   const toggleType = (type: string) =>
     setSelectedTypes(prev => prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]);
 
-  const filteredProfessionals = mockProfessionals.filter(p => {
+  const filteredProfessionals = professionals.filter(p => {
     const matchesSearch =
       p.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.specializations.some(s => s.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (p.specializations && p.specializations.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()))) ||
       p.type.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesSpec =
