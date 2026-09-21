@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, GraduationCap, Clock, DollarSign, Calendar, CheckCircle, X } from 'lucide-react';
-import { mockJobs } from '../../data/mockData';
+import { mockJobPostings } from '../../data/mockData';
 import { useAuth } from '../../hooks/useAuth';
 
 const JobBoard = () => {
@@ -25,7 +25,7 @@ const JobBoard = () => {
     showToast(`Application submitted for "${jobTitle}". You'll hear back soon!`);
   };
 
-  const filteredJobs = mockJobs.filter((job) => job.type === activeTab);
+  const filteredJobs = mockJobPostings.filter((job) => job.type === activeTab);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

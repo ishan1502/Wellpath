@@ -11,7 +11,6 @@ import AdminLayout from './layouts/AdminLayout';
 import StudentLayout from './layouts/StudentLayout';
 
 // Auth
-import Login from './pages/auth/Login';
 
 // Mock empty pages for routing until implemented
 const Placeholder = ({ title }: { title: string }) => (
