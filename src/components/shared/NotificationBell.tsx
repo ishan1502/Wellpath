@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Bell, Check } from 'lucide-react';
 import { useNotifications } from '../../hooks/useNotifications';
 
-export function NotificationBell() {
+export function NotificationBell({ placement = 'bottom' }: { placement?: 'top' | 'bottom' }) {
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -31,7 +31,7 @@ export function NotificationBell() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden z-50">
+        <div className={`absolute right-0 ${placement === 'top' ? 'bottom-full mb-2' : 'mt-2'} w-80 bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden z-50`}>
           <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
             <h3 className="font-semibold text-gray-800">Notifications</h3>
             {unreadCount > 0 && (
