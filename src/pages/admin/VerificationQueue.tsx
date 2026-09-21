@@ -133,22 +133,21 @@ export default function VerificationQueue() {
 
               <div>
                 <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">Uploaded Documents</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="border border-gray-200 rounded-lg p-4 flex items-center">
-                    <FileText className="h-8 w-8 text-blue-500 mr-3" />
-                    <div>
-                      <p className="font-medium text-gray-900 text-sm">Medical License.pdf</p>
-                      <p className="text-xs text-gray-500">2.4 MB</p>
-                    </div>
+                {selectedProf.verificationDocUrl ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <a href={selectedProf.verificationDocUrl} target="_blank" rel="noopener noreferrer" className="border border-gray-200 rounded-lg p-4 flex items-center hover:bg-gray-50 transition-colors">
+                      <FileText className="h-8 w-8 text-blue-500 mr-3" />
+                      <div>
+                        <p className="font-medium text-gray-900 text-sm">Verification_Document.pdf</p>
+                        <p className="text-xs text-blue-600">Click to view/download</p>
+                      </div>
+                    </a>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4 flex items-center">
-                    <FileText className="h-8 w-8 text-blue-500 mr-3" />
-                    <div>
-                      <p className="font-medium text-gray-900 text-sm">Gov_ID.jpg</p>
-                      <p className="text-xs text-gray-500">1.1 MB</p>
-                    </div>
+                ) : (
+                  <div className="bg-gray-50 rounded-lg p-6 text-center text-gray-500 border border-gray-200 border-dashed">
+                    No verification documents uploaded yet.
                   </div>
-                </div>
+                )}
               </div>
             </div>
 

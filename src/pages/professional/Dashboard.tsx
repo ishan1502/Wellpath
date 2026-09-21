@@ -1,31 +1,66 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { getAppointmentsByProfessional } from '@/services/appointmentService';
-import { Appointment } from '@/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Users, Calendar as CalendarIcon, DollarSign, Star, TrendingUp } from 'lucide-react';
+import { getProfessionalById, uploadVerificationDocument } from '@/services/professionalService';
+import { Appointment, Professional } from '@/types';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import { Users, Calendar as CalendarIcon, DollarSign, Star, TrendingUp, Upload, CheckCircle, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 import { format } from 'date-fns';
 
 export default function ProfessionalDashboard() {
   const { user } = useAuth();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [professional, setProfessional] = useState<Professional | null>(null);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const fetchData = async () => {
+    if (!user) return;
+    try {
+      const [appts, prof] = await Promise.all([
+        getAppointmentsByProfessional(user.id),
+        getProfessionalById(user.id)
+      ]);
+      setAppointments(appts);
+      if (prof) setProfessional(prof);
+    } catch (error) {
+      console.error("Error fetching dashboard data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      if (!user) return;
-      try {
-        const appts = await getAppointmentsByProfessional(user.id);
-        setAppointments(appts);
-      } catch (error) {
-        console.error("Error fetching dashboard data", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
+    fetchData();
   }, [user]);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+
+    if (file.type !== 'application/pdf') {
+      setUploadError('Please upload a PDF file.');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setUploadError('File must be under 2MB.');
+      return;
+    }
+
+    setUploading(true);
+    setUploadError('');
+    try {
+      await uploadVerificationDocument(user.id, file);
+      await fetchData(); // Refresh data to show pending status
+    } catch (err: any) {
+      setUploadError(err.message || 'Upload failed.');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const upcomingAppts = appointments.filter(a => a.status === 'upcoming');
   const todayAppts = upcomingAppts.filter(a => a.date === new Date().toISOString().split('T')[0]);
@@ -40,6 +75,44 @@ export default function ProfessionalDashboard() {
         <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Dashboard</h1>
         <p className="text-gray-500">Welcome back, Dr. {user?.lastName}. Here's what's happening today.</p>
       </div>
+
+      {professional?.verificationStatus === 'pending' && (
+        <Card className="border-amber-200 bg-amber-50">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-amber-600" />
+              <CardTitle className="text-amber-800">Account Verification Pending</CardTitle>
+            </div>
+            <CardDescription className="text-amber-700">
+              {professional.verificationDocUrl 
+                ? "Your verification documents have been received and are currently under review by our admin team. You'll be notified once approved."
+                : "To start accepting patients, please upload your verification documents in a single PDF (max 2MB). This includes your medical license, degree, and ID."}
+            </CardDescription>
+          </CardHeader>
+          {!professional.verificationDocUrl && (
+            <CardContent>
+              <input 
+                type="file" 
+                accept="application/pdf"
+                className="hidden" 
+                ref={fileInputRef} 
+                onChange={handleFileUpload} 
+              />
+              <div className="flex flex-col gap-2">
+                <Button 
+                  onClick={() => fileInputRef.current?.click()} 
+                  disabled={uploading}
+                  className="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white"
+                >
+                  <Upload className="h-4 w-4 mr-2" />
+                  {uploading ? 'Uploading...' : 'Upload Documents (PDF)'}
+                </Button>
+                {uploadError && <p className="text-sm text-red-600 font-medium">{uploadError}</p>}
+              </div>
+            </CardContent>
+          )}
+        </Card>
+      )}
 
       {/* Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

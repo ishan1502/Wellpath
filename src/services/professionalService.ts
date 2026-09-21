@@ -25,6 +25,7 @@ export const getProfessionalById = async (id: string): Promise<Professional | un
     reviewCount: 0,
     bio: data.bio || '',
     verificationStatus: data.verification_status,
+    verificationDocUrl: data.verification_doc_url,
     isVerified: data.verification_status === 'approved',
     acceptsInterns: false, // Default
     subscriptionPaid: true,
@@ -92,4 +93,35 @@ export const professionalService = {
       (p.specializations && p.specializations.some(s => s.toLowerCase().includes(lowerQuery)))
     );
   }
+};
+
+export const uploadVerificationDocument = async (userId: string, file: File): Promise<string> => {
+  // 1. Upload to Supabase Storage
+  const fileExt = file.name.split('.').pop();
+  const filePath = `${userId}/verification_${Date.now()}.${fileExt}`;
+  
+  const { error: uploadError, data } = await supabase.storage
+    .from('verification_docs')
+    .upload(filePath, file);
+
+  if (uploadError) {
+    throw new Error(`Upload failed: ${uploadError.message}`);
+  }
+
+  // 2. Get Public URL
+  const { data: { publicUrl } } = supabase.storage
+    .from('verification_docs')
+    .getPublicUrl(filePath);
+
+  // 3. Update professionals table
+  const { error: updateError } = await supabase
+    .from('professionals')
+    .update({ verification_doc_url: publicUrl })
+    .eq('id', userId);
+
+  if (updateError) {
+    throw new Error(`Database update failed: ${updateError.message}`);
+  }
+
+  return publicUrl;
 };

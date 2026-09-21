@@ -15,6 +15,7 @@ export interface Professional extends User {
   type: string; // e.g. Clinical Psychologist
   isVerified: boolean;
   verificationStatus: VerificationStatus;
+  verificationDocUrl?: string;
   acceptsInterns: boolean;
   subscriptionPaid: boolean;
   yearsExperience: number;
