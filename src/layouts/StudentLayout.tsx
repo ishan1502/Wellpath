@@ -55,10 +55,11 @@ export default function StudentLayout() {
             <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold">
               {user?.firstName?.charAt(0) || 'S'}
             </div>
-            <div>
+            <div className="flex-1 overflow-hidden">
               <p className="text-sm font-medium text-text-main">{user?.firstName} {user?.lastName}</p>
               <p className="text-xs text-text-muted capitalize">Medical Student</p>
             </div>
+            <NotificationBell placement="top" align="left" />
           </div>
           
           <button 

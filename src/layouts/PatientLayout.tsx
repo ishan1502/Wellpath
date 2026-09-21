@@ -69,7 +69,7 @@ export default function PatientLayout() {
               <p className="text-sm font-medium text-text-main">{user?.firstName} {user?.lastName}</p>
               <p className="text-xs text-text-muted capitalize">{user?.role}</p>
             </div>
-            <NotificationBell placement="top" />
+            <NotificationBell placement="top" align="left" />
           </div>
 
           <button

@@ -94,7 +94,7 @@ export default function ProfessionalLayout() {
               <p className="text-sm font-medium text-text-main truncate">Dr. {user?.firstName} {user?.lastName}</p>
               <p className="text-xs text-text-muted capitalize truncate">{(user as any)?.type || 'Professional'}</p>
             </div>
-            <NotificationBell placement="top" />
+            <NotificationBell placement="top" align="left" />
           </div>
           
           <button 
