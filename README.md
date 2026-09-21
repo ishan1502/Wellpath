@@ -34,3 +34,5 @@ See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rule
 <!-- Linked to Vercel via ishan1502 -->
 
 <!-- Vercel auto-deploy test 2 -->
+
+<!-- Env variables added -->
