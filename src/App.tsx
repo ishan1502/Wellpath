@@ -67,11 +67,13 @@ const PatientDashboard = React.lazy(() => import('./pages/patient/Dashboard').ca
 const Appointments = React.lazy(() => import('./pages/patient/Appointments').catch(() => ({ default: () => <Placeholder title="My Appointments" /> })));
 const Messages = React.lazy(() => import('./pages/patient/Messages').catch(() => ({ default: () => <Placeholder title="Messages" /> })));
 const Saved = React.lazy(() => import('./pages/patient/Saved').catch(() => ({ default: () => <Placeholder title="Saved Professionals" /> })));
+
+// Auth Pages
+const Login = React.lazy(() => import('./pages/auth/Login').catch(() => ({ default: () => <Placeholder title="Login" /> })));
+const Signup = React.lazy(() => import('./pages/auth/Signup').catch(() => ({ default: () => <Placeholder title="Sign Up" /> })));
+
 const ProfessionalDashboard = React.lazy(() => import('./pages/professional/Dashboard').catch(() => ({ default: () => <Placeholder title="Professional Dashboard" /> })));
 const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard').catch(() => ({ default: () => <Placeholder title="Admin Dashboard" /> })));
-const SignupGateway = React.lazy(() => import('./pages/auth/SignupGateway').catch(() => ({ default: () => <Placeholder title="Join WELLPath" /> })));
-const PatientSignup = React.lazy(() => import('./pages/auth/PatientSignup').catch(() => ({ default: () => <Placeholder title="Sign Up" /> })));
-const ProfessionalSignup = React.lazy(() => import('./pages/auth/ProfessionalSignup').catch(() => ({ default: () => <Placeholder title="Professional Signup" /> })));
 const StudentDashboard = React.lazy(() => import('./pages/student/Dashboard').catch(() => ({ default: () => <Placeholder title="Student Dashboard" /> })));
 const FindInternship = React.lazy(() => import('./pages/student/FindInternship').catch(() => ({ default: () => <Placeholder title="Find Internship" /> })));
 
@@ -96,7 +98,6 @@ const HowItWorks = React.lazy(() => import('./pages/public/HowItWorks').catch(()
 const Resources = React.lazy(() => import('./pages/public/Resources').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const AboutUs = React.lazy(() => import('./pages/public/About').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const ForProfessionals = React.lazy(() => import('./pages/public/ForProfessionals').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
-const StudentSignup = React.lazy(() => import('./pages/auth/StudentSignup').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const PatientProfile = React.lazy(() => import('./pages/patient/Profile').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const StudentApplications = React.lazy(() => import('./pages/student/Applications').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const ProClients = React.lazy(() => import('./pages/professional/Clients').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
@@ -139,10 +140,7 @@ function App() {
             
             {/* Auth Routes */}
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignupGateway />} />
-            <Route path="/patient/signup" element={<PatientSignup />} />
-            <Route path="/student/signup" element={<StudentSignup />} />
-            <Route path="/professional/signup" element={<ProfessionalSignup />} />
+            <Route path="/signup" element={<Signup />} />
             
             {/* Patient Routes */}
             <Route path="/patient" element={

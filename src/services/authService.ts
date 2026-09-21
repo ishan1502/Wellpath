@@ -95,13 +95,57 @@ export const authService = {
     
     if (!session?.user) return null;
 
-    const { data: profile } = await supabase
+    let { data: profile } = await supabase
       .from('users')
       .select('*')
       .eq('id', session.user.id)
       .single();
 
-    if (!profile) return null;
+    // If profile doesn't exist, this is a first-time OAuth login
+    if (!profile) {
+      const pendingRole = localStorage.getItem('pending_signup_role') || 'patient';
+      
+      // Extract name from Google metadata if available
+      const fullName = session.user.user_metadata?.full_name || '';
+      const [firstName = '', lastName = ''] = fullName.split(' ');
+      
+      const { data: newProfile, error } = await supabase
+        .from('users')
+        .insert([
+          {
+            id: session.user.id,
+            email: session.user.email!,
+            first_name: firstName || 'User',
+            last_name: lastName,
+            role: pendingRole,
+            avatar_url: session.user.user_metadata?.avatar_url || ''
+          }
+        ])
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Failed to create OAuth profile:', error);
+        return null;
+      }
+      
+      profile = newProfile;
+      
+      if (pendingRole === 'professional') {
+        await supabase
+          .from('professionals')
+          .insert([
+            {
+              id: session.user.id,
+              title: 'Licensed Professional',
+              specialty: 'General Practice',
+              verification_status: 'pending'
+            }
+          ]);
+      }
+      
+      localStorage.removeItem('pending_signup_role');
+    }
 
     return {
       id: profile.id,
