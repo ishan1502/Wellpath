@@ -1,11 +1,12 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 import { HeartPulse, Menu, ChevronDown } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 const PublicLayout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const { user, isAuthenticated, logout } = useAuth();
+  const location = useLocation();
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-gray-50 text-gray-900">
@@ -110,9 +111,10 @@ const PublicLayout = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      {!['/login', '/signup'].includes(location.pathname) && (
+        <footer className="bg-white border-t border-gray-200 mt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-1">
               <Link to="/" className="flex items-center space-x-2 mb-4">
                 <HeartPulse className="w-6 h-6 text-emerald-600" />
@@ -151,6 +153,7 @@ const PublicLayout = () => {
           </div>
         </div>
       </footer>
+      )}
     </div>
   );
 };

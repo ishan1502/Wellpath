@@ -125,7 +125,7 @@ function App() {
       <Router>
         <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
           <Routes>
-            {/* Public Routes */}
+            {/* Public & Auth Routes */}
             <Route path="/" element={<PublicLayout />}>
               <Route index element={<Home />} />
               <Route path="find-professional" element={<FindProfessional />} />
@@ -139,11 +139,11 @@ function App() {
               <Route path="events" element={<Events />} />
               <Route path="privacy" element={<Privacy />} />
               <Route path="terms" element={<Terms />} />
+              
+              {/* Auth Routes */}
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
             </Route>
-            
-            {/* Auth Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
             
             {/* Patient Routes */}
             <Route path="/patient" element={

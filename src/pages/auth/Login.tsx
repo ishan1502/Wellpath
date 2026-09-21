@@ -30,7 +30,7 @@ export default function Login() {
     setIsLoading(true);
     try {
       await loginWithEmailAndPassword(email, password);
-      routeUser(email);
+      // Navigation is handled by the useEffect watching isAuthenticated and user state
     } catch (err: any) {
       setLoginError(err.message || 'Login failed. Please try again.');
     } finally {
@@ -85,16 +85,11 @@ export default function Login() {
     }
   };
 
-  const routeUser = (email: string) => {
-    if (email.includes('admin')) navigate('/admin');
-    else if (email.includes('student')) navigate('/student/dashboard');
-    else if (email.includes('doctor')) navigate('/professional/dashboard');
-    else navigate('/patient/dashboard');
-  };
+
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <div className="w-full max-w-md space-y-8">
+    <div className="flex flex-1 items-center justify-center bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-primary">WELLPath</h1>
           <p className="text-text-muted mt-2">Welcome back</p>
