@@ -101,7 +101,7 @@ export const uploadVerificationDocument = async (userId: string, file: File): Pr
   const filePath = `${userId}/verification_${Date.now()}.${fileExt}`;
   
   const { error: uploadError, data } = await supabase.storage
-    .from('verification_docs')
+    .from('Storage')
     .upload(filePath, file);
 
   if (uploadError) {
@@ -110,7 +110,7 @@ export const uploadVerificationDocument = async (userId: string, file: File): Pr
 
   // 2. Get Public URL
   const { data: { publicUrl } } = supabase.storage
-    .from('verification_docs')
+    .from('Storage')
     .getPublicUrl(filePath);
 
   // 3. Update professionals table
