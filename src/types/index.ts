@@ -25,6 +25,7 @@ export interface Professional extends User {
   isOnlineAvailable: boolean;
   isInPersonAvailable: boolean;
   location?: string;
+  phone?: string;
   nextAvailableSlot?: string;
   about: string;
   approach: string;
@@ -123,4 +124,34 @@ export interface Assessment {
   title: string;
   description: string;
   questions: any[];
+}
+
+export interface JobPosting {
+  id: string;
+  professionalId: string;
+  title: string;
+  type: 'job' | 'internship';
+  description: string;
+  requirements: string[];
+  compensation: string;
+  deadline: string;
+  postedAt: string;
+  status: 'open' | 'closed';
+}
+
+export interface Event {
+  id: string;
+  professionalId: string; // ID of the professional or admin who created it
+  hostType: 'professional' | 'admin';
+  type: 'webinar' | 'workshop' | 'support_group' | 'event';
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  platform: 'Zoom' | 'Google Meet' | 'In-person' | string;
+  maxAttendees: number;
+  currentAttendees: number;
+  fee: number;
+  postedAt: string;
+  status: 'pending' | 'approved' | 'rejected';
 }

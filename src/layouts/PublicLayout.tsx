@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { HeartPulse, Menu } from 'lucide-react';
+import { HeartPulse, Menu, ChevronDown } from 'lucide-react';
 
 const PublicLayout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -17,11 +17,33 @@ const PublicLayout = () => {
             </Link>
             
             <nav className="hidden md:flex space-x-6 items-center">
-              <Link to="/find-professional" className="text-gray-600 hover:text-emerald-600 font-medium text-sm transition-colors">Find Professional</Link>
-              <Link to="/how-it-works" className="text-gray-600 hover:text-emerald-600 font-medium text-sm transition-colors">How It Works</Link>
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-gray-600 hover:text-emerald-600 font-medium text-sm transition-colors py-2">
+                  Services <ChevronDown className="w-4 h-4" />
+                </button>
+                <div className="absolute top-full left-0 hidden group-hover:block w-48 bg-white border border-gray-100 shadow-lg rounded-lg py-2">
+                  <Link to="/jobs" className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-emerald-600">Jobs & Internships</Link>
+                  <Link to="/events" className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-emerald-600">Events & Webinars</Link>
+                </div>
+              </div>
+
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-gray-600 hover:text-emerald-600 font-medium text-sm transition-colors py-2">
+                  Company <ChevronDown className="w-4 h-4" />
+                </button>
+                <div className="absolute top-full left-0 hidden group-hover:block w-48 bg-white border border-gray-100 shadow-lg rounded-lg py-2">
+                  <Link to="/about" className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-emerald-600">About Us</Link>
+                  <Link to="/how-it-works" className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-emerald-600">How It Works</Link>
+                  <Link to="/for-professionals" className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-emerald-600">For Professionals</Link>
+                </div>
+              </div>
+
               <Link to="/resources" className="text-gray-600 hover:text-emerald-600 font-medium text-sm transition-colors">Resources</Link>
-              <Link to="/for-professionals" className="text-gray-600 hover:text-emerald-600 font-medium text-sm transition-colors">For Professionals</Link>
-              <Link to="/login" className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm transition-colors ml-2">Login</Link>
+
+              <div className="flex items-center gap-3 ml-4 border-l pl-6 border-gray-200">
+                <Link to="/login" className="px-4 py-2 text-emerald-600 hover:bg-emerald-50 border border-emerald-600 rounded-lg font-semibold text-sm transition-colors">Login</Link>
+                <Link to="/find-professional" className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-sm transition-colors shadow-sm">Find Professional</Link>
+              </div>
             </nav>
             
             <div className="md:hidden">
@@ -35,13 +57,24 @@ const PublicLayout = () => {
             </div>
           </div>
           {mobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-gray-100 flex flex-col space-y-3">
-              <Link to="/find-professional" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-emerald-600 font-medium text-sm">Find Professional</Link>
-              <Link to="/how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-emerald-600 font-medium text-sm">How It Works</Link>
-              <Link to="/resources" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-emerald-600 font-medium text-sm">Resources</Link>
-              <Link to="/for-professionals" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-emerald-600 font-medium text-sm">For Professionals</Link>
-              <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-emerald-600 font-medium text-sm">About Us</Link>
-              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm">Login</Link>
+            <div className="md:hidden py-4 border-t border-gray-100 flex flex-col space-y-4">
+              <div className="space-y-2">
+                <p className="px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Services</p>
+                <Link to="/find-professional" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium text-sm rounded-lg">Find Professional</Link>
+                <Link to="/jobs" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium text-sm rounded-lg">Jobs & Internships</Link>
+                <Link to="/events" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium text-sm rounded-lg">Events</Link>
+              </div>
+              <div className="space-y-2">
+                <p className="px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Company</p>
+                <Link to="/how-it-works" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium text-sm rounded-lg">How It Works</Link>
+                <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium text-sm rounded-lg">About Us</Link>
+                <Link to="/for-professionals" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium text-sm rounded-lg">For Professionals</Link>
+                <Link to="/resources" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium text-sm rounded-lg">Resources</Link>
+              </div>
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center px-4 py-2 text-emerald-600 border border-emerald-600 font-semibold text-sm rounded-lg">Login</Link>
+                <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center px-4 py-2 bg-emerald-600 text-white font-semibold text-sm rounded-lg">Sign Up</Link>
+              </div>
             </div>
           )}
         </div>

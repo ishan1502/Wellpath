@@ -1,7 +1,8 @@
 import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { GraduationCap, Search, Briefcase, MessageSquare, LogOut, Bell, User as UserIcon } from 'lucide-react';
+import { GraduationCap, Search, Briefcase, MessageSquare, LogOut } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { NotificationBell } from '@/components/shared/NotificationBell';
 
 export default function StudentLayout() {
   const location = useLocation();
@@ -79,7 +80,7 @@ export default function StudentLayout() {
             <span className="text-[10px] ml-2 text-emerald-600 uppercase font-bold">Student</span>
           </div>
           <div className="flex items-center gap-4">
-            <Bell className="h-5 w-5 text-text-muted" />
+            <NotificationBell />
             <div className="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-medium text-sm">
               {user?.firstName?.charAt(0) || 'S'}
             </div>

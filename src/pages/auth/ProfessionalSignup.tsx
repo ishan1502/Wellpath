@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle, CreditCard, UploadCloud, User, ArrowRight, ArrowLeft } from 'lucide-react';
+import { CheckCircle, CreditCard, UploadCloud, User, ArrowRight, ArrowLeft, ShieldCheck, FileText, IdCard } from 'lucide-react';
 import { Professional } from '@/types';
 
-// For simplicity, we use crypto.randomUUID() or a math random fallback if uuid isn't installed.
 const generateId = () => crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2);
+
+interface UploadStatus {
+  rci: boolean;
+  degree: boolean;
+  govId: boolean;
+}
 
 export default function ProfessionalSignup() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
-  
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -20,7 +25,7 @@ export default function ProfessionalSignup() {
     about: '',
   });
 
-  const [documentUploaded, setDocumentUploaded] = useState(false);
+  const [uploads, setUploads] = useState<UploadStatus>({ rci: false, degree: false, govId: false });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -28,237 +33,262 @@ export default function ProfessionalSignup() {
   };
 
   const handleNext = () => setStep(prev => prev + 1);
-  const handlePrev = () => setStep(prev => prev - 1);
+  const handleBack = () => setStep(prev => prev - 1);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setDocumentUploaded(true);
-    }
+  const handleDocumentUpload = (doc: keyof UploadStatus) => {
+    setUploads(prev => ({ ...prev, [doc]: true }));
   };
 
-  const handlePayment = () => {
-    // Create new professional in local storage
-    const newProfessional: Professional = {
+  const allUploaded = uploads.rci && uploads.degree && uploads.govId;
+
+  const handleFinalSubmit = () => {
+    const newProfessional: Partial<Professional> = {
       id: generateId(),
       email: formData.email,
       firstName: formData.firstName,
       lastName: formData.lastName,
       role: 'professional',
-      type: 'Therapist', // Default mock type
+      type: 'Psychologist',
       isVerified: false,
       verificationStatus: 'pending',
-      acceptsInterns: false, // Default false until they set it
-      subscriptionPaid: true,
+      acceptsInterns: false,
+      subscriptionPaid: false,
       yearsExperience: parseInt(formData.yearsExperience) || 0,
-      specializations: formData.specializations.split(',').map(s => s.trim()),
+      specializations: formData.specializations.split(',').map(s => s.trim()).filter(Boolean),
       languages: ['English'],
-      sessionFee: 1000,
-      sessionDuration: 60,
+      sessionFee: 1500,
+      sessionDuration: 50,
       isOnlineAvailable: true,
       isInPersonAvailable: false,
       about: formData.about,
-      approach: 'Client-centered therapy',
-      qualifications: ['M.A. Clinical Psychology'],
+      approach: '',
+      qualifications: [],
       rating: 0,
       reviewCount: 0,
     };
 
-    // Save to localStorage (mocking a backend DB)
-    const storedUsers = JSON.parse(localStorage.getItem('wellpath_users') || '[]');
-    localStorage.setItem('wellpath_users', JSON.stringify([...storedUsers, newProfessional]));
-    
-    // We can also directly set 'wellpath_auth' if we want to auto-login, but maybe wait for approval
-    // Instead we just proceed to step 4 (Success)
+    localStorage.setItem('wellpath_pending_professional', JSON.stringify(newProfessional));
     setStep(4);
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Join WELLPath as a Professional
-        </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Step {step} of 4
-        </p>
+  if (step === 4) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-md text-center">
+          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-8 h-8 text-emerald-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">Application Submitted!</h2>
+          <p className="text-gray-500 mb-2">
+            Thank you, Dr. {formData.firstName}. Your profile and documents are under review.
+          </p>
+          <p className="text-sm text-amber-600 bg-amber-50 rounded-lg px-4 py-2 mb-6">
+            Verification typically takes 2–3 business days. You'll receive an email once approved.
+          </p>
+          <button
+            onClick={() => navigate('/login')}
+            className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-xl hover:bg-emerald-700 transition-colors"
+          >
+            Back to Login
+          </button>
+        </div>
       </div>
+    );
+  }
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          
-          {/* Step 1: Basic Info */}
-          {step === 1 && (
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <User className="h-6 w-6 text-primary" />
-                <h3 className="text-xl font-medium">Basic Information</h3>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="w-full max-w-xl space-y-6">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-primary">WELLPath</h1>
+          <p className="text-text-muted mt-1">Professional Registration</p>
+        </div>
+
+        {/* Step indicator */}
+        <div className="flex items-center justify-center gap-2">
+          {[1, 2, 3].map(s => (
+            <div key={s} className="flex items-center gap-2">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-colors ${
+                step > s ? 'bg-emerald-600 border-emerald-600 text-white' :
+                step === s ? 'border-emerald-600 text-emerald-600 bg-white' :
+                'border-gray-200 text-gray-400 bg-white'
+              }`}>
+                {step > s ? <CheckCircle className="w-4 h-4" /> : s}
               </div>
-              
+              {s < 3 && <div className={`w-12 h-0.5 ${step > s ? 'bg-emerald-600' : 'bg-gray-200'}`} />}
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-around text-xs text-gray-500 -mt-3">
+          <span className={step >= 1 ? 'text-emerald-600 font-medium' : ''}>Personal Info</span>
+          <span className={step >= 2 ? 'text-emerald-600 font-medium' : ''}>Professional Info</span>
+          <span className={step >= 3 ? 'text-emerald-600 font-medium' : ''}>Documents</span>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+          {/* Step 1: Personal Info */}
+          {step === 1 && (
+            <div className="space-y-5">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <User className="w-5 h-5 text-emerald-600" /> Personal Information
+                </h2>
+                <p className="text-gray-500 text-sm mt-1">Basic details about you</p>
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">First Name</label>
-                  <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border" />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                  <input name="firstName" value={formData.firstName} onChange={handleInputChange} required
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    placeholder="Dr. First"
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Last Name</label>
-                  <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border" />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                  <input name="lastName" value={formData.lastName} onChange={handleInputChange} required
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    placeholder="Last"
+                  />
                 </div>
               </div>
-
               <div>
-                <label className="block text-sm font-medium text-gray-700">Email address</label>
-                <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input type="email" name="email" value={formData.email} onChange={handleInputChange} required
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="you@clinic.com"
+                />
               </div>
-
               <div>
-                <label className="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" name="password" value={formData.password} onChange={handleInputChange} required
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="Min 8 characters"
+                />
               </div>
+              <button
+                onClick={handleNext}
+                disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.password}
+                className="w-full flex items-center justify-center gap-2 bg-emerald-600 text-white font-semibold py-3 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Continue <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
 
+          {/* Step 2: Professional Info */}
+          {step === 2 && (
+            <div className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Specializations (comma separated)</label>
-                <input type="text" name="specializations" placeholder="e.g. Anxiety, Depression, Trauma" value={formData.specializations} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border" />
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <CreditCard className="w-5 h-5 text-emerald-600" /> Professional Details
+                </h2>
+                <p className="text-gray-500 text-sm mt-1">Tell us about your expertise</p>
               </div>
-
               <div>
-                <label className="block text-sm font-medium text-gray-700">Years of Experience</label>
-                <input type="number" name="yearsExperience" value={formData.yearsExperience} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">Specializations (comma separated)</label>
+                <input name="specializations" value={formData.specializations} onChange={handleInputChange}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="Anxiety, Depression, Trauma"
+                />
               </div>
-
-              <div className="flex justify-end mt-6">
-                <button
-                  onClick={handleNext}
-                  disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.password}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Years of Experience</label>
+                <input type="number" name="yearsExperience" value={formData.yearsExperience} onChange={handleInputChange} min="0"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="5"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">About / Approach</label>
+                <textarea name="about" value={formData.about} onChange={handleInputChange} rows={4}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="Describe your therapeutic approach and how you help clients..."
+                />
+              </div>
+              <div className="flex gap-3">
+                <button onClick={handleBack} className="flex items-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors">
+                  <ArrowLeft className="w-4 h-4" /> Back
+                </button>
+                <button onClick={handleNext} disabled={!formData.specializations || !formData.yearsExperience}
+                  className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 text-white font-semibold py-3 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Next <ArrowRight className="ml-2 h-4 w-4" />
+                  Continue <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
           )}
 
-          {/* Step 2: Document Upload */}
-          {step === 2 && (
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <UploadCloud className="h-6 w-6 text-primary" />
-                <h3 className="text-xl font-medium">Verify Qualifications</h3>
+          {/* Step 3: Documents */}
+          {step === 3 && (
+            <div className="space-y-5">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <UploadCloud className="w-5 h-5 text-emerald-600" /> Document Verification
+                </h2>
+                <p className="text-gray-500 text-sm mt-1">Upload required documents to get verified</p>
               </div>
-              
-              <p className="text-sm text-gray-600">
-                Please upload a valid identification document (Aadhar/PAN) and your medical/psychology degree certificates.
-              </p>
 
-              <div className="mt-4 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                <div className="space-y-1 text-center">
-                  <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
-                  <div className="flex text-sm text-gray-600">
-                    <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-primary-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary">
-                      <span>Upload a file</span>
-                      <input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={handleFileUpload} multiple />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                <p className="text-sm text-amber-800 font-medium">⚠️ All documents are mandatory for verification.</p>
+                <p className="text-xs text-amber-700 mt-1">Your documents are encrypted and handled securely.</p>
+              </div>
+
+              {[
+                { key: 'rci' as const, label: 'RCI License / Registration Certificate', icon: ShieldCheck, desc: 'Rehabilitation Council of India registration proof' },
+                { key: 'degree' as const, label: 'Degree Certificate', icon: FileText, desc: 'M.Phil / M.Sc / MBBS or relevant qualification' },
+                { key: 'govId' as const, label: 'Govt. Photo ID', icon: IdCard, desc: 'Aadhar Card, PAN Card, or Passport' },
+              ].map(({ key, label, icon: Icon, desc }) => (
+                <div key={key} className={`flex items-start gap-4 p-4 rounded-xl border-2 transition-colors ${uploads[key] ? 'border-emerald-300 bg-emerald-50' : 'border-gray-200 bg-white'}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${uploads[key] ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-100 text-gray-500'}`}>
+                    <Icon className="w-5 h-5" />
                   </div>
-                  <p className="text-xs text-gray-500">PDF, PNG, JPG up to 10MB</p>
+                  <div className="flex-grow">
+                    <p className="text-sm font-semibold text-gray-900">{label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{desc}</p>
+                    {uploads[key] && <p className="text-xs text-emerald-600 font-medium mt-1">✓ Uploaded successfully</p>}
+                  </div>
+                  <label className="cursor-pointer flex-shrink-0">
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      className="hidden"
+                      onChange={() => handleDocumentUpload(key)}
+                    />
+                    <span className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                      uploads[key]
+                        ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
+                        : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                    }`}>
+                      {uploads[key] ? 'Replace' : 'Upload'}
+                    </span>
+                  </label>
                 </div>
-              </div>
+              ))}
 
-              {documentUploaded && (
-                <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md flex items-center">
-                  <CheckCircle className="h-5 w-5 mr-2" />
-                  Documents attached successfully.
-                </div>
+              {!allUploaded && (
+                <p className="text-xs text-center text-gray-400">Upload all 3 documents to proceed</p>
               )}
 
-              <div className="flex justify-between mt-6">
-                <button
-                  onClick={handlePrev}
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" /> Back
+              <div className="flex gap-3">
+                <button onClick={handleBack} className="flex items-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors">
+                  <ArrowLeft className="w-4 h-4" /> Back
                 </button>
                 <button
-                  onClick={handleNext}
-                  disabled={!documentUploaded}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
+                  onClick={handleFinalSubmit}
+                  disabled={!allUploaded}
+                  className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 text-white font-semibold py-3 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Next <ArrowRight className="ml-2 h-4 w-4" />
+                  Submit Application <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
           )}
-
-          {/* Step 3: Payment */}
-          {step === 3 && (
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <CreditCard className="h-6 w-6 text-primary" />
-                <h3 className="text-xl font-medium">Platform Access Fee</h3>
-              </div>
-              
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <h4 className="font-medium text-gray-900">WELLPath Professional Annual Subscription</h4>
-                <p className="text-sm text-gray-500 mt-1">Access to platform tools, patient referrals, and intern matching.</p>
-                <div className="mt-4 text-3xl font-bold text-gray-900">₹999<span className="text-lg font-normal text-gray-500">/year</span></div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Card Number</label>
-                  <input type="text" placeholder="XXXX XXXX XXXX XXXX" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Expiry</label>
-                    <input type="text" placeholder="MM/YY" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">CVV</label>
-                    <input type="text" placeholder="123" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-between mt-6">
-                <button
-                  onClick={handlePrev}
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" /> Back
-                </button>
-                <button
-                  onClick={handlePayment}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark"
-                >
-                  Pay & Submit <CheckCircle className="ml-2 h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Step 4: Success */}
-          {step === 4 && (
-            <div className="text-center space-y-6">
-              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100">
-                <CheckCircle className="h-10 w-10 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900">Application Submitted!</h3>
-              <p className="text-gray-600 mb-6">
-                Thank you for applying to join WELLPath. Your payment of ₹999 was successful. 
-                Our team is currently reviewing your credential documents. This usually takes 1-2 business days.
-              </p>
-              <div className="mt-8">
-                <button
-                  onClick={() => navigate('/login')}
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark"
-                >
-                  Go to Login
-                </button>
-              </div>
-            </div>
-          )}
-
         </div>
+
+        <p className="text-center text-sm text-gray-500">
+          Already have an account?{' '}
+          <a href="/login" className="text-emerald-600 hover:underline font-medium">Sign in</a>
+        </p>
       </div>
     </div>
   );

@@ -69,6 +69,7 @@ const Messages = React.lazy(() => import('./pages/patient/Messages').catch(() =>
 const Saved = React.lazy(() => import('./pages/patient/Saved').catch(() => ({ default: () => <Placeholder title="Saved Professionals" /> })));
 const ProfessionalDashboard = React.lazy(() => import('./pages/professional/Dashboard').catch(() => ({ default: () => <Placeholder title="Professional Dashboard" /> })));
 const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard').catch(() => ({ default: () => <Placeholder title="Admin Dashboard" /> })));
+const SignupGateway = React.lazy(() => import('./pages/auth/SignupGateway').catch(() => ({ default: () => <Placeholder title="Join WELLPath" /> })));
 const PatientSignup = React.lazy(() => import('./pages/auth/PatientSignup').catch(() => ({ default: () => <Placeholder title="Sign Up" /> })));
 const ProfessionalSignup = React.lazy(() => import('./pages/auth/ProfessionalSignup').catch(() => ({ default: () => <Placeholder title="Professional Signup" /> })));
 const StudentDashboard = React.lazy(() => import('./pages/student/Dashboard').catch(() => ({ default: () => <Placeholder title="Student Dashboard" /> })));
@@ -104,8 +105,19 @@ const ProSettings = React.lazy(() => import('./pages/professional/Settings').cat
 const AdminSupport = React.lazy(() => import('./pages/admin/Support').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const AdminAnalytics = React.lazy(() => import('./pages/admin/Analytics').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const AdminSettings = React.lazy(() => import('./pages/admin/Settings').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
+const AdminEvents = React.lazy(() => import('./pages/admin/Events').catch(() => ({ default: () => <Placeholder title="Admin Events" /> })));
+
+// New Pages
+const JobBoard = React.lazy(() => import('./pages/public/JobBoard').catch(() => ({ default: () => <Placeholder title="Jobs & Internships" /> })));
+const Events = React.lazy(() => import('./pages/public/Events').catch(() => ({ default: () => <Placeholder title="Events & Webinars" /> })));
+const PostJob = React.lazy(() => import('./pages/professional/PostJob').catch(() => ({ default: () => <Placeholder title="Post Job/Internship" /> })));
+const PostEvent = React.lazy(() => import('./pages/professional/PostEvent').catch(() => ({ default: () => <Placeholder title="Post Event" /> })));
+
+// Chatbot
+const ChatBot = React.lazy(() => import('./components/chatbot/ChatBot').catch(() => ({ default: () => <></> })));
 
 function App() {
+
   return (
     <AuthProvider>
       <Router>
@@ -121,11 +133,14 @@ function App() {
               <Route path="resources" element={<Resources />} />
               <Route path="about" element={<AboutUs />} />
               <Route path="for-professionals" element={<ForProfessionals />} />
+              <Route path="jobs" element={<JobBoard />} />
+              <Route path="events" element={<Events />} />
             </Route>
             
             {/* Auth Routes */}
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<PatientSignup />} />
+            <Route path="/signup" element={<SignupGateway />} />
+            <Route path="/patient/signup" element={<PatientSignup />} />
             <Route path="/student/signup" element={<StudentSignup />} />
             <Route path="/professional/signup" element={<ProfessionalSignup />} />
             
@@ -186,6 +201,8 @@ function App() {
               <Route path="earnings" element={<ProEarnings />} />
               <Route path="analytics" element={<ProAnalytics />} />
               <Route path="settings" element={<ProSettings />} />
+              <Route path="post-job" element={<PostJob />} />
+              <Route path="post-event" element={<PostEvent />} />
             </Route>
 
             {/* Admin Routes */}
@@ -198,6 +215,7 @@ function App() {
               <Route path="users" element={<Users />} />
               <Route path="professionals" element={<Professionals />} />
               <Route path="verification" element={<VerificationQueue />} />
+              <Route path="events" element={<AdminEvents />} />
               <Route path="appointments" element={<AdminAppointments />} />
               <Route path="payments" element={<Payments />} />
               <Route path="reviews" element={<Reviews />} />
@@ -210,9 +228,11 @@ function App() {
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          <ChatBot />
         </React.Suspense>
       </Router>
     </AuthProvider>
+
   );
 }
 

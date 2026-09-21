@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Heart, User, Mail, Lock, ArrowRight } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 const PatientSignup = () => {
   const navigate = useNavigate();
+  const { signup } = useAuth();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -20,11 +22,21 @@ const PatientSignup = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock registration, just redirect to login for now
-    alert('Registration successful! Please login.');
-    navigate('/login');
+    try {
+      await signup(
+        formData.email,
+        formData.password,
+        formData.firstName,
+        formData.lastName,
+        'patient'
+      );
+      alert('Registration successful! Please login.');
+      navigate('/login');
+    } catch (error: any) {
+      alert(error.message || 'Failed to sign up');
+    }
   };
 
   return (

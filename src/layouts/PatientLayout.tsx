@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Search, Calendar, MessageSquare, Bookmark, BookOpen, LogOut, User as UserIcon, Bell } from 'lucide-react';
+import { Home, Search, Calendar, MessageSquare, Bookmark, BookOpen, LogOut, User as UserIcon, Menu, ShieldAlert, X } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { NotificationBell } from '@/components/shared/NotificationBell';
 
 export default function PatientLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -51,18 +53,26 @@ export default function PatientLayout() {
           })}
         </nav>
 
+        <div className="px-4 py-4 mt-auto">
+          <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-red-50 text-red-700 hover:bg-red-100 font-semibold rounded-lg text-sm transition-colors border border-red-100">
+            <ShieldAlert className="w-5 h-5" />
+            Crisis Support
+          </button>
+        </div>
+
         <div className="p-4 border-t border-border">
           <div className="flex items-center gap-3 mb-4 px-4">
             <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
               {user?.firstName?.charAt(0) || 'U'}
             </div>
-            <div>
+            <div className="flex-1 overflow-hidden">
               <p className="text-sm font-medium text-text-main">{user?.firstName} {user?.lastName}</p>
               <p className="text-xs text-text-muted capitalize">{user?.role}</p>
             </div>
+            <NotificationBell />
           </div>
-          
-          <button 
+
+          <button
             onClick={handleLogout}
             className="flex w-full items-center px-4 py-2 text-sm font-medium text-text-muted hover:text-error transition-colors"
           >
@@ -78,7 +88,7 @@ export default function PatientLayout() {
         <header className="md:hidden bg-surface border-b border-border p-4 flex items-center justify-between sticky top-0 z-10">
           <Link to="/" className="text-xl font-bold text-primary">WELLPath</Link>
           <div className="flex items-center gap-4">
-            <Bell className="h-5 w-5 text-text-muted" />
+            <NotificationBell />
             <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-medium text-sm">
               {user?.firstName?.charAt(0) || 'U'}
             </div>
@@ -90,10 +100,45 @@ export default function PatientLayout() {
           <Outlet />
         </div>
 
+        {/* Mobile Bottom Navigation Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden fixed inset-0 z-20 flex flex-col justify-end">
+            <div className="fixed inset-0 bg-black/50" onClick={() => setIsMobileMenuOpen(false)}></div>
+            <div className="relative bg-white rounded-t-2xl p-4 shadow-xl pb-24">
+              <div className="flex justify-between items-center mb-4 pb-2 border-b">
+                <h3 className="font-bold text-gray-900">More Options</h3>
+                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-gray-500">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {[navItems[4], navItems[5], navItems[6]].map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex flex-col items-center p-4 rounded-xl border border-gray-100 bg-gray-50 text-gray-700 active:bg-gray-100"
+                  >
+                    <item.icon className="h-6 w-6 mb-2 text-primary" />
+                    <span className="text-xs font-medium">{item.name}</span>
+                  </Link>
+                ))}
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex flex-col items-center p-4 rounded-xl border border-red-100 bg-red-50 text-red-700 active:bg-red-100"
+                >
+                  <ShieldAlert className="h-6 w-6 mb-2" />
+                  <span className="text-xs font-medium text-center">Crisis Support</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Mobile Bottom Navigation */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-border flex justify-around p-2 pb-safe z-10">
-          {[navItems[0], navItems[1], navItems[2], navItems[3], { name: 'Profile', path: '/patient/profile', icon: UserIcon }].map((item) => {
-            const isActive = location.pathname.startsWith(item.path);
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-border flex justify-around p-2 pb-safe z-30 bg-white">
+          {[navItems[0], navItems[1], navItems[2], navItems[3]].map((item) => {
+            const isActive = location.pathname.startsWith(item.path) || (item.path === '/patient/find-professional' && location.pathname.includes('/find-professional'));
             return (
               <Link
                 key={item.name}
@@ -107,6 +152,15 @@ export default function PatientLayout() {
               </Link>
             );
           })}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`flex flex-col items-center p-2 rounded-lg ${
+              isMobileMenuOpen ? 'text-primary' : 'text-text-muted'
+            }`}
+          >
+            <Menu className="h-6 w-6 mb-1" />
+            <span className="text-[10px] font-medium">Menu</span>
+          </button>
         </nav>
       </main>
     </div>

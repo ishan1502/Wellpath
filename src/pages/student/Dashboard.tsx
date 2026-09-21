@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap, Briefcase, ChevronRight, MapPin, Star, Building2, Search } from 'lucide-react';
+import { GraduationCap, Briefcase, ChevronRight, MapPin, Building2, Search } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function Dashboard() {

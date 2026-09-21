@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Star, MapPin, Video, Calendar, Clock, CheckCircle, Shield, Languages, BookOpen, ArrowLeft } from 'lucide-react';
 import { mockProfessionals, mockReviews } from '../../data/mockData';
 import { useAuth } from '../../hooks/useAuth';

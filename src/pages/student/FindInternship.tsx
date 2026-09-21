@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Star, Building2, UserCircle, Briefcase, FileText } from 'lucide-react';
+import { Search, MapPin, Star, Briefcase, FileText } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { professionalService } from '@/services/professionalService';
 import { Professional } from '@/types';

@@ -7,16 +7,16 @@ export default function Content() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
-
   const fetchArticles = async () => {
     setLoading(true);
     const data = await adminService.getArticles();
     setArticles(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
 
   if (loading) return <div className="p-8 text-center text-gray-500">Loading content...</div>;
 

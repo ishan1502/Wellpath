@@ -1,4 +1,4 @@
-import { Professional, User, Appointment, Article, Review, Notification, Conversation, Message } from '../types';
+import { Professional, User, Appointment, Article, Review, JobPosting, Event } from '../types';
 
 export const mockUsers: User[] = [
   { id: 'p1', email: 'patient@wellpath.demo', firstName: 'Alex', lastName: 'Sharma', role: 'patient' },
@@ -28,6 +28,7 @@ export const mockProfessionals: Professional[] = [
     isOnlineAvailable: true,
     isInPersonAvailable: false,
     location: 'Mumbai',
+    phone: '919876543210',
     nextAvailableSlot: new Date(Date.now() + 86400000).toISOString(),
     about: 'I am a clinical psychologist specializing in cognitive behavioral therapy (CBT) for anxiety and relationship issues.',
     approach: 'My approach is collaborative, goal-oriented, and tailored to each individual.',
@@ -54,6 +55,7 @@ export const mockProfessionals: Professional[] = [
     isOnlineAvailable: true,
     isInPersonAvailable: true,
     location: 'Delhi',
+    phone: '919811223344',
     nextAvailableSlot: new Date(Date.now() + 172800000).toISOString(),
     about: 'I help professionals navigate burnout and find balance in their lives.',
     approach: 'I use a psychodynamic approach to help clients understand underlying patterns.',
@@ -127,3 +129,50 @@ export const mockReviews: Review[] = [
     status: 'approved'
   }
 ];
+
+export const mockJobs: JobPosting[] = [
+  {
+    id: 'job1',
+    professionalId: 'd1',
+    title: 'Clinical Psychology Intern',
+    type: 'internship',
+    description: 'Looking for a motivated intern to assist with clinical assessments and research.',
+    requirements: ['Pursuing MA in Psychology', 'Strong communication skills'],
+    compensation: 'Unpaid - Academic Credit',
+    deadline: new Date(Date.now() + 864000000).toISOString().split('T')[0],
+    postedAt: new Date(Date.now() - 172800000).toISOString(),
+    status: 'open'
+  },
+  {
+    id: 'job2',
+    professionalId: 'd2',
+    title: 'Associate Psychotherapist',
+    type: 'job',
+    description: 'We are expanding our clinic and looking for a licensed psychotherapist.',
+    requirements: ['M.Phil or equivalent', '2+ years experience', 'Licensed'],
+    compensation: '₹40,000 - ₹60,000 / month',
+    deadline: new Date(Date.now() + 1728000000).toISOString().split('T')[0],
+    postedAt: new Date(Date.now() - 86400000).toISOString(),
+    status: 'open'
+  }
+];
+
+export const mockEvents: Event[] = [
+  {
+    id: 'evt1',
+    professionalId: 'd1',
+    hostType: 'professional',
+    type: 'webinar',
+    title: 'Overcoming Workplace Burnout',
+    description: 'Join this webinar to learn practical strategies for managing stress and avoiding burnout in high-pressure environments.',
+    date: new Date(Date.now() + 259200000).toISOString().split('T')[0],
+    time: '18:00',
+    platform: 'Zoom',
+    maxAttendees: 50,
+    currentAttendees: 12,
+    fee: 0,
+    postedAt: new Date(Date.now() - 259200000).toISOString(),
+    status: 'approved'
+  }
+];
+

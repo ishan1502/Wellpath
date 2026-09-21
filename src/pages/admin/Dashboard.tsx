@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Users, UserCheck, Calendar, DollarSign, Activity } from 'lucide-react';
-import { getAppointmentsByPatient } from '@/services/appointmentService'; // Hack for mock data load
 import { mockUsers, mockProfessionals, mockAppointments } from '@/data/mockData';
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({
-    users: 0,
-    professionals: 0,
-    appointments: 0,
-    revenue: 0,
-  });
-
-  useEffect(() => {
+  const [stats] = useState(() => {
     // In a real app, this would hit an adminService
     // For mock, we'll just read from local storage if available, else mockData
     const lsUsers = JSON.parse(localStorage.getItem('users') || '[]');
@@ -26,13 +18,13 @@ export default function AdminDashboard() {
     
     const revenue = appts.filter((a: any) => a.status === 'completed').reduce((sum: number, a: any) => sum + (a.fee || 1500), 0);
 
-    setStats({
+    return {
       users: totalUsers,
       professionals: totalProfs,
       appointments: appts.length,
       revenue: revenue
-    });
-  }, []);
+    };
+  });
 
   return (
     <div className="space-y-6">

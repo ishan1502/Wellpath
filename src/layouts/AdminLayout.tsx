@@ -12,7 +12,8 @@ import {
   BarChart, 
   Settings, 
   LogOut, 
-  Menu
+  Menu,
+  Search
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -33,6 +34,7 @@ export default function AdminLayout() {
     { name: 'Professionals', path: '/admin/professionals', icon: UserCheck },
     { name: 'Verification', path: '/admin/verification', icon: FileText },
     { name: 'Appointments', path: '/admin/appointments', icon: Calendar },
+    { name: 'Events & Webinars', path: '/admin/events', icon: Calendar },
     { name: 'Payments', path: '/admin/payments', icon: CreditCard },
     { name: 'Reviews', path: '/admin/reviews', icon: MessageSquare },
     { name: 'Content', path: '/admin/content', icon: FileText },
@@ -151,6 +153,21 @@ export default function AdminLayout() {
               )?.name || 'Admin'}
             </h1>
           </div>
+          
+          {/* Global Search Bar */}
+          <div className="hidden md:flex flex-1 max-w-md mx-8">
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search users, professionals, or appointments..."
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition-colors"
+              />
+            </div>
+          </div>
+
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center text-sm">
               <span className="h-2 w-2 rounded-full bg-green-500 mr-2"></span>
