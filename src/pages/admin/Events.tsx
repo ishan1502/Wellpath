@@ -34,10 +34,25 @@ const mockAdminEvents = [
 
 export default function AdminEvents() {
   const [activeTab, setActiveTab] = useState<'pending' | 'admin'>('pending');
-  const [pendingEvents, setPendingEvents] = useState(mockPendingEvents);
-  const [adminEvents, setAdminEvents] = useState(mockAdminEvents);
+  const [pendingEvents, setPendingEvents] = useState<any[]>([]);
+  const [adminEvents, setAdminEvents] = useState<any[]>([]);
   const [isCreating, setIsCreating] = useState(false);
   
+  React.useEffect(() => {
+    const stored = localStorage.getItem('wellpath_events');
+    if (stored) {
+      const allEvents = JSON.parse(stored);
+      setPendingEvents(allEvents.filter((e: any) => e.status === 'pending'));
+      setAdminEvents(allEvents.filter((e: any) => e.status === 'approved' || e.hostType === 'admin'));
+    }
+  }, []);
+
+  const saveEvents = (updatedEvents: any[]) => {
+    localStorage.setItem('wellpath_events', JSON.stringify(updatedEvents));
+    setPendingEvents(updatedEvents.filter((e: any) => e.status === 'pending'));
+    setAdminEvents(updatedEvents.filter((e: any) => e.status === 'approved' || e.hostType === 'admin'));
+  };
+
   // New Event Form State
   const [formData, setFormData] = useState({
     title: '',
@@ -50,11 +65,17 @@ export default function AdminEvents() {
   });
 
   const handleApprove = (id: string) => {
-    setPendingEvents(prev => prev.filter(e => e.id !== id));
+    const stored = localStorage.getItem('wellpath_events');
+    const allEvents = stored ? JSON.parse(stored) : [];
+    const updated = allEvents.map((e: any) => e.id === id ? { ...e, status: 'approved' } : e);
+    saveEvents(updated);
   };
 
   const handleReject = (id: string) => {
-    setPendingEvents(prev => prev.filter(e => e.id !== id));
+    const stored = localStorage.getItem('wellpath_events');
+    const allEvents = stored ? JSON.parse(stored) : [];
+    const updated = allEvents.filter((e: any) => e.id !== id);
+    saveEvents(updated);
   };
 
   const handleCreateEvent = (e: React.FormEvent) => {

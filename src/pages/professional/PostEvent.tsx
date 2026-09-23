@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { CalendarPlus, Video, Users, DollarSign, Clock, Calendar, FileText, CheckCircle } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
 
 const PostEvent = () => {
+  const { user } = useAuth();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -20,19 +22,36 @@ const PostEvent = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate posting
-    setTimeout(() => {
-      setIsSubmitted(true);
-      setFormData({
-        title: '',
-        description: '',
-        date: '',
-        time: '',
-        platform: 'Zoom',
-        maxAttendees: '',
-        fee: ''
-      });
-    }, 1000);
+    
+    const newEvent = {
+      id: 'evt_' + Date.now(),
+      professionalId: user?.id || 'real_user',
+      professionalName: user ? `Dr. ${user.firstName} ${user.lastName}` : 'Dr. Practitioner', 
+      title: formData.title,
+      type: 'webinar',
+      description: formData.description,
+      date: formData.date,
+      time: formData.time,
+      platform: formData.platform,
+      maxAttendees: parseInt(formData.maxAttendees) || 50,
+      fee: parseInt(formData.fee) || 0,
+      status: 'pending' // Goes to admin approval
+    };
+
+    const existingStr = localStorage.getItem('wellpath_events');
+    const existingEvents = existingStr ? JSON.parse(existingStr) : [];
+    localStorage.setItem('wellpath_events', JSON.stringify([newEvent, ...existingEvents]));
+
+    setIsSubmitted(true);
+    setFormData({
+      title: '',
+      description: '',
+      date: '',
+      time: '',
+      platform: 'Zoom',
+      maxAttendees: '',
+      fee: ''
+    });
   };
 
   if (isSubmitted) {

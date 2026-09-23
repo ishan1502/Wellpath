@@ -162,69 +162,6 @@ export default function Login() {
               Sign in with Google
             </Button>
 
-            {/* 1-Click Demo Accounts */}
-            <div className="pt-4 border-t border-gray-100">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">⚡ 1-Click Demo Logins</span>
-                <span className="text-[10px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-medium">Instant Test</span>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleDemoLogin('doctor')}
-                  disabled={isLoading}
-                  className="p-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 border border-emerald-200 transition-colors disabled:opacity-50 text-left"
-                >
-                  <span>🩺</span>
-                  <div>
-                    <div className="font-bold">Doctor</div>
-                    <div className="text-[10px] font-normal text-emerald-600">Sarah Jenkins</div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleDemoLogin('patient')}
-                  disabled={isLoading}
-                  className="p-2.5 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 border border-blue-200 transition-colors disabled:opacity-50 text-left"
-                >
-                  <span>👤</span>
-                  <div>
-                    <div className="font-bold">Patient</div>
-                    <div className="text-[10px] font-normal text-blue-600">Alex Morgan</div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleDemoLogin('student')}
-                  disabled={isLoading}
-                  className="p-2.5 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 border border-amber-200 transition-colors disabled:opacity-50 text-left"
-                >
-                  <span>🎓</span>
-                  <div>
-                    <div className="font-bold">Student</div>
-                    <div className="text-[10px] font-normal text-amber-600">Jordan Lee</div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleDemoLogin('admin')}
-                  disabled={isLoading}
-                  className="p-2.5 bg-purple-50 hover:bg-purple-100 text-purple-800 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 border border-purple-200 transition-colors disabled:opacity-50 text-left"
-                >
-                  <span>🛡️</span>
-                  <div>
-                    <div className="font-bold">Admin</div>
-                    <div className="text-[10px] font-normal text-purple-600">All Portals</div>
-                  </div>
-                </button>
-              </div>
-              <p className="text-[11px] text-gray-400 text-center mt-2.5">
-                Password: <span className="font-mono text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded font-medium">Wellpath2026!</span>
-              </p>
-            </div>
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
