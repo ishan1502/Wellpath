@@ -78,7 +78,7 @@ export default function StudentLayout() {
         {/* Mobile Header */}
         <header className="md:hidden bg-surface border-b border-border p-4 flex items-center justify-between sticky top-0 z-10">
           <div>
-            <Link to="/" className="text-xl font-bold text-primary">WELLPath</Link>
+            <Link to="/student/dashboard" className="text-xl font-bold text-primary">WELLPath</Link>
             <span className="text-[10px] ml-2 text-emerald-600 uppercase font-bold">Student</span>
           </div>
           <div className="flex items-center gap-4">

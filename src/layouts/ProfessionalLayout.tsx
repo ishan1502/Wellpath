@@ -76,7 +76,7 @@ export default function ProfessionalLayout() {
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-64 flex-col bg-surface border-r border-border sticky top-0 h-screen">
         <div className="p-6 pb-2">
-          <Link to="/" className="text-2xl font-bold text-primary">WELLPath</Link>
+          <Link to="/professional/dashboard" className="text-2xl font-bold text-primary">WELLPath</Link>
           <p className="text-xs text-text-muted mt-1 uppercase tracking-wider font-semibold">For Professionals</p>
         </div>
         
@@ -112,7 +112,7 @@ export default function ProfessionalLayout() {
         {/* Mobile Header */}
         <header className="md:hidden bg-surface border-b border-border p-4 flex items-center justify-between sticky top-0 z-10">
           <div>
-            <Link to="/" className="text-xl font-bold text-primary">WELLPath</Link>
+            <Link to="/professional/dashboard" className="text-xl font-bold text-primary">WELLPath</Link>
             <span className="text-[10px] ml-2 text-text-muted uppercase font-bold">Pro</span>
           </div>
           <div className="flex items-center gap-4">
