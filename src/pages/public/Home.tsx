@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Shield, Clock, Video, Star } from 'lucide-react';
+import { Search, Shield, Clock, Video, Star, User, Users, Smile } from 'lucide-react';
 import { mockProfessionals } from '../../data/mockData';
 
 const Home = () => {
@@ -29,6 +29,56 @@ const Home = () => {
         
         {/* Decorative elements */}
         <div className="absolute right-0 top-0 w-1/3 h-full bg-emerald-100/30 rounded-l-full blur-3xl transform translate-x-1/3"></div>
+      </section>
+
+      {/* Therapy Type Selector */}
+      <section className="py-16 bg-[#2B4B3F]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">What type of therapy are you looking for?</h2>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {/* Individual */}
+            <Link to="/find-professional?type=individual" className="group flex flex-col justify-between bg-[#F2FAF5] rounded-3xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Individual</h3>
+                <p className="text-emerald-700 font-medium group-hover:underline">For myself &rarr;</p>
+              </div>
+              <div className="mt-8 flex justify-end">
+                <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+                  <User className="w-12 h-12" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Couples */}
+            <Link to="/find-professional?type=couples" className="group flex flex-col justify-between bg-[#F0F7FF] rounded-3xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Couples</h3>
+                <p className="text-blue-700 font-medium group-hover:underline">For me and my partner &rarr;</p>
+              </div>
+              <div className="mt-8 flex justify-end">
+                <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                  <Users className="w-12 h-12" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Teen */}
+            <Link to="/find-professional?type=teen" className="group flex flex-col justify-between bg-[#FFF5F0] rounded-3xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Teen</h3>
+                <p className="text-orange-700 font-medium group-hover:underline">For my child &rarr;</p>
+              </div>
+              <div className="mt-8 flex justify-end">
+                <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
+                  <Smile className="w-12 h-12" />
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* Specialization Cards */}

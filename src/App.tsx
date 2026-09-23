@@ -102,6 +102,7 @@ const StudentApplications = React.lazy(() => import('./pages/student/Application
 const ProClients = React.lazy(() => import('./pages/professional/Clients').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const ProReviews = React.lazy(() => import('./pages/professional/Reviews').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const ProSettings = React.lazy(() => import('./pages/professional/Settings').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
+const StudentProfile = React.lazy(() => import('./pages/student/Profile').catch(() => ({ default: () => <Placeholder title="Student Profile" /> })));
 const AdminSupport = React.lazy(() => import('./pages/admin/Support').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const AdminAnalytics = React.lazy(() => import('./pages/admin/Analytics').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
 const AdminSettings = React.lazy(() => import('./pages/admin/Settings').catch(() => ({ default: () => <div className="p-8">Loading...</div> })));
@@ -176,6 +177,7 @@ function App() {
               <Route path="find-internship" element={<FindInternship />} />
               <Route path="applications" element={<StudentApplications />} />
               <Route path="messages" element={<Messages />} />
+              <Route path="profile" element={<StudentProfile />} />
               
               {/* Shared pages inside Student space */}
               <Route path="matching" element={<Matching />} />

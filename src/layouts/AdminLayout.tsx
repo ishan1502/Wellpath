@@ -48,7 +48,7 @@ export default function AdminLayout() {
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-64 flex-col bg-gray-900 text-white border-r border-gray-800 sticky top-0 h-screen">
         <div className="p-6">
-          <Link to="/" className="text-2xl font-bold text-white tracking-tight">WELLPath</Link>
+          <Link to="/admin" className="text-2xl font-bold text-white tracking-tight">WELLPath</Link>
           <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-widest font-bold">Admin Portal</p>
         </div>
         
@@ -99,7 +99,7 @@ export default function AdminLayout() {
           <div className="fixed inset-0 bg-gray-900/80" onClick={() => setMobileMenuOpen(false)}></div>
           <aside className="relative flex w-64 flex-col bg-gray-900 text-white h-full max-w-xs shadow-xl">
              <div className="p-6">
-              <Link to="/" className="text-2xl font-bold text-white tracking-tight">WELLPath</Link>
+              <Link to="/admin" className="text-2xl font-bold text-white tracking-tight">WELLPath</Link>
               <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-widest font-bold">Admin Portal</p>
             </div>
             <nav className="flex-1 px-3 space-y-1 overflow-y-auto">

@@ -13,46 +13,44 @@ export function useNotifications() {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    // Mock session reminders
-    const mockNotifications: Notification[] = [
-      {
-        id: '1',
-        title: 'Upcoming Session',
-        message: 'You have a session with Dr. Smith tomorrow at 10:00 AM.',
-        read: false,
-        time: '10 mins ago',
-      },
-      {
-        id: '2',
-        title: 'Session Reminder',
-        message: 'Your session with Jane Doe starts in 30 minutes.',
-        read: false,
-        time: '30 mins ago',
-      },
-      {
-        id: '3',
-        title: 'New Message',
-        message: 'You have a new message from Dr. Smith.',
-        read: true,
-        time: '1 hour ago',
-      }
-    ];
-
-    setNotifications(mockNotifications);
-    setUnreadCount(mockNotifications.filter(n => !n.read).length);
+    // Read from localStorage to ensure it's working but not placeholder
+    const stored = localStorage.getItem('wellpath_notifications');
+    const loadedNotifications: Notification[] = stored ? JSON.parse(stored) : [];
+    setNotifications(loadedNotifications);
+    setUnreadCount(loadedNotifications.filter(n => !n.read).length);
   }, []);
 
   const markAsRead = (id: string) => {
-    setNotifications(prev => 
-      prev.map(n => n.id === id ? { ...n, read: true } : n)
-    );
-    setUnreadCount(prev => Math.max(0, prev - 1));
+    setNotifications(prev => {
+      const updated = prev.map(n => n.id === id ? { ...n, read: true } : n);
+      localStorage.setItem('wellpath_notifications', JSON.stringify(updated));
+      setUnreadCount(updated.filter(n => !n.read).length);
+      return updated;
+    });
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-    setUnreadCount(0);
+    setNotifications(prev => {
+      const updated = prev.map(n => ({ ...n, read: true }));
+      localStorage.setItem('wellpath_notifications', JSON.stringify(updated));
+      setUnreadCount(0);
+      return updated;
+    });
   };
 
-  return { notifications, unreadCount, markAsRead, markAllAsRead };
+  const addNotification = (notification: Omit<Notification, 'id' | 'read' | 'time'>) => {
+    setNotifications(prev => {
+      const updated = [{
+        ...notification,
+        id: Date.now().toString(),
+        read: false,
+        time: 'Just now'
+      }, ...prev];
+      localStorage.setItem('wellpath_notifications', JSON.stringify(updated));
+      setUnreadCount(updated.filter(n => !n.read).length);
+      return updated;
+    });
+  };
+
+  return { notifications, unreadCount, markAsRead, markAllAsRead, addNotification };
 }

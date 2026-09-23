@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, Navigate } from 'react-router-dom';
 import { HeartPulse, Menu, ChevronDown } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
@@ -7,6 +7,13 @@ const PublicLayout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
+
+  if (isAuthenticated && location.pathname === '/') {
+    if (user?.role === 'admin') return <Navigate to="/admin" replace />;
+    if (user?.role === 'professional') return <Navigate to="/professional/dashboard" replace />;
+    if (user?.role === 'student') return <Navigate to="/student/dashboard" replace />;
+    return <Navigate to="/patient/dashboard" replace />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-gray-50 text-gray-900">

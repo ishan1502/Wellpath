@@ -118,7 +118,7 @@ export default function CalendarView() {
                 {calendarDays.map((day, idx) => {
                   const dateKey = format(day, 'yyyy-MM-dd');
                   const dayAppointments = appointments.filter((appt) => 
-                    isSameDay(parseISO(appt.date), day)
+                    appt.date === dateKey
                   );
                   const daySlots = availabilities[dateKey] || [];
                   const isCurrentMonth = isSameMonth(day, currentMonth);
@@ -147,7 +147,7 @@ export default function CalendarView() {
                       <div className="space-y-1">
                         {dayAppointments.slice(0, 3).map(appt => (
                           <div key={appt.id} className="text-[11px] px-1.5 py-1 bg-blue-50 text-blue-700 rounded truncate border border-blue-100">
-                            {appt.time} - {appt.patientId.substring(0, 8)}...
+                            {appt.time} - Session
                           </div>
                         ))}
                         {dayAppointments.length > 3 && (

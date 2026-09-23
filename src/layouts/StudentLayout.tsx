@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { GraduationCap, Search, Briefcase, MessageSquare, LogOut } from 'lucide-react';
+import { GraduationCap, Search, Briefcase, MessageSquare, LogOut, UserCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { NotificationBell } from '@/components/shared/NotificationBell';
 
@@ -19,6 +19,7 @@ export default function StudentLayout() {
     { name: 'Find Internships', path: '/student/find-internship', icon: Search },
     { name: 'My Applications', path: '/student/applications', icon: Briefcase },
     { name: 'Messages', path: '/student/messages', icon: MessageSquare },
+    { name: 'My Profile', path: '/student/profile', icon: UserCircle },
   ];
 
   return (
@@ -26,7 +27,7 @@ export default function StudentLayout() {
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-64 flex-col bg-surface border-r border-border sticky top-0 h-screen">
         <div className="p-6">
-          <Link to="/" className="text-2xl font-bold text-primary">WELLPath</Link>
+          <Link to="/student/dashboard" className="text-2xl font-bold text-primary">WELLPath</Link>
           <p className="text-xs text-emerald-600 mt-1 uppercase tracking-wider font-bold">Student Portal</p>
         </div>
         
