@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, BookOpen, Clock, Star, Award, ChevronRight } from 'lucide-react';
+import { Search, Filter, BookOpen, Clock, Star, Award, ChevronRight, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const COURSES_DATA = [
