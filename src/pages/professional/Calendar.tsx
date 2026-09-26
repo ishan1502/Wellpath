@@ -72,49 +72,49 @@ export default function CalendarView() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Calendar</h1>
-        <p className="text-gray-500">Manage your monthly schedule and availability.</p>
+        <h1 className="text-3xl font-bold text-emerald-950 tracking-tight">Calendar</h1>
+        <p className="text-emerald-700/80 mt-1 font-medium">Manage your monthly schedule and availability.</p>
       </div>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-4">
+      <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+        <CardHeader className="flex flex-row items-center justify-between pb-6">
           <div>
-            <CardTitle className="text-lg font-bold">
+            <CardTitle className="text-xl font-bold text-emerald-950">
               {format(currentMonth, 'MMMM yyyy')}
             </CardTitle>
-            <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-              <Clock className="w-3 h-3" /> Click any day to manage your availability slots
+            <p className="text-xs text-emerald-600 mt-2 flex items-center gap-2 font-medium">
+              <Clock className="w-4 h-4" /> Click any day to manage your availability slots
             </p>
           </div>
-          <div className="flex gap-2">
-            <button onClick={handlePrevMonth} className="p-2 border border-gray-200 rounded-md hover:bg-gray-50">
-              <ChevronLeft className="w-5 h-5 text-gray-600" />
+          <div className="flex gap-3">
+            <button onClick={handlePrevMonth} className="p-2 border border-emerald-100 rounded-xl hover:bg-emerald-50 transition-colors shadow-sm text-emerald-700">
+              <ChevronLeft className="w-6 h-6" />
             </button>
-            <button onClick={handleNextMonth} className="p-2 border border-gray-200 rounded-md hover:bg-gray-50">
-              <ChevronRight className="w-5 h-5 text-gray-600" />
+            <button onClick={handleNextMonth} className="p-2 border border-emerald-100 rounded-xl hover:bg-emerald-50 transition-colors shadow-sm text-emerald-700">
+              <ChevronRight className="w-6 h-6" />
             </button>
           </div>
         </CardHeader>
         <CardContent>
           {loading ? (
             <div className="animate-pulse space-y-4">
-              <div className="h-[600px] bg-gray-200 rounded-md"></div>
+              <div className="h-[600px] bg-emerald-50 rounded-2xl"></div>
             </div>
           ) : (
             <div>
               {/* Day Names */}
-              <div className="grid grid-cols-7 gap-px mb-2">
+              <div className="grid grid-cols-7 gap-2 mb-4">
                 {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
-                  <div key={day} className="text-center font-medium text-sm text-gray-500 py-2">
+                  <div key={day} className="text-center font-bold text-sm text-emerald-800/70 py-2">
                     {day}
                   </div>
                 ))}
               </div>
 
               {/* Calendar Grid */}
-              <div className="grid grid-cols-7 gap-2">
+              <div className="grid grid-cols-7 gap-3">
                 {calendarDays.map((day, idx) => {
                   const dateKey = format(day, 'yyyy-MM-dd');
                   const dayAppointments = appointments.filter((appt) => 
@@ -127,31 +127,33 @@ export default function CalendarView() {
                     <div 
                       key={day.toISOString()} 
                       onClick={() => handleDayClick(day)}
-                      className={`min-h-[120px] p-2 border rounded-lg cursor-pointer transition-colors ${
-                        isCurrentMonth ? 'bg-white border-gray-200 hover:border-primary' : 'bg-gray-50 border-gray-100 text-gray-400'
+                      className={`min-h-[140px] p-3 border rounded-2xl cursor-pointer transition-all duration-300 ${
+                        isCurrentMonth 
+                          ? 'bg-white border-emerald-100 hover:border-emerald-400 hover:shadow-md' 
+                          : 'bg-emerald-50/30 border-emerald-50 text-emerald-600/40'
                       }`}
                     >
-                      <div className="flex justify-between items-start mb-2">
-                        <span className={`text-sm font-semibold w-7 h-7 flex items-center justify-center rounded-full ${
-                          isToday(day) ? 'bg-primary text-white' : ''
+                      <div className="flex justify-between items-start mb-3">
+                        <span className={`text-sm font-bold w-8 h-8 flex items-center justify-center rounded-xl ${
+                          isToday(day) ? 'bg-emerald-600 text-white shadow-sm' : 'text-emerald-950'
                         }`}>
                           {format(day, 'd')}
                         </span>
                         {daySlots.length > 0 && (
-                          <span className="text-[10px] flex items-center text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-medium">
+                          <span className="text-[10px] flex items-center text-emerald-700 bg-emerald-100 px-2 py-1 rounded-lg font-bold">
                             <Clock className="w-3 h-3 mr-1" /> {daySlots.length} slots
                           </span>
                         )}
                       </div>
                       
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         {dayAppointments.slice(0, 3).map(appt => (
-                          <div key={appt.id} className="text-[11px] px-1.5 py-1 bg-blue-50 text-blue-700 rounded truncate border border-blue-100">
+                          <div key={appt.id} className="text-[11px] px-2 py-1.5 bg-emerald-50 text-emerald-800 rounded-xl truncate border border-emerald-100/50 font-semibold shadow-sm">
                             {appt.time} - Session
                           </div>
                         ))}
                         {dayAppointments.length > 3 && (
-                          <div className="text-[10px] text-gray-500 font-medium pl-1">
+                          <div className="text-[10px] text-emerald-600 font-bold pl-1 mt-1">
                             +{dayAppointments.length - 3} more
                           </div>
                         )}

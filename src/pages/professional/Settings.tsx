@@ -90,18 +90,18 @@ export default function Settings() {
   return (
     <div className="max-w-5xl mx-auto space-y-6 pb-12 animate-fade-in">
       {/* Header Banner */}
-      <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 shadow-sm">
+      <div className="bg-white rounded-3xl border-0 p-6 md:p-8 shadow-sm hover:shadow-xl transition-all duration-300">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-primary/10 rounded-xl text-primary">
-                <SettingsIcon className="w-6 h-6" />
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-emerald-100/50 rounded-2xl text-emerald-700 shadow-sm">
+                <SettingsIcon className="w-7 h-7" />
               </div>
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-text-main">
+                <h1 className="text-2xl md:text-3xl font-bold text-emerald-950">
                   Account & Practice Settings
                 </h1>
-                <p className="text-sm text-text-muted mt-0.5">
+                <p className="text-sm text-emerald-700/80 mt-1 font-medium">
                   Configure your practice defaults, telehealth options, payout bank details, and security controls.
                 </p>
               </div>
@@ -110,13 +110,13 @@ export default function Settings() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex overflow-x-auto border-b border-border mt-8 gap-2 no-scrollbar">
+        <div className="flex overflow-x-auto border-b border-emerald-100 mt-8 gap-4 no-scrollbar">
           {[
-            { id: 'practice', label: 'Practice & Booking Rules', icon: Clock },
-            { id: 'security', label: 'Security & Password', icon: KeyRound },
-            { id: 'payout', label: 'Banking & Payouts', icon: CreditCard },
+            { id: 'practice', label: 'Practice Rules', icon: Clock },
+            { id: 'security', label: 'Security', icon: KeyRound },
+            { id: 'payout', label: 'Banking', icon: CreditCard },
             { id: 'notifications', label: 'Notifications', icon: Bell },
-            { id: 'interns', label: 'Internship Supervision', icon: GraduationCap },
+            { id: 'interns', label: 'Interns', icon: GraduationCap },
           ].map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -125,10 +125,10 @@ export default function Settings() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
                 type="button"
-                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
+                className={`flex items-center gap-2 py-3 px-2 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
                   isActive
-                    ? 'border-primary text-primary font-semibold'
-                    : 'border-transparent text-text-muted hover:text-text-main hover:border-gray-300'
+                    ? 'border-emerald-600 text-emerald-800 font-semibold'
+                    : 'border-transparent text-emerald-600/70 hover:text-emerald-800 hover:border-emerald-200'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -141,12 +141,12 @@ export default function Settings() {
 
       {/* Success Notification */}
       {saveSuccess && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl flex items-center justify-between transition-all animate-in">
+        <div className="p-4 bg-emerald-50/80 border border-emerald-200 text-emerald-800 rounded-2xl flex items-center justify-between transition-all animate-in shadow-sm">
           <div className="flex items-center gap-3">
             <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
             <span className="text-sm font-medium">Your practice settings have been successfully updated.</span>
           </div>
-          <button onClick={() => setSaveSuccess(false)} className="text-emerald-700 hover:text-emerald-900 text-xs font-semibold">
+          <button onClick={() => setSaveSuccess(false)} className="text-emerald-700 hover:text-emerald-900 text-xs font-semibold px-2 py-1 hover:bg-emerald-100 rounded-lg transition-colors">
             Dismiss
           </button>
         </div>
@@ -156,20 +156,20 @@ export default function Settings() {
       <form onSubmit={handleSave} className="space-y-6">
         {/* TAB 1: PRACTICE & BOOKING RULES */}
         {activeTab === 'practice' && (
-          <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 space-y-6 shadow-sm">
+          <div className="bg-white rounded-3xl border-0 p-6 md:p-8 space-y-8 shadow-sm hover:shadow-xl transition-all duration-300">
             <div>
-              <h2 className="text-lg font-bold text-text-main">Practice & Booking Configuration</h2>
-              <p className="text-sm text-text-muted">Define how clients schedule sessions and set your clinical session rules.</p>
+              <h2 className="text-xl font-bold text-emerald-950">Practice & Booking Configuration</h2>
+              <p className="text-sm text-emerald-700/80 font-medium">Define how clients schedule sessions and set your clinical session rules.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Standard Session Duration</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Standard Session Duration</label>
                 <select
                   name="sessionDuration"
                   value={settings.sessionDuration}
                   onChange={handleChange}
-                  className="w-full h-10 px-3 rounded-md border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-11 px-4 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
                 >
                   <option value="45">45 Minutes</option>
                   <option value="50">50 Minutes (Standard Clinical Hour)</option>
@@ -178,27 +178,27 @@ export default function Settings() {
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Standard Fee per Session (₹)</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Standard Fee per Session (₹)</label>
                 <div className="relative">
                   <Input
                     name="sessionFee"
                     type="number"
                     value={settings.sessionFee}
                     onChange={handleChange}
-                    className="pl-9"
+                    className="pl-10 h-11 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 shadow-sm focus-visible:ring-emerald-500"
                   />
-                  <span className="absolute left-3 top-2.5 text-text-muted font-bold text-sm">₹</span>
+                  <span className="absolute left-4 top-3 text-emerald-700 font-bold text-sm">₹</span>
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Buffer Time Between Sessions</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Buffer Time Between Sessions</label>
                 <select
                   name="bufferTime"
                   value={settings.bufferTime}
                   onChange={handleChange}
-                  className="w-full h-10 px-3 rounded-md border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-11 px-4 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
                 >
                   <option value="0">No buffer</option>
                   <option value="10">10 Minutes</option>
@@ -207,13 +207,13 @@ export default function Settings() {
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Minimum Advance Notice Required</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Minimum Advance Notice</label>
                 <select
                   name="minAdvanceNotice"
                   value={settings.minAdvanceNotice}
                   onChange={handleChange}
-                  className="w-full h-10 px-3 rounded-md border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-11 px-4 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
                 >
                   <option value="2">2 Hours prior</option>
                   <option value="6">6 Hours prior</option>
@@ -222,13 +222,13 @@ export default function Settings() {
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Maximum Advance Booking Window</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Maximum Advance Booking</label>
                 <select
                   name="maxAdvanceBooking"
                   value={settings.maxAdvanceBooking}
                   onChange={handleChange}
-                  className="w-full h-10 px-3 rounded-md border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-11 px-4 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
                 >
                   <option value="7">Up to 7 days ahead</option>
                   <option value="14">Up to 14 days ahead</option>
@@ -237,13 +237,13 @@ export default function Settings() {
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Cancellation Policy</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Cancellation Policy</label>
                 <select
                   name="cancellationPolicy"
                   value={settings.cancellationPolicy}
                   onChange={handleChange}
-                  className="w-full h-10 px-3 rounded-md border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-11 px-4 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
                 >
                   <option value="24hours">Free cancellation up to 24 hours before</option>
                   <option value="48hours">Strict: 48 hours notice required</option>
@@ -251,25 +251,25 @@ export default function Settings() {
                 </select>
               </div>
 
-              <div className="space-y-1.5 md:col-span-2">
-                <label className="text-sm font-medium text-text-main">Telehealth Video Call Platform</label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              <div className="space-y-3 md:col-span-2 pt-2">
+                <label className="text-sm font-semibold text-emerald-900">Telehealth Video Call Platform</label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {[
-                    { id: 'wellpath_builtin', label: 'WELLPath Video', desc: 'Encrypted, HIPAA & GDPR compliant built-in' },
-                    { id: 'google_meet', label: 'Google Meet', desc: 'Generates Meet links automatically' },
-                    { id: 'zoom', label: 'Zoom Healthcare', desc: 'Requires connected Zoom account' }
+                    { id: 'wellpath_builtin', label: 'WELLPath Video', desc: 'Encrypted & HIPAA compliant' },
+                    { id: 'google_meet', label: 'Google Meet', desc: 'Auto-generates Meet links' },
+                    { id: 'zoom', label: 'Zoom Healthcare', desc: 'Requires Zoom account' }
                   ].map(provider => (
                     <label
                       key={provider.id}
-                      className={`p-3.5 rounded-xl border cursor-pointer flex flex-col justify-between transition-all ${
+                      className={`p-4 rounded-2xl cursor-pointer flex flex-col justify-between transition-all duration-300 shadow-sm ${
                         settings.telehealthProvider === provider.id
-                          ? 'border-primary bg-primary/5 ring-1 ring-primary'
-                          : 'border-border bg-white hover:bg-gray-50'
+                          ? 'bg-emerald-50 border-2 border-emerald-500 shadow-md'
+                          : 'bg-white border-2 border-transparent hover:bg-emerald-50/50'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <span className="font-semibold text-xs text-text-main flex items-center gap-1.5">
-                          <Video className="w-3.5 h-3.5 text-primary" />
+                        <span className="font-bold text-sm text-emerald-950 flex items-center gap-2">
+                          <Video className="w-4 h-4 text-emerald-600" />
                           {provider.label}
                         </span>
                         <input
@@ -278,27 +278,27 @@ export default function Settings() {
                           value={provider.id}
                           checked={settings.telehealthProvider === provider.id}
                           onChange={handleChange}
-                          className="accent-emerald-600"
+                          className="accent-emerald-600 h-4 w-4"
                         />
                       </div>
-                      <p className="text-[11px] text-text-muted">{provider.desc}</p>
+                      <p className="text-xs text-emerald-700 font-medium">{provider.desc}</p>
                     </label>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-border flex items-center justify-between">
+            <div className="pt-6 border-t border-emerald-100 flex items-center justify-between">
               <div>
-                <h4 className="text-sm font-semibold text-text-main">Instant Auto-Confirmation</h4>
-                <p className="text-xs text-text-muted">Automatically confirm appointment slots when a patient pays, without requiring manual approval.</p>
+                <h4 className="text-sm font-bold text-emerald-950">Instant Auto-Confirmation</h4>
+                <p className="text-xs text-emerald-700/80 font-medium mt-1">Automatically confirm appointment slots when a patient pays.</p>
               </div>
               <input
                 type="checkbox"
                 name="autoConfirmBookings"
                 checked={settings.autoConfirmBookings}
                 onChange={handleChange}
-                className="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary accent-emerald-600"
+                className="h-6 w-6 text-emerald-600 rounded-lg border-emerald-200 focus:ring-emerald-500 accent-emerald-600"
               />
             </div>
           </div>
@@ -306,105 +306,112 @@ export default function Settings() {
 
         {/* TAB 2: SECURITY & PASSWORD */}
         {activeTab === 'security' && (
-          <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 space-y-6 shadow-sm">
+          <div className="bg-white rounded-3xl border-0 p-6 md:p-8 space-y-8 shadow-sm hover:shadow-xl transition-all duration-300">
             <div>
-              <h2 className="text-lg font-bold text-text-main">Login & Security</h2>
-              <p className="text-sm text-text-muted">Protect your account and confidential patient records.</p>
+              <h2 className="text-xl font-bold text-emerald-950">Login & Security</h2>
+              <p className="text-sm text-emerald-700/80 font-medium">Protect your account and confidential patient records.</p>
             </div>
 
             {/* Email overview */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-background border border-border gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100 gap-4 shadow-sm">
               <div>
-                <p className="text-xs text-text-muted">Registered Email Address</p>
-                <p className="text-sm font-semibold text-text-main mt-0.5">{settings.email}</p>
+                <p className="text-xs text-emerald-700 font-semibold uppercase tracking-wider">Registered Email Address</p>
+                <p className="text-base font-bold text-emerald-950 mt-1">{settings.email}</p>
               </div>
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Primary & Verified
+              <span className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-800">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Primary & Verified
               </span>
             </div>
 
             {/* Change Password */}
-            <div className="space-y-4 pt-2">
-              <h3 className="text-sm font-bold text-text-main flex items-center gap-2">
-                <Lock className="w-4 h-4 text-primary" /> Change Password
+            <div className="space-y-5 pt-2">
+              <h3 className="text-sm font-bold text-emerald-900 flex items-center gap-2">
+                <Lock className="w-4 h-4 text-emerald-600" /> Change Password
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-text-muted">Current Password</label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-emerald-900">Current Password</label>
                   <Input
                     type="password"
                     name="currentPassword"
                     value={settings.currentPassword}
                     onChange={handleChange}
                     placeholder="••••••••"
+                    className="h-11 rounded-2xl border-0 bg-emerald-50/50 shadow-sm focus-visible:ring-emerald-500"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-text-muted">New Password</label>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-emerald-900">New Password</label>
                   <Input
                     type="password"
                     name="newPassword"
                     value={settings.newPassword}
                     onChange={handleChange}
                     placeholder="Minimum 8 chars"
+                    className="h-11 rounded-2xl border-0 bg-emerald-50/50 shadow-sm focus-visible:ring-emerald-500"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-text-muted">Confirm New Password</label>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-emerald-900">Confirm New Password</label>
                   <Input
                     type="password"
                     name="confirmPassword"
                     value={settings.confirmPassword}
                     onChange={handleChange}
                     placeholder="Repeat new password"
+                    className="h-11 rounded-2xl border-0 bg-emerald-50/50 shadow-sm focus-visible:ring-emerald-500"
                   />
                 </div>
               </div>
             </div>
 
             {/* Two Factor Authentication */}
-            <div className="pt-4 border-t border-border flex items-center justify-between">
+            <div className="pt-6 border-t border-emerald-100 flex items-center justify-between">
               <div>
-                <div className="flex items-center gap-2">
-                  <h4 className="text-sm font-semibold text-text-main">Two-Factor Authentication (2FA)</h4>
-                  <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Enabled</span>
+                <div className="flex items-center gap-3">
+                  <h4 className="text-sm font-bold text-emerald-950">Two-Factor Authentication (2FA)</h4>
+                  <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-lg font-bold">Enabled</span>
                 </div>
-                <p className="text-xs text-text-muted mt-0.5">Require an authenticator app (Google Authenticator or Duo) code on every new sign-in.</p>
+                <p className="text-xs text-emerald-700/80 font-medium mt-1">Require an authenticator app code on every new sign-in.</p>
               </div>
               <input
                 type="checkbox"
                 name="twoFactorEnabled"
                 checked={settings.twoFactorEnabled}
                 onChange={handleChange}
-                className="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary accent-emerald-600"
+                className="h-6 w-6 text-emerald-600 rounded-lg border-emerald-200 focus:ring-emerald-500 accent-emerald-600"
               />
             </div>
 
             {/* Active Sessions */}
-            <div className="pt-4 border-t border-border space-y-3">
-              <h4 className="text-sm font-semibold text-text-main">Active Authorized Sessions</h4>
-              <div className="space-y-2">
-                <div className="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-3">
-                    <Laptop className="w-5 h-5 text-text-muted" />
+            <div className="pt-6 border-t border-emerald-100 space-y-4">
+              <h4 className="text-sm font-bold text-emerald-950">Active Authorized Sessions</h4>
+              <div className="space-y-3">
+                <div className="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100 flex items-center justify-between text-xs shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-emerald-100 rounded-xl">
+                      <Laptop className="w-5 h-5 text-emerald-700" />
+                    </div>
                     <div>
-                      <p className="font-semibold text-text-main">Apple MacBook Pro (macOS 15.3)</p>
-                      <p className="text-text-muted text-[11px]">Chrome 128 • Mumbai, India • Current session</p>
+                      <p className="font-bold text-emerald-950">Apple MacBook Pro (macOS 15.3)</p>
+                      <p className="text-emerald-700/80 text-[11px] font-medium mt-0.5">Chrome 128 • Mumbai, India • Current session</p>
                     </div>
                   </div>
-                  <span className="text-emerald-600 font-semibold">Active Now</span>
+                  <span className="text-emerald-600 font-bold bg-emerald-100 px-3 py-1 rounded-xl">Active Now</span>
                 </div>
 
-                <div className="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-3">
-                    <Smartphone className="w-5 h-5 text-text-muted" />
+                <div className="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100 flex items-center justify-between text-xs shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-emerald-100 rounded-xl">
+                      <Smartphone className="w-5 h-5 text-emerald-700" />
+                    </div>
                     <div>
-                      <p className="font-semibold text-text-main">iPhone 15 Pro (iOS 18)</p>
-                      <p className="text-text-muted text-[11px]">WELLPath Practitioner App • Last active 3 hours ago</p>
+                      <p className="font-bold text-emerald-950">iPhone 15 Pro (iOS 18)</p>
+                      <p className="text-emerald-700/80 text-[11px] font-medium mt-0.5">WELLPath Practitioner App • Last active 3 hours ago</p>
                     </div>
                   </div>
-                  <button type="button" className="text-red-600 hover:text-red-700 font-medium">
+                  <button type="button" className="text-rose-600 hover:text-rose-700 font-bold px-3 py-1 bg-rose-50 rounded-xl hover:bg-rose-100 transition-colors">
                     Revoke
                   </button>
                 </div>
@@ -415,69 +422,73 @@ export default function Settings() {
 
         {/* TAB 3: BANKING & PAYOUTS */}
         {activeTab === 'payout' && (
-          <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 space-y-6 shadow-sm">
+          <div className="bg-white rounded-3xl border-0 p-6 md:p-8 space-y-8 shadow-sm hover:shadow-xl transition-all duration-300">
             <div>
-              <h2 className="text-lg font-bold text-text-main">Banking & Payout Accounts</h2>
-              <p className="text-sm text-text-muted">Earnings from completed therapy sessions are settled directly into this account.</p>
+              <h2 className="text-xl font-bold text-emerald-950">Banking & Payout Accounts</h2>
+              <p className="text-sm text-emerald-700/80 font-medium">Earnings from completed therapy sessions are settled directly into this account.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Bank Name</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Bank Name</label>
                 <div className="relative">
                   <Input
                     name="bankName"
                     value={settings.bankName}
                     onChange={handleChange}
-                    className="pl-9"
+                    className="pl-11 h-11 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 shadow-sm focus-visible:ring-emerald-500"
                   />
-                  <Building className="w-4 h-4 text-text-muted absolute left-3 top-3" />
+                  <Building className="w-5 h-5 text-emerald-600 absolute left-4 top-3" />
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Beneficiary Full Name</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Beneficiary Full Name</label>
                 <Input
                   name="beneficiaryName"
                   value={settings.beneficiaryName}
                   onChange={handleChange}
+                  className="h-11 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 shadow-sm focus-visible:ring-emerald-500"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Bank Account Number</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Bank Account Number</label>
                 <Input
                   name="accountNumber"
                   value={settings.accountNumber}
                   onChange={handleChange}
+                  className="h-11 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 shadow-sm focus-visible:ring-emerald-500"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">IFSC Code / Branch Routing</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">IFSC Code / Branch Routing</label>
                 <Input
                   name="ifscCode"
                   value={settings.ifscCode}
                   onChange={handleChange}
+                  className="h-11 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 shadow-sm focus-visible:ring-emerald-500"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">PAN / Tax Registration Number</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">PAN / Tax Registration Number</label>
                 <Input
                   name="panNumber"
                   value={settings.panNumber}
                   onChange={handleChange}
+                  className="h-11 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 shadow-sm focus-visible:ring-emerald-500"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Automated Settlement Frequency</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Automated Settlement Frequency</label>
                 <select
                   name="payoutFrequency"
                   value={settings.payoutFrequency}
                   onChange={handleChange}
-                  className="w-full h-10 px-3 rounded-md border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-11 px-4 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
                 >
                   <option value="weekly">Weekly (Every Monday Morning)</option>
                   <option value="biweekly">Bi-Weekly (Every Alternate Friday)</option>
@@ -486,11 +497,11 @@ export default function Settings() {
               </div>
             </div>
 
-            <div className="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl flex items-start gap-3">
-              <ShieldCheck className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
-              <div className="text-xs text-emerald-950 space-y-1">
-                <p className="font-semibold">Automated TDS & Invoicing</p>
-                <p>
+            <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-start gap-4 shadow-sm">
+              <ShieldCheck className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
+              <div className="text-sm text-emerald-950 space-y-1">
+                <p className="font-bold">Automated TDS & Invoicing</p>
+                <p className="text-emerald-700 font-medium">
                   WELLPath platform fee (12%) is deducted automatically. Quarterly GST tax reports and Form 16A TDS certificates are available under your Earnings tab.
                 </p>
               </div>
@@ -500,80 +511,80 @@ export default function Settings() {
 
         {/* TAB 4: NOTIFICATIONS */}
         {activeTab === 'notifications' && (
-          <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 space-y-6 shadow-sm">
+          <div className="bg-white rounded-3xl border-0 p-6 md:p-8 space-y-6 shadow-sm hover:shadow-xl transition-all duration-300">
             <div>
-              <h2 className="text-lg font-bold text-text-main">Communication & Notification Preferences</h2>
-              <p className="text-sm text-text-muted">Choose when and how you receive alerts from patients and students.</p>
+              <h2 className="text-xl font-bold text-emerald-950">Communication Preferences</h2>
+              <p className="text-sm text-emerald-700/80 font-medium">Choose when and how you receive alerts from patients and students.</p>
             </div>
 
-            <div className="divide-y divide-border">
-              <div className="py-4 flex items-center justify-between">
+            <div className="divide-y divide-emerald-100">
+              <div className="py-5 flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-text-main">New Booking Email Notifications</h4>
-                  <p className="text-xs text-text-muted">Instant email when a patient books a new therapy session.</p>
+                  <h4 className="text-sm font-bold text-emerald-950">New Booking Email Notifications</h4>
+                  <p className="text-xs text-emerald-700/80 font-medium mt-1">Instant email when a patient books a new therapy session.</p>
                 </div>
                 <input
                   type="checkbox"
                   name="emailOnBooking"
                   checked={settings.emailOnBooking}
                   onChange={handleChange}
-                  className="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary accent-emerald-600"
+                  className="h-6 w-6 text-emerald-600 rounded-lg border-emerald-200 focus:ring-emerald-500 accent-emerald-600"
                 />
               </div>
 
-              <div className="py-4 flex items-center justify-between">
+              <div className="py-5 flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-text-main">SMS Appointment Alerts</h4>
-                  <p className="text-xs text-text-muted">SMS notification for bookings, cancellations, and urgent reschedules.</p>
+                  <h4 className="text-sm font-bold text-emerald-950">SMS Appointment Alerts</h4>
+                  <p className="text-xs text-emerald-700/80 font-medium mt-1">SMS notification for bookings, cancellations, and reschedules.</p>
                 </div>
                 <input
                   type="checkbox"
                   name="smsOnBooking"
                   checked={settings.smsOnBooking}
                   onChange={handleChange}
-                  className="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary accent-emerald-600"
+                  className="h-6 w-6 text-emerald-600 rounded-lg border-emerald-200 focus:ring-emerald-500 accent-emerald-600"
                 />
               </div>
 
-              <div className="py-4 flex items-center justify-between">
+              <div className="py-5 flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-text-main">24-Hour Session Reminders</h4>
-                  <p className="text-xs text-text-muted">Daily calendar digest of upcoming consultations for tomorrow.</p>
+                  <h4 className="text-sm font-bold text-emerald-950">24-Hour Session Reminders</h4>
+                  <p className="text-xs text-emerald-700/80 font-medium mt-1">Daily calendar digest of upcoming consultations for tomorrow.</p>
                 </div>
                 <input
                   type="checkbox"
                   name="sms24hReminder"
                   checked={settings.sms24hReminder}
                   onChange={handleChange}
-                  className="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary accent-emerald-600"
+                  className="h-6 w-6 text-emerald-600 rounded-lg border-emerald-200 focus:ring-emerald-500 accent-emerald-600"
                 />
               </div>
 
-              <div className="py-4 flex items-center justify-between">
+              <div className="py-5 flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-text-main">New Patient Review Alerts</h4>
-                  <p className="text-xs text-text-muted">Get alerted whenever a patient leaves a testimonial or rating.</p>
+                  <h4 className="text-sm font-bold text-emerald-950">New Patient Review Alerts</h4>
+                  <p className="text-xs text-emerald-700/80 font-medium mt-1">Get alerted whenever a patient leaves a testimonial or rating.</p>
                 </div>
                 <input
                   type="checkbox"
                   name="emailOnReview"
                   checked={settings.emailOnReview}
                   onChange={handleChange}
-                  className="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary accent-emerald-600"
+                  className="h-6 w-6 text-emerald-600 rounded-lg border-emerald-200 focus:ring-emerald-500 accent-emerald-600"
                 />
               </div>
 
-              <div className="py-4 flex items-center justify-between">
+              <div className="py-5 flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-text-main">Internship Application Alerts</h4>
-                  <p className="text-xs text-text-muted">Notification when a medical or psychology student applies for supervision.</p>
+                  <h4 className="text-sm font-bold text-emerald-950">Internship Application Alerts</h4>
+                  <p className="text-xs text-emerald-700/80 font-medium mt-1">Notification when a student applies for supervision.</p>
                 </div>
                 <input
                   type="checkbox"
                   name="emailOnInternApp"
                   checked={settings.emailOnInternApp}
                   onChange={handleChange}
-                  className="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary accent-emerald-600"
+                  className="h-6 w-6 text-emerald-600 rounded-lg border-emerald-200 focus:ring-emerald-500 accent-emerald-600"
                 />
               </div>
             </div>
@@ -582,34 +593,34 @@ export default function Settings() {
 
         {/* TAB 5: INTERNSHIP SUPERVISION */}
         {activeTab === 'interns' && (
-          <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 space-y-6 shadow-sm">
+          <div className="bg-white rounded-3xl border-0 p-6 md:p-8 space-y-8 shadow-sm hover:shadow-xl transition-all duration-300">
             <div>
-              <h2 className="text-lg font-bold text-text-main">Internship Supervision Program</h2>
-              <p className="text-sm text-text-muted">Control your visibility in the student directory and manage your mentorship capacity.</p>
+              <h2 className="text-xl font-bold text-emerald-950">Internship Supervision Program</h2>
+              <p className="text-sm text-emerald-700/80 font-medium">Control your visibility in the student directory and manage mentorship capacity.</p>
             </div>
 
-            <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-between">
+            <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center justify-between shadow-sm">
               <div>
                 <h4 className="text-sm font-bold text-emerald-950">Accepting Student Interns</h4>
-                <p className="text-xs text-emerald-800">Your profile will display an "Open for Interns" badge to enrolled students.</p>
+                <p className="text-xs text-emerald-700 font-medium mt-1">Your profile will display an "Open for Interns" badge to enrolled students.</p>
               </div>
               <input
                 type="checkbox"
                 name="acceptsInterns"
                 checked={settings.acceptsInterns}
                 onChange={handleChange}
-                className="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary accent-emerald-600"
+                className="h-6 w-6 text-emerald-600 rounded-lg border-emerald-200 focus:ring-emerald-500 accent-emerald-600"
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Max Active Intern Capacity</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Max Active Intern Capacity</label>
                 <select
                   name="maxInternsCapacity"
                   value={settings.maxInternsCapacity}
                   onChange={handleChange}
-                  className="w-full h-10 px-3 rounded-md border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-11 px-4 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
                 >
                   <option value="1">1 Student Intern</option>
                   <option value="2">2 Student Interns (Recommended)</option>
@@ -618,13 +629,13 @@ export default function Settings() {
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-main">Preferred Student Level</label>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-emerald-900">Preferred Student Level</label>
                 <select
                   name="preferredStudentLevel"
                   value={settings.preferredStudentLevel}
                   onChange={handleChange}
-                  className="w-full h-10 px-3 rounded-md border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-11 px-4 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
                 >
                   <option value="Undergraduate senior">Final-year Undergraduate</option>
                   <option value="Masters or PhD candidates">Master's (MA / MSc / MPhil) or PhD Candidates</option>
@@ -632,13 +643,14 @@ export default function Settings() {
                 </select>
               </div>
 
-              <div className="space-y-1.5 md:col-span-2">
-                <label className="text-sm font-medium text-text-main">Supervision Modality & Expectations</label>
+              <div className="space-y-2 md:col-span-2">
+                <label className="text-sm font-semibold text-emerald-900">Supervision Modality & Expectations</label>
                 <Input
                   name="supervisionFormat"
                   value={settings.supervisionFormat}
                   onChange={handleChange}
                   placeholder="e.g. Weekly 1-on-1 supervision, case discussions, research reviews..."
+                  className="h-11 rounded-2xl border-0 bg-emerald-50/50 text-emerald-950 shadow-sm focus-visible:ring-emerald-500"
                 />
               </div>
             </div>
@@ -646,10 +658,11 @@ export default function Settings() {
         )}
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-end gap-3 pt-4">
+        <div className="flex items-center justify-end gap-4 pt-4">
           <Button
             type="button"
             variant="outline"
+            className="rounded-2xl h-11 px-6 font-bold border-emerald-200 text-emerald-800 hover:bg-emerald-50"
             onClick={() => {
               // Reset
             }}
@@ -659,7 +672,7 @@ export default function Settings() {
           <Button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 rounded-2xl h-11 px-6 font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm hover:shadow-md transition-all duration-300"
           >
             <Save className="w-4 h-4" />
             {saving ? 'Saving...' : 'Save Practice Settings'}

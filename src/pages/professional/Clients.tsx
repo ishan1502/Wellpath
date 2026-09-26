@@ -226,28 +226,28 @@ export default function Clients() {
   };
 
   return (
-    <div className="space-y-6 pb-12 animate-fade-in">
+    <div className="space-y-8 pb-12 animate-fade-in">
       {/* Page Header */}
-      <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 shadow-sm">
+      <div className="bg-white rounded-3xl border-0 p-6 md:p-8 shadow-sm hover:shadow-xl transition-all duration-300">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl md:text-3xl font-bold text-text-main">
+            <div className="flex items-center gap-4">
+              <h1 className="text-3xl font-bold text-emerald-950">
                 Client Caseload
               </h1>
-              <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-primary/10 text-primary border border-primary/20">
+              <span className="px-3 py-1 text-sm font-bold rounded-xl bg-emerald-100 text-emerald-800 shadow-sm">
                 {clients.length} Clients
               </span>
             </div>
-            <p className="text-sm text-text-muted mt-1">
+            <p className="text-sm text-emerald-700/80 mt-2 font-medium">
               View your client rosters, progress tracking, session schedules, and confidential treatment notes.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <Link to="/professional/calendar">
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <CalendarPlus className="w-4 h-4" />
+              <Button className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl h-11 px-6 shadow-sm hover:shadow-md transition-all duration-300 font-bold">
+                <CalendarPlus className="w-5 h-5" />
                 Schedule Session
               </Button>
             </Link>
@@ -255,54 +255,62 @@ export default function Clients() {
         </div>
 
         {/* Metrics Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-border">
-          <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-8 pt-8 border-t border-emerald-100">
+          <div className="p-5 bg-emerald-50/50 rounded-2xl border border-emerald-100 shadow-sm">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-text-muted font-medium">Total Caseload</p>
-              <Users className="w-4 h-4 text-primary" />
+              <p className="text-xs text-emerald-800/70 font-bold uppercase tracking-wider">Total Caseload</p>
+              <div className="p-2 bg-emerald-100 rounded-xl">
+                <Users className="w-5 h-5 text-emerald-700" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-text-main mt-1">{clients.length}</p>
+            <p className="text-3xl font-bold text-emerald-950 mt-2">{clients.length}</p>
           </div>
 
-          <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+          <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-200 shadow-sm">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-emerald-700 font-medium">Active Patients</p>
-              <Activity className="w-4 h-4 text-emerald-600" />
+              <p className="text-xs text-emerald-800 font-bold uppercase tracking-wider">Active Patients</p>
+              <div className="p-2 bg-emerald-100 rounded-xl">
+                <Activity className="w-5 h-5 text-emerald-600" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-emerald-900 mt-1">{activeCount}</p>
+            <p className="text-3xl font-bold text-emerald-900 mt-2">{activeCount}</p>
           </div>
 
-          <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
+          <div className="p-5 bg-emerald-50/50 rounded-2xl border border-emerald-100 shadow-sm">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-blue-700 font-medium">Sessions This Week</p>
-              <Calendar className="w-4 h-4 text-blue-600" />
+              <p className="text-xs text-emerald-800/70 font-bold uppercase tracking-wider">Sessions This Week</p>
+              <div className="p-2 bg-emerald-100 rounded-xl">
+                <Calendar className="w-5 h-5 text-emerald-700" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-blue-900 mt-1">{totalSessionsThisWeek}</p>
+            <p className="text-3xl font-bold text-emerald-950 mt-2">{totalSessionsThisWeek}</p>
           </div>
 
-          <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+          <div className="p-5 bg-emerald-50/50 rounded-2xl border border-emerald-100 shadow-sm">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-slate-500 font-medium">Completed / Discharged</p>
-              <CheckCircle2 className="w-4 h-4 text-slate-400" />
+              <p className="text-xs text-emerald-800/70 font-bold uppercase tracking-wider">Completed</p>
+              <div className="p-2 bg-emerald-100 rounded-xl">
+                <CheckCircle2 className="w-5 h-5 text-emerald-700" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-slate-700 mt-1">{dischargedCount}</p>
+            <p className="text-3xl font-bold text-emerald-950 mt-2">{dischargedCount}</p>
           </div>
         </div>
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between">
         <div className="relative flex-1 max-w-md">
-          <Search className="w-4 h-4 text-text-muted absolute left-3 top-3" />
+          <Search className="w-5 h-5 text-emerald-600 absolute left-4 top-3" />
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by client name, email, or concern..."
-            className="pl-9"
+            className="pl-12 h-11 rounded-2xl border-0 bg-white shadow-sm focus-visible:ring-emerald-500"
           />
         </div>
 
-        <div className="flex items-center gap-1 bg-surface p-1 rounded-lg border border-border">
+        <div className="flex items-center gap-2 bg-white p-1.5 rounded-2xl shadow-sm">
           {[
             { id: 'all', label: 'All', count: clients.length },
             { id: 'active', label: 'Active', count: activeCount },
@@ -313,56 +321,56 @@ export default function Clients() {
               key={tab.id}
               onClick={() => setStatusFilter(tab.id as any)}
               type="button"
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+              className={`px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 ${
                 statusFilter === tab.id
-                  ? 'bg-primary text-white shadow-sm'
-                  : 'text-text-muted hover:text-text-main hover:bg-gray-100'
+                  ? 'bg-emerald-600 text-white shadow-md'
+                  : 'text-emerald-700 hover:text-emerald-900 hover:bg-emerald-50'
               }`}
             >
-              {tab.label} ({tab.count})
+              {tab.label} <span className="opacity-70 font-medium ml-1">({tab.count})</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* Clients Table */}
-      <div className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
+      <div className="bg-white rounded-3xl border-0 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-border bg-gray-50/60 text-[11px] font-bold text-text-muted uppercase tracking-wider">
-                <th className="py-3.5 px-6">Client</th>
-                <th className="py-3.5 px-4">Primary Concern / Modality</th>
-                <th className="py-3.5 px-4">Treatment Progress</th>
-                <th className="py-3.5 px-4">Next Appointment</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-6 text-right">Actions</th>
+              <tr className="border-b border-emerald-100 bg-emerald-50/50 text-[11px] font-bold text-emerald-800 uppercase tracking-wider">
+                <th className="py-4 px-6">Client</th>
+                <th className="py-4 px-4">Primary Concern / Modality</th>
+                <th className="py-4 px-4">Treatment Progress</th>
+                <th className="py-4 px-4">Next Appointment</th>
+                <th className="py-4 px-4">Status</th>
+                <th className="py-4 px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border text-sm">
+            <tbody className="divide-y divide-emerald-50 text-sm">
               {filteredClients.map((client) => {
                 const progressPct = Math.round((client.totalSessions / client.targetSessions) * 100);
 
                 return (
                   <tr 
                     key={client.id}
-                    className="hover:bg-gray-50/70 transition-colors group cursor-pointer"
+                    className="hover:bg-emerald-50/50 transition-colors group cursor-pointer"
                     onClick={() => setSelectedClient(client)}
                   >
                     {/* Client Name & Contact */}
                     <td className="py-4 px-6">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-primary/15 text-primary font-bold flex items-center justify-center shrink-0 border border-primary/20">
+                      <div className="flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-2xl bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0 shadow-sm">
                           {client.name.split(' ').map(n => n[0]).join('')}
                         </div>
                         <div>
-                          <div className="font-semibold text-text-main group-hover:text-primary transition-colors flex items-center gap-1.5">
+                          <div className="font-bold text-emerald-950 group-hover:text-emerald-700 transition-colors flex items-center gap-2">
                             {client.name}
-                            <span className="text-xs text-text-muted font-normal">
+                            <span className="text-xs text-emerald-600 font-medium">
                               ({client.age}y, {client.gender})
                             </span>
                           </div>
-                          <div className="text-xs text-text-muted mt-0.5">
+                          <div className="text-xs text-emerald-700/80 font-medium mt-1">
                             {client.email}
                           </div>
                         </div>
@@ -372,21 +380,21 @@ export default function Clients() {
                     {/* Concern & Modality */}
                     <td className="py-4 px-4">
                       <div>
-                        <p className="font-medium text-text-main text-xs">{client.diagnosis}</p>
-                        <p className="text-[11px] text-text-muted truncate max-w-xs">{client.preferredModality}</p>
+                        <p className="font-bold text-emerald-950 text-sm">{client.diagnosis}</p>
+                        <p className="text-xs text-emerald-700/80 font-medium truncate max-w-xs mt-1">{client.preferredModality}</p>
                       </div>
                     </td>
 
                     {/* Progress Bar */}
                     <td className="py-4 px-4">
-                      <div className="w-36">
-                        <div className="flex justify-between text-xs text-text-muted mb-1">
+                      <div className="w-40">
+                        <div className="flex justify-between text-xs text-emerald-700/80 font-medium mb-1.5">
                           <span>{client.totalSessions} of {client.targetSessions}</span>
-                          <span className="font-semibold text-text-main">{progressPct}%</span>
+                          <span className="font-bold text-emerald-900">{progressPct}%</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                        <div className="w-full bg-emerald-100 rounded-full h-2 overflow-hidden">
                           <div 
-                            className={`h-1.5 rounded-full ${progressPct >= 100 ? 'bg-blue-500' : 'bg-primary'}`}
+                            className={`h-2 rounded-full ${progressPct >= 100 ? 'bg-emerald-600' : 'bg-emerald-400'}`}
                             style={{ width: `${Math.min(progressPct, 100)}%` }}
                           ></div>
                         </div>
@@ -396,12 +404,12 @@ export default function Clients() {
                     {/* Next Appointment */}
                     <td className="py-4 px-4">
                       {client.nextSession ? (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-                          <Clock className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="inline-flex items-center gap-2 text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1.5 rounded-xl shadow-sm">
+                          <Clock className="w-4 h-4 text-emerald-600" />
                           {client.nextSession}
                         </span>
                       ) : (
-                        <span className="text-xs text-text-muted italic">
+                        <span className="text-xs text-emerald-600/70 font-medium italic">
                           None scheduled
                         </span>
                       )}
@@ -410,20 +418,20 @@ export default function Clients() {
                     {/* Status Badge */}
                     <td className="py-4 px-4">
                       {client.status === 'active' && (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                        <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 shadow-sm">
+                          <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
                           Active
                         </span>
                       )}
                       {client.status === 'on_hold' && (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                        <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-xl bg-amber-100 text-amber-800 shadow-sm">
+                          <span className="w-2 h-2 rounded-full bg-amber-600"></span>
                           On Hold
                         </span>
                       )}
                       {client.status === 'discharged' && (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+                        <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-xl bg-slate-100 text-slate-700 shadow-sm">
+                          <span className="w-2 h-2 rounded-full bg-slate-500"></span>
                           Discharged
                         </span>
                       )}
@@ -431,25 +439,25 @@ export default function Clients() {
 
                     {/* Actions */}
                     <td className="py-4 px-6 text-right" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center justify-end gap-1.5">
+                      <div className="flex items-center justify-end gap-2">
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => setSelectedClient(client)}
-                          className="h-8 px-2 text-xs"
+                          className="h-9 w-9 p-0 rounded-xl text-emerald-600 hover:bg-emerald-100 hover:text-emerald-800"
                           title="Clinical Notes"
                         >
-                          <FileText className="w-4 h-4 text-text-muted" />
+                          <FileText className="w-4 h-4" />
                         </Button>
 
                         <Link to="/professional/messages">
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="h-8 px-2 text-xs"
+                            className="h-9 w-9 p-0 rounded-xl text-emerald-600 hover:bg-emerald-100 hover:text-emerald-800"
                             title="Message Client"
                           >
-                            <MessageSquare className="w-4 h-4 text-text-muted" />
+                            <MessageSquare className="w-4 h-4" />
                           </Button>
                         </Link>
 
@@ -457,10 +465,10 @@ export default function Clients() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="h-8 px-2 text-xs"
+                            className="h-9 w-9 p-0 rounded-xl text-emerald-600 hover:bg-emerald-100 hover:text-emerald-800"
                             title="Book Appointment"
                           >
-                            <Calendar className="w-4 h-4 text-text-muted" />
+                            <Calendar className="w-4 h-4" />
                           </Button>
                         </Link>
                       </div>
@@ -475,22 +483,22 @@ export default function Clients() {
 
       {/* Clinical Notes & Profile Drawer / Modal */}
       {selectedClient && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in">
-          <div className="bg-surface rounded-2xl border border-border max-w-2xl w-full p-6 md:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-emerald-950/40 backdrop-blur-sm animate-in">
+          <div className="bg-white rounded-3xl border-0 max-w-2xl w-full p-6 md:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
-            <div className="flex items-start justify-between border-b border-border pb-4">
+            <div className="flex items-start justify-between border-b border-emerald-100 pb-5">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-primary/20 text-primary font-bold text-lg flex items-center justify-center">
+                <div className="h-14 w-14 rounded-2xl bg-emerald-100 text-emerald-700 font-bold text-xl flex items-center justify-center shadow-sm">
                   {selectedClient.name.split(' ').map(n => n[0]).join('')}
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-text-main flex items-center gap-2">
+                  <h2 className="text-2xl font-bold text-emerald-950 flex items-center gap-2">
                     {selectedClient.name}
-                    <span className="text-xs font-normal text-text-muted">
+                    <span className="text-sm font-semibold text-emerald-600">
                       ({selectedClient.age} yrs • {selectedClient.gender})
                     </span>
                   </h2>
-                  <p className="text-xs text-text-muted">
+                  <p className="text-sm text-emerald-700/80 font-medium mt-1">
                     {selectedClient.email} • {selectedClient.phone}
                   </p>
                 </div>
@@ -498,32 +506,32 @@ export default function Clients() {
 
               <button
                 onClick={() => setSelectedClient(null)}
-                className="p-1 rounded-full text-text-muted hover:text-text-main hover:bg-gray-100 transition-colors"
+                className="p-2 rounded-xl text-emerald-600 hover:bg-emerald-50 transition-colors"
               >
                 ✕
               </button>
             </div>
 
             {/* Treatment Summary */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-background border border-border text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100 text-sm shadow-sm">
               <div>
-                <p className="text-text-muted">Diagnosis</p>
-                <p className="font-semibold text-text-main mt-0.5">{selectedClient.diagnosis}</p>
+                <p className="text-emerald-800/70 font-bold uppercase tracking-wider text-xs">Diagnosis</p>
+                <p className="font-bold text-emerald-950 mt-1">{selectedClient.diagnosis}</p>
               </div>
               <div>
-                <p className="text-text-muted">Therapy Modality</p>
-                <p className="font-semibold text-text-main mt-0.5">{selectedClient.preferredModality}</p>
+                <p className="text-emerald-800/70 font-bold uppercase tracking-wider text-xs">Therapy Modality</p>
+                <p className="font-bold text-emerald-950 mt-1">{selectedClient.preferredModality}</p>
               </div>
               <div>
-                <p className="text-text-muted">Intake Date</p>
-                <p className="font-semibold text-text-main mt-0.5">{selectedClient.startDate}</p>
+                <p className="text-emerald-800/70 font-bold uppercase tracking-wider text-xs">Intake Date</p>
+                <p className="font-bold text-emerald-950 mt-1">{selectedClient.startDate}</p>
               </div>
             </div>
 
             {/* Add New Clinical Note Form */}
-            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
-              <h4 className="text-xs font-bold text-text-main uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="w-4 h-4 text-primary" />
+            <div className="bg-white border border-emerald-100 rounded-2xl p-5 space-y-4 shadow-sm">
+              <h4 className="text-sm font-bold text-emerald-950 uppercase tracking-wider flex items-center gap-2">
+                <FileText className="w-5 h-5 text-emerald-600" />
                 Add Confidential Clinical Progress Note
               </h4>
 
@@ -532,55 +540,55 @@ export default function Clients() {
                 onChange={(e) => setNewNoteText(e.target.value)}
                 placeholder="Enter objective observations, patient affect, interventions used, and clinical progress..."
                 rows={3}
-                className="w-full p-2.5 rounded-lg border border-border bg-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full p-4 rounded-xl border-0 bg-emerald-50/50 text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 placeholder:text-emerald-600/50"
               />
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <Input
                   value={newNoteHomework}
                   onChange={(e) => setNewNoteHomework(e.target.value)}
                   placeholder="Optional assigned homework or reflection exercises..."
-                  className="text-xs h-9"
+                  className="text-sm h-11 rounded-xl border-0 bg-emerald-50/50 shadow-none focus-visible:ring-emerald-500 placeholder:text-emerald-600/50"
                 />
                 <Button
                   size="sm"
                   onClick={() => handleAddClinicalNote(selectedClient.id)}
                   disabled={!newNoteText.trim()}
-                  className="shrink-0 text-xs flex items-center gap-1"
+                  className="shrink-0 h-11 px-6 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm flex items-center gap-2"
                 >
-                  <Plus className="w-3.5 h-3.5" />
+                  <Plus className="w-4 h-4" />
                   Save Note
                 </Button>
               </div>
             </div>
 
             {/* Session Notes History */}
-            <div className="space-y-3">
-              <h4 className="text-sm font-semibold text-text-main">
+            <div className="space-y-4 pt-2">
+              <h4 className="text-lg font-bold text-emerald-950">
                 Previous Clinical Notes ({selectedClient.clinicalNotes.length})
               </h4>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {selectedClient.clinicalNotes.map((note) => (
-                  <div key={note.id} className="p-4 rounded-xl border border-border bg-white space-y-2 text-xs">
-                    <div className="flex items-center justify-between text-text-muted">
-                      <span className="font-semibold text-text-main flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-primary" />
+                  <div key={note.id} className="p-5 rounded-2xl border border-emerald-100 bg-white space-y-3 shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-emerald-950 flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-emerald-600" />
                         Session Date: {note.date}
                       </span>
-                      <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-medium">
+                      <span className="text-[10px] text-emerald-800 bg-emerald-100 px-2 py-1 rounded-lg border border-emerald-200 font-bold uppercase tracking-wider">
                         Encrypted
                       </span>
                     </div>
 
-                    <p className="text-text-main leading-relaxed">
+                    <p className="text-emerald-900 leading-relaxed text-sm font-medium">
                       {note.note}
                     </p>
 
                     {note.homework && (
-                      <div className="p-2 rounded bg-amber-50/70 border border-amber-200/60 text-amber-950 flex items-start gap-2">
-                        <BookOpen className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
-                        <span><strong>Homework:</strong> {note.homework}</span>
+                      <div className="p-3 rounded-xl bg-amber-50 border border-amber-100 text-amber-950 flex items-start gap-3 mt-2">
+                        <BookOpen className="w-5 h-5 text-amber-600 shrink-0" />
+                        <span className="text-sm font-medium"><strong>Homework:</strong> {note.homework}</span>
                       </div>
                     )}
                   </div>
@@ -589,13 +597,13 @@ export default function Clients() {
             </div>
 
             {/* Drawer footer */}
-            <div className="flex items-center justify-between pt-4 border-t border-border">
-              <span className="text-[11px] text-text-muted flex items-center gap-1">
-                <AlertCircle className="w-3.5 h-3.5 text-text-muted" /> Protected under medical record confidentiality
+            <div className="flex items-center justify-between pt-5 border-t border-emerald-100">
+              <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1.5">
+                <AlertCircle className="w-4 h-4" /> Protected under medical record confidentiality
               </span>
               <Button
                 variant="outline"
-                size="sm"
+                className="h-10 px-5 rounded-xl font-bold border-emerald-200 text-emerald-800 hover:bg-emerald-50"
                 onClick={() => setSelectedClient(null)}
               >
                 Close

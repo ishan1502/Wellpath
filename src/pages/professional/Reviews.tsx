@@ -153,44 +153,44 @@ export default function Reviews() {
     });
 
   return (
-    <div className="space-y-6 pb-12 animate-fade-in">
+    <div className="space-y-8 pb-12 animate-fade-in">
       {/* Header Banner */}
-      <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 shadow-sm">
+      <div className="bg-white rounded-3xl border-0 p-6 md:p-8 shadow-sm hover:shadow-xl transition-all duration-300">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl md:text-3xl font-bold text-text-main">
+            <div className="flex items-center gap-4">
+              <h1 className="text-3xl font-bold text-emerald-950">
                 Reviews & Patient Feedback
               </h1>
-              <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" /> 100% Verified
+              <span className="px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-100 text-emerald-800 flex items-center gap-1.5 shadow-sm">
+                <ShieldCheck className="w-4 h-4" /> 100% Verified
               </span>
             </div>
-            <p className="text-sm text-text-muted mt-1">
+            <p className="text-sm text-emerald-700/80 mt-2 font-medium">
               Read transparent feedback, monitor your clinical satisfaction metrics, and respond to verified patient reviews.
             </p>
           </div>
         </div>
 
         {/* Rating Overview Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 pt-6 border-t border-border items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 pt-8 border-t border-emerald-100 items-center">
           {/* Big Score */}
-          <div className="flex flex-col items-center justify-center p-6 bg-gray-50/70 rounded-2xl border border-gray-100 text-center">
-            <span className="text-5xl font-black text-text-main tracking-tight">
+          <div className="flex flex-col items-center justify-center p-6 bg-emerald-50/50 rounded-3xl border border-emerald-100 text-center shadow-sm">
+            <span className="text-6xl font-black text-emerald-950 tracking-tight">
               {averageRating}
             </span>
-            <div className="flex items-center gap-1 mt-2 text-amber-400">
+            <div className="flex items-center gap-1.5 mt-3 text-amber-400">
               {[1, 2, 3, 4, 5].map(star => (
-                <Star key={star} className="w-5 h-5 fill-amber-400 text-amber-400" />
+                <Star key={star} className="w-6 h-6 fill-amber-400 text-amber-400" />
               ))}
             </div>
-            <p className="text-xs text-text-muted mt-2 font-medium">
+            <p className="text-xs text-emerald-700/80 mt-3 font-bold uppercase tracking-wider">
               Based on 124 verified ratings
             </p>
           </div>
 
           {/* Rating Bars */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             {[
               { star: 5, pct: 92, count: 114 },
               { star: 4, pct: 6, count: 8 },
@@ -198,90 +198,90 @@ export default function Reviews() {
               { star: 2, pct: 0, count: 0 },
               { star: 1, pct: 0, count: 0 },
             ].map(row => (
-              <div key={row.star} className="flex items-center gap-2 text-xs">
-                <span className="w-12 font-medium text-text-muted flex items-center gap-1">
-                  {row.star} <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+              <div key={row.star} className="flex items-center gap-3 text-sm">
+                <span className="w-14 font-bold text-emerald-900 flex items-center gap-1.5">
+                  {row.star} <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                 </span>
-                <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                <div className="flex-1 bg-emerald-50 rounded-full h-3 overflow-hidden shadow-inner">
                   <div 
-                    className="bg-amber-400 h-2 rounded-full" 
+                    className="bg-amber-400 h-3 rounded-full" 
                     style={{ width: `${row.pct}%` }}
                   ></div>
                 </div>
-                <span className="w-8 text-right text-text-muted font-mono">{row.pct}%</span>
+                <span className="w-10 text-right text-emerald-700/80 font-bold">{row.pct}%</span>
               </div>
             ))}
           </div>
 
           {/* Key Clinical Badges */}
-          <div className="space-y-3 p-4 bg-emerald-50/60 rounded-xl border border-emerald-100 text-xs text-emerald-950">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
-              <span><strong>99%</strong> reported feeling heard and emotionally supported</span>
+          <div className="space-y-4 p-6 bg-emerald-600 rounded-3xl text-sm text-white shadow-md">
+            <div className="flex items-center gap-3">
+              <Sparkles className="w-5 h-5 text-emerald-200 shrink-0" />
+              <span className="font-medium"><strong className="font-bold text-emerald-100">99%</strong> reported feeling heard and emotionally supported</span>
             </div>
-            <div className="flex items-center gap-2">
-              <HeartHandshake className="w-4 h-4 text-emerald-700 shrink-0" />
-              <span><strong>97%</strong> would recommend Dr. Mehta to family or friends</span>
+            <div className="flex items-center gap-3">
+              <HeartHandshake className="w-5 h-5 text-emerald-200 shrink-0" />
+              <span className="font-medium"><strong className="font-bold text-emerald-100">97%</strong> would recommend Dr. Mehta to family or friends</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-emerald-700 shrink-0" />
-              <span><strong>98%</strong> on-time session start rate</span>
+            <div className="flex items-center gap-3">
+              <Clock className="w-5 h-5 text-emerald-200 shrink-0" />
+              <span className="font-medium"><strong className="font-bold text-emerald-100">98%</strong> on-time session start rate</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filter & Sort Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-        <div className="flex flex-wrap items-center gap-1.5 bg-surface p-1 rounded-lg border border-border">
+      <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between">
+        <div className="flex flex-wrap items-center gap-2 bg-white p-1.5 rounded-2xl shadow-sm">
           <button
             onClick={() => setRatingFilter('all')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+            className={`px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 ${
               ratingFilter === 'all'
-                ? 'bg-primary text-white shadow-sm'
-                : 'text-text-muted hover:text-text-main hover:bg-gray-100'
+                ? 'bg-emerald-600 text-white shadow-md'
+                : 'text-emerald-700 hover:text-emerald-900 hover:bg-emerald-50'
             }`}
           >
-            All Reviews ({reviews.length})
+            All Reviews <span className="opacity-70 font-medium ml-1">({reviews.length})</span>
           </button>
           <button
             onClick={() => setRatingFilter(5)}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors flex items-center gap-1 ${
+            className={`px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 flex items-center gap-1.5 ${
               ratingFilter === 5
-                ? 'bg-primary text-white shadow-sm'
-                : 'text-text-muted hover:text-text-main hover:bg-gray-100'
+                ? 'bg-emerald-600 text-white shadow-md'
+                : 'text-emerald-700 hover:text-emerald-900 hover:bg-emerald-50'
             }`}
           >
-            5 Stars ({reviews.filter(r => r.rating === 5).length})
+            5 Stars <span className="opacity-70 font-medium ml-0.5">({reviews.filter(r => r.rating === 5).length})</span>
           </button>
           <button
             onClick={() => setRatingFilter(4)}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors flex items-center gap-1 ${
+            className={`px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 flex items-center gap-1.5 ${
               ratingFilter === 4
-                ? 'bg-primary text-white shadow-sm'
-                : 'text-text-muted hover:text-text-main hover:bg-gray-100'
+                ? 'bg-emerald-600 text-white shadow-md'
+                : 'text-emerald-700 hover:text-emerald-900 hover:bg-emerald-50'
             }`}
           >
-            4 Stars ({reviews.filter(r => r.rating === 4).length})
+            4 Stars <span className="opacity-70 font-medium ml-0.5">({reviews.filter(r => r.rating === 4).length})</span>
           </button>
           <button
             onClick={() => setRatingFilter('needs_reply')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+            className={`px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 ${
               ratingFilter === 'needs_reply'
-                ? 'bg-primary text-white shadow-sm'
-                : 'text-text-muted hover:text-text-main hover:bg-gray-100'
+                ? 'bg-emerald-600 text-white shadow-md'
+                : 'text-emerald-700 hover:text-emerald-900 hover:bg-emerald-50'
             }`}
           >
-            Awaiting Response ({reviews.filter(r => !r.reply).length})
+            Awaiting Response <span className="opacity-70 font-medium ml-1">({reviews.filter(r => !r.reply).length})</span>
           </button>
         </div>
 
-        <div className="flex items-center gap-2 self-end sm:self-auto">
-          <span className="text-xs text-text-muted">Sort by:</span>
+        <div className="flex items-center gap-3 self-end sm:self-auto bg-white p-1.5 rounded-2xl shadow-sm px-3">
+          <span className="text-xs font-bold text-emerald-800/70 uppercase tracking-wider">Sort by:</span>
           <select
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value as any)}
-            className="text-xs h-8 px-2.5 rounded-lg border border-border bg-white text-text-main focus:outline-none focus:ring-1 focus:ring-primary"
+            className="text-sm font-bold h-9 px-3 rounded-xl border-0 bg-emerald-50/50 text-emerald-950 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
           >
             <option value="newest">Most Recent</option>
             <option value="highest">Highest Rating</option>
@@ -291,42 +291,44 @@ export default function Reviews() {
       </div>
 
       {/* Review Cards List */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         {filteredReviews.length === 0 ? (
-          <div className="bg-surface rounded-2xl border border-border p-12 text-center shadow-sm">
-            <MessageSquare className="w-12 h-12 text-text-muted mx-auto mb-3 opacity-40" />
-            <h3 className="text-lg font-bold text-text-main">No reviews match your filter</h3>
-            <p className="text-xs text-text-muted mt-1">Try switching to "All Reviews" to view all patient testimonials.</p>
+          <div className="bg-white rounded-3xl border-0 p-12 text-center shadow-sm">
+            <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MessageSquare className="w-8 h-8 text-emerald-300" />
+            </div>
+            <h3 className="text-xl font-bold text-emerald-950">No reviews match your filter</h3>
+            <p className="text-sm text-emerald-700/80 mt-2 font-medium">Try switching to "All Reviews" to view all patient testimonials.</p>
           </div>
         ) : (
           filteredReviews.map((review) => (
             <div
               key={review.id}
-              className="bg-surface rounded-2xl border border-border p-6 shadow-sm space-y-4 hover:border-gray-300 transition-all"
+              className="bg-white rounded-3xl border-0 p-6 md:p-8 shadow-sm space-y-5 hover:shadow-xl transition-all duration-300"
             >
               {/* Review Card Top */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-emerald-100 text-emerald-800 font-bold text-sm flex items-center justify-center">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-2xl bg-emerald-100 text-emerald-800 font-bold text-base flex items-center justify-center shadow-sm">
                     {review.patientInitials}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-text-main text-sm">
+                      <span className="font-bold text-emerald-950 text-base">
                         {review.patientName}
                       </span>
-                      <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-medium flex items-center gap-1">
-                        <CheckCircle className="w-3 h-3" /> Verified Patient
+                      <span className="text-[10px] text-emerald-800 bg-emerald-100 px-2 py-1 rounded-lg font-bold uppercase tracking-wider flex items-center gap-1 shadow-sm">
+                        <CheckCircle className="w-3 h-3" /> Verified
                       </span>
                     </div>
-                    <span className="text-xs text-text-muted mt-0.5 block">
+                    <span className="text-xs text-emerald-700/80 mt-1 font-medium block">
                       {review.sessionType}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 sm:self-center">
-                  <div className="flex items-center text-amber-400">
+                <div className="flex items-center gap-4 sm:self-center bg-emerald-50/50 px-4 py-2 rounded-2xl border border-emerald-50">
+                  <div className="flex items-center text-amber-400 gap-0.5">
                     {[1, 2, 3, 4, 5].map(star => (
                       <Star
                         key={star}
@@ -334,43 +336,43 @@ export default function Reviews() {
                       />
                     ))}
                   </div>
-                  <span className="text-xs text-text-muted">
+                  <span className="w-px h-4 bg-emerald-200"></span>
+                  <span className="text-xs font-bold text-emerald-800/70 uppercase tracking-wider">
                     {review.date}
                   </span>
                 </div>
               </div>
 
               {/* Review Text */}
-              <p className="text-sm text-text-main leading-relaxed">
+              <p className="text-sm text-emerald-900 leading-relaxed font-medium">
                 "{review.comment}"
               </p>
 
               {/* Action Bar */}
-              <div className="flex items-center justify-between pt-2 border-t border-border text-xs">
+              <div className="flex items-center justify-between pt-4 border-t border-emerald-50 text-sm">
                 <button
                   type="button"
                   onClick={() => handleVoteHelpful(review.id)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-colors ${
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 transition-all duration-300 font-bold ${
                     review.hasVotedHelpful
-                      ? 'border-emerald-300 bg-emerald-50 text-emerald-800 font-semibold'
-                      : 'border-border text-text-muted hover:bg-gray-100 hover:text-text-main'
+                      ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm'
+                      : 'border-transparent text-emerald-600/70 hover:bg-emerald-50/50 hover:text-emerald-700'
                   }`}
                 >
-                  <ThumbsUp className="w-3.5 h-3.5" />
+                  <ThumbsUp className="w-4 h-4" />
                   <span>Helpful ({review.helpfulCount})</span>
                 </button>
 
                 {!review.reply && replyingToId !== review.id && (
                   <Button
                     variant="outline"
-                    size="sm"
                     onClick={() => {
                       setReplyingToId(review.id);
                       setReplyText('');
                     }}
-                    className="text-xs flex items-center gap-1.5"
+                    className="h-10 px-4 rounded-xl font-bold border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-sm flex items-center gap-2"
                   >
-                    <CornerDownRight className="w-3.5 h-3.5" />
+                    <CornerDownRight className="w-4 h-4" />
                     Public Reply
                   </Button>
                 )}
@@ -378,15 +380,15 @@ export default function Reviews() {
 
               {/* Reply Form */}
               {replyingToId === review.id && (
-                <div className="mt-3 p-4 rounded-xl bg-gray-50 border border-gray-200 space-y-3 animate-in">
-                  <div className="flex items-center justify-between text-xs text-text-muted">
-                    <span className="font-semibold text-text-main flex items-center gap-1">
-                      <CornerDownRight className="w-3.5 h-3.5 text-primary" />
+                <div className="mt-4 p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100 space-y-4 animate-in shadow-sm">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-bold text-emerald-950 flex items-center gap-2">
+                      <CornerDownRight className="w-4 h-4 text-emerald-600" />
                       Write a response as Dr. Ananya Mehta
                     </span>
                     <button 
                       onClick={() => setReplyingToId(null)}
-                      className="hover:text-text-main text-[11px]"
+                      className="text-emerald-600 hover:text-emerald-800 font-bold text-xs bg-white px-3 py-1.5 rounded-lg shadow-sm"
                     >
                       Cancel
                     </button>
@@ -397,20 +399,19 @@ export default function Reviews() {
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Express gratitude and offer encouragement. Do not mention specific medical conditions or private health disclosures..."
-                    className="w-full p-2.5 rounded-lg border border-border bg-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full p-4 rounded-xl border-0 bg-white text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 placeholder:text-emerald-600/50 shadow-sm"
                   />
 
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-text-muted flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3 text-amber-500" /> Responses are publicly visible on your profile
+                    <span className="text-[11px] font-bold text-amber-700 flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-100">
+                      <AlertCircle className="w-3.5 h-3.5 text-amber-600" /> Responses are publicly visible on your profile
                     </span>
                     <Button
-                      size="sm"
                       disabled={!replyText.trim()}
                       onClick={() => handlePostReply(review.id)}
-                      className="text-xs flex items-center gap-1.5"
+                      className="h-10 px-5 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm flex items-center gap-2"
                     >
-                      <Send className="w-3.5 h-3.5" />
+                      <Send className="w-4 h-4" />
                       Post Response
                     </Button>
                   </div>
@@ -419,17 +420,18 @@ export default function Reviews() {
 
               {/* Existing Response Block */}
               {review.reply && (
-                <div className="mt-3 p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-primary flex items-center gap-1.5">
-                      <CornerDownRight className="w-3.5 h-3.5" />
+                <div className="mt-4 p-5 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-2 shadow-sm relative overflow-hidden">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500"></div>
+                  <div className="flex items-center justify-between text-sm pl-2">
+                    <span className="font-bold text-emerald-900 flex items-center gap-2">
+                      <CornerDownRight className="w-4 h-4 text-emerald-600" />
                       Response from Dr. Ananya Mehta
                     </span>
-                    <span className="text-[11px] text-text-muted">
+                    <span className="text-[10px] font-bold text-emerald-700/70 uppercase tracking-wider bg-white px-2 py-1 rounded-md shadow-sm">
                       {review.reply.date}
                     </span>
                   </div>
-                  <p className="text-xs text-text-main leading-relaxed pl-5">
+                  <p className="text-sm font-medium text-emerald-950 leading-relaxed pl-8 pt-1">
                     {review.reply.text}
                   </p>
                 </div>

@@ -73,133 +73,133 @@ export default function Analytics() {
   const [timeRange, setTimeRange] = useState<'30d' | '90d' | 'ytd' | 'all'>('90d');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
-            <TrendingUp className="h-7 w-7 text-emerald-600" />
+          <h1 className="text-3xl font-extrabold text-emerald-950 tracking-tight flex items-center gap-3">
+            <TrendingUp className="h-8 w-8 text-emerald-600" />
             Platform Analytics & Insights
           </h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-emerald-700 font-medium text-sm mt-1">
             Real-time telemetry on platform growth, consultation volumes, provider retention, and financial metrics.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="inline-flex rounded-lg border border-gray-300 bg-white p-1 text-xs font-medium text-gray-700 shadow-sm">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="inline-flex rounded-xl border border-emerald-100 bg-white p-1 text-sm font-bold text-emerald-700 shadow-sm">
             {(['30d', '90d', 'ytd', 'all'] as const).map((range) => (
               <button
                 key={range}
                 onClick={() => setTimeRange(range)}
-                className={`px-3 py-1.5 rounded-md transition-colors uppercase ${
+                className={`px-4 py-2 rounded-lg transition-all uppercase tracking-wider text-xs ${
                   timeRange === range
-                    ? 'bg-emerald-600 text-white font-semibold'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'text-emerald-600 hover:text-emerald-900 hover:bg-emerald-50'
                 }`}
               >
-                {range === '30d' ? '30 Days' : range === '90d' ? '90 Days' : range === 'ytd' ? 'Year to Date' : 'All Time'}
+                {range === '30d' ? '30 Days' : range === '90d' ? '90 Days' : range === 'ytd' ? 'YTD' : 'All Time'}
               </button>
             ))}
           </div>
 
           <button
             onClick={() => alert('Exporting Analytics Report as PDF...')}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 shadow-sm transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-emerald-100 rounded-xl text-sm font-bold text-emerald-700 bg-white hover:bg-emerald-50 shadow-sm transition-all hover:shadow"
           >
-            <Download className="h-4 w-4 text-gray-500" />
+            <Download className="h-4 w-4 text-emerald-600" />
             Export Report
           </button>
         </div>
       </div>
 
       {/* Top Level Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Metric 1 */}
-        <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between text-gray-500 mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider">Gross Booking Volume (GMV)</span>
-            <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
+        <div className="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+          <div className="flex items-center justify-between text-emerald-500 mb-4">
+            <span className="text-xs font-bold uppercase tracking-widest">Gross Booking Volume (GMV)</span>
+            <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 group-hover:scale-110 transition-transform">
               <DollarSign className="h-5 w-5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-gray-900">₹40,60,000</div>
-          <div className="flex items-center gap-1 text-xs text-emerald-600 mt-2 font-medium">
+          <div className="text-3xl font-extrabold text-emerald-950">₹40,60,000</div>
+          <div className="flex items-center gap-1.5 text-sm text-emerald-600 mt-2 font-bold">
             <ArrowUpRight className="h-4 w-4" />
             <span>+18.4%</span>
-            <span className="text-gray-400 font-normal">vs previous period</span>
+            <span className="text-emerald-400 font-medium">vs previous</span>
           </div>
         </div>
 
         {/* Metric 2 */}
-        <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between text-gray-500 mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider">Platform Take (10%)</span>
-            <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
+        <div className="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+          <div className="flex items-center justify-between text-emerald-500 mb-4">
+            <span className="text-xs font-bold uppercase tracking-widest">Platform Take (10%)</span>
+            <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform">
               <Activity className="h-5 w-5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-gray-900">₹4,06,000</div>
-          <div className="flex items-center gap-1 text-xs text-emerald-600 mt-2 font-medium">
+          <div className="text-3xl font-extrabold text-emerald-950">₹4,06,000</div>
+          <div className="flex items-center gap-1.5 text-sm text-emerald-600 mt-2 font-bold">
             <ArrowUpRight className="h-4 w-4" />
             <span>+18.4%</span>
-            <span className="text-gray-400 font-normal">net commission</span>
+            <span className="text-emerald-400 font-medium">net commission</span>
           </div>
         </div>
 
         {/* Metric 3 */}
-        <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between text-gray-500 mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider">Completed Sessions</span>
-            <div className="p-2 rounded-lg bg-purple-50 text-purple-600">
+        <div className="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+          <div className="flex items-center justify-between text-emerald-500 mb-4">
+            <span className="text-xs font-bold uppercase tracking-widest">Completed Sessions</span>
+            <div className="p-2.5 rounded-xl bg-purple-50 text-purple-600 group-hover:scale-110 transition-transform">
               <Calendar className="h-5 w-5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-gray-900">3,105</div>
-          <div className="flex items-center gap-1 text-xs text-emerald-600 mt-2 font-medium">
+          <div className="text-3xl font-extrabold text-emerald-950">3,105</div>
+          <div className="flex items-center gap-1.5 text-sm text-emerald-600 mt-2 font-bold">
             <ArrowUpRight className="h-4 w-4" />
             <span>+14.8%</span>
-            <span className="text-gray-400 font-normal">98.2% completion rate</span>
+            <span className="text-emerald-400 font-medium">98.2% completion</span>
           </div>
         </div>
 
         {/* Metric 4 */}
-        <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between text-gray-500 mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider">Active Verified Therapists</span>
-            <div className="p-2 rounded-lg bg-amber-50 text-amber-600">
+        <div className="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+          <div className="flex items-center justify-between text-emerald-500 mb-4">
+            <span className="text-xs font-bold uppercase tracking-widest">Active Verified Therapists</span>
+            <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600 group-hover:scale-110 transition-transform">
               <ShieldCheck className="h-5 w-5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-gray-900">184</div>
-          <div className="flex items-center gap-1 text-xs text-emerald-600 mt-2 font-medium">
+          <div className="text-3xl font-extrabold text-emerald-950">184</div>
+          <div className="flex items-center gap-1.5 text-sm text-emerald-600 mt-2 font-bold">
             <ArrowUpRight className="h-4 w-4" />
             <span>+12 new</span>
-            <span className="text-gray-400 font-normal">in verification queue</span>
+            <span className="text-emerald-400 font-medium">in queue</span>
           </div>
         </div>
       </div>
 
       {/* Primary Chart: Revenue and GMV Trend */}
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">Gross Booking Value & Platform Revenue Trend</h2>
-            <p className="text-xs text-gray-500">Monthly breakdown of gross patient bookings vs platform commission</p>
+            <h2 className="text-xl font-extrabold text-emerald-950">Gross Booking Value & Platform Revenue Trend</h2>
+            <p className="text-sm font-medium text-emerald-600 mt-1">Monthly breakdown of gross patient bookings vs platform commission</p>
           </div>
-          <div className="flex items-center gap-4 text-xs">
-            <div className="flex items-center gap-1.5">
-              <span className="h-3 w-3 rounded-full bg-emerald-500" />
-              <span className="text-gray-600">Gross Value (₹)</span>
+          <div className="flex items-center gap-6 text-sm font-bold">
+            <div className="flex items-center gap-2">
+              <span className="h-4 w-4 rounded-full bg-emerald-500 shadow-sm" />
+              <span className="text-emerald-900">Gross Value (₹)</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <span className="h-3 w-3 rounded-full bg-blue-500" />
-              <span className="text-gray-600">Platform Revenue (₹)</span>
+            <div className="flex items-center gap-2">
+              <span className="h-4 w-4 rounded-full bg-blue-500 shadow-sm" />
+              <span className="text-emerald-900">Platform Revenue (₹)</span>
             </div>
           </div>
         </div>
 
-        <div className="h-72 w-full pt-4">
+        <div className="h-80 w-full pt-4">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={REVENUE_DATA} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <defs>
@@ -212,66 +212,70 @@ export default function Analytics() {
                   <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F3F4F6" />
-              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} dy={8} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#059669', fontSize: 13, fontWeight: 600 }} dy={10} />
               <YAxis 
                 axisLine={false} 
                 tickLine={false} 
-                tick={{ fill: '#6B7280', fontSize: 12 }} 
+                tick={{ fill: '#059669', fontSize: 13, fontWeight: 600 }} 
                 tickFormatter={(val) => `₹${val >= 1000 ? `${(val / 1000).toFixed(0)}k` : val}`} 
-                dx={-8}
+                dx={-10}
               />
               <Tooltip 
                 formatter={(value: any) => [`₹${Number(value).toLocaleString()}`, '']}
-                contentStyle={{ borderRadius: '8px', border: '1px solid #E5E7EB', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }} 
+                contentStyle={{ borderRadius: '16px', border: '1px solid #D1FAE5', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', padding: '12px' }} 
               />
-              <Area type="monotone" dataKey="gmv" stroke="#10B981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorGmv)" name="Gross Value" />
-              <Area type="monotone" dataKey="revenue" stroke="#3B82F6" strokeWidth={2.5} fillOpacity={1} fill="url(#colorRev)" name="Platform Fee" />
+              <Area type="monotone" dataKey="gmv" stroke="#10B981" strokeWidth={3} fillOpacity={1} fill="url(#colorGmv)" name="Gross Value" />
+              <Area type="monotone" dataKey="revenue" stroke="#3B82F6" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" name="Platform Fee" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Secondary Charts: User Growth & Specializations */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* User Acquisition Bar Chart */}
-        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
+        <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-gray-900">New User Sign-ups by Role</h3>
-              <p className="text-xs text-gray-500">Monthly new registered accounts</p>
+              <h3 className="text-xl font-extrabold text-emerald-950">New User Sign-ups by Role</h3>
+              <p className="text-sm font-medium text-emerald-600 mt-1">Monthly new registered accounts</p>
             </div>
-            <Users className="h-5 w-5 text-gray-400" />
+            <div className="bg-emerald-50 p-3 rounded-2xl">
+              <Users className="h-6 w-6 text-emerald-600" />
+            </div>
           </div>
 
-          <div className="h-64 w-full pt-2">
+          <div className="h-72 w-full pt-4">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={USER_GROWTH_DATA} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F3F4F6" />
-                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} dy={6} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} />
-                <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #E5E7EB' }} />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Bar dataKey="patients" fill="#10B981" name="Patients" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="professionals" fill="#3B82F6" name="Therapists" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="students" fill="#8B5CF6" name="Students" radius={[4, 4, 0, 0]} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#059669', fontSize: 13, fontWeight: 600 }} dy={8} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#059669', fontSize: 13, fontWeight: 600 }} />
+                <Tooltip contentStyle={{ borderRadius: '16px', border: '1px solid #D1FAE5', padding: '12px' }} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '14px', fontWeight: 600, paddingTop: '20px' }} />
+                <Bar dataKey="patients" fill="#10B981" name="Patients" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="professionals" fill="#3B82F6" name="Therapists" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="students" fill="#8B5CF6" name="Students" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Specialization Breakdown */}
-        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
+        <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-gray-900">Consultations by Clinical Domain</h3>
-              <p className="text-xs text-gray-500">Percentage distribution across primary concerns</p>
+              <h3 className="text-xl font-extrabold text-emerald-950">Consultations by Clinical Domain</h3>
+              <p className="text-sm font-medium text-emerald-600 mt-1">Percentage distribution across primary concerns</p>
             </div>
-            <Award className="h-5 w-5 text-gray-400" />
+            <div className="bg-emerald-50 p-3 rounded-2xl">
+              <Award className="h-6 w-6 text-emerald-600" />
+            </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-2">
-            <div className="h-56 w-56 relative flex-shrink-0">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-8 pt-4">
+            <div className="h-64 w-64 relative flex-shrink-0">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -280,31 +284,32 @@ export default function Analytics() {
                     nameKey="name"
                     cx="50%"
                     cy="50%"
-                    innerRadius={55}
-                    outerRadius={80}
-                    paddingAngle={3}
+                    innerRadius={65}
+                    outerRadius={95}
+                    paddingAngle={4}
+                    stroke="none"
                   >
                     {SPECIALIZATION_DATA.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value: any) => [`${value}%`, 'Share']} />
+                  <Tooltip formatter={(value: any) => [`${value}%`, 'Share']} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }} />
                 </PieChart>
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-xs text-gray-400">Total</span>
-                <span className="text-lg font-bold text-gray-900">100%</span>
+                <span className="text-sm font-bold text-emerald-500 uppercase tracking-widest">Total</span>
+                <span className="text-3xl font-extrabold text-emerald-950">100%</span>
               </div>
             </div>
 
-            <div className="flex-1 space-y-2.5 w-full">
+            <div className="flex-1 space-y-4 w-full bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
               {SPECIALIZATION_DATA.map((spec) => (
-                <div key={spec.name} className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="h-3 w-3 rounded-full" style={{ backgroundColor: spec.color }} />
-                    <span className="font-medium text-gray-700">{spec.name}</span>
+                <div key={spec.name} className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="h-4 w-4 rounded-full shadow-sm" style={{ backgroundColor: spec.color }} />
+                    <span className="font-bold text-emerald-900">{spec.name}</span>
                   </div>
-                  <span className="font-bold text-gray-900">{spec.value}%</span>
+                  <span className="font-extrabold text-emerald-950">{spec.value}%</span>
                 </div>
               ))}
             </div>
@@ -313,81 +318,85 @@ export default function Analytics() {
       </div>
 
       {/* Operational Highlights & City Breakdown */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Operational Highlights Card */}
-        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
-          <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
-            <Clock className="h-5 w-5 text-emerald-600" />
+        <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6">
+          <h3 className="text-xl font-extrabold text-emerald-950 flex items-center gap-3">
+            <div className="bg-emerald-100 p-2 rounded-xl text-emerald-700">
+              <Clock className="h-6 w-6" />
+            </div>
             Clinical Quality & Operations
           </h3>
 
-          <div className="space-y-4 text-xs">
-            <div className="flex justify-between items-center py-2 border-b border-gray-100">
-              <span className="text-gray-500">Average Session Fee:</span>
-              <span className="font-semibold text-gray-900 text-sm">₹1,520 / 50 min</span>
+          <div className="space-y-5 text-sm">
+            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
+              <span className="text-emerald-700 font-bold">Average Session Fee:</span>
+              <span className="font-extrabold text-emerald-950">₹1,520 / 50 min</span>
             </div>
 
-            <div className="flex justify-between items-center py-2 border-b border-gray-100">
-              <span className="text-gray-500">Patient Repeat Rate (30d):</span>
-              <span className="font-semibold text-emerald-600 text-sm">74.6%</span>
+            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
+              <span className="text-emerald-700 font-bold">Patient Repeat Rate (30d):</span>
+              <span className="font-extrabold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">74.6%</span>
             </div>
 
-            <div className="flex justify-between items-center py-2 border-b border-gray-100">
-              <span className="text-gray-500">Average Booking Lead Time:</span>
-              <span className="font-semibold text-gray-900 text-sm">26 hours</span>
+            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
+              <span className="text-emerald-700 font-bold">Average Booking Lead Time:</span>
+              <span className="font-extrabold text-emerald-950">26 hours</span>
             </div>
 
-            <div className="flex justify-between items-center py-2 border-b border-gray-100">
-              <span className="text-gray-500">Dispute / Refund Rate:</span>
-              <span className="font-semibold text-gray-900 text-sm">0.28%</span>
+            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
+              <span className="text-emerald-700 font-bold">Dispute / Refund Rate:</span>
+              <span className="font-extrabold text-emerald-950">0.28%</span>
             </div>
 
-            <div className="flex justify-between items-center py-2 border-b border-gray-100">
-              <span className="text-gray-500">Overall Patient CSAT:</span>
-              <span className="font-semibold text-amber-600 text-sm">★ 4.88 / 5.0</span>
+            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
+              <span className="text-emerald-700 font-bold">Overall Patient CSAT:</span>
+              <span className="font-extrabold text-amber-500 bg-amber-50 px-2 py-1 rounded-lg flex items-center gap-1">★ 4.88 / 5.0</span>
             </div>
           </div>
         </div>
 
         {/* Top Geographic Hubs */}
-        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4 lg:col-span-2">
+        <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6 lg:col-span-2">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-emerald-600" />
+              <h3 className="text-xl font-extrabold text-emerald-950 flex items-center gap-3">
+                <div className="bg-emerald-100 p-2 rounded-xl text-emerald-700">
+                  <MapPin className="h-6 w-6" />
+                </div>
                 Top Geographic Service Hubs
               </h3>
-              <p className="text-xs text-gray-500">Highest volume consultation regions and in-person care</p>
+              <p className="text-sm font-medium text-emerald-600 mt-2">Highest volume consultation regions and in-person care</p>
             </div>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 text-xs text-left">
-              <thead className="bg-gray-50 text-gray-500 uppercase font-semibold">
+            <table className="min-w-full divide-y divide-emerald-100 text-sm text-left">
+              <thead className="bg-emerald-50/80 text-emerald-700 uppercase font-bold tracking-wider text-xs">
                 <tr>
-                  <th className="px-4 py-3">Metropolitan Area</th>
-                  <th className="px-4 py-3">Sessions Completed</th>
-                  <th className="px-4 py-3">Platform Share</th>
-                  <th className="px-4 py-3">MoM Growth</th>
-                  <th className="px-4 py-3 text-right">Status</th>
+                  <th className="px-6 py-4">Metropolitan Area</th>
+                  <th className="px-6 py-4">Sessions Completed</th>
+                  <th className="px-6 py-4">Platform Share</th>
+                  <th className="px-6 py-4">MoM Growth</th>
+                  <th className="px-6 py-4 text-right">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-emerald-50 bg-white">
                 {CITY_METRICS.map((item) => (
-                  <tr key={item.city} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-4 py-3 font-semibold text-gray-900">{item.city}</td>
-                    <td className="px-4 py-3 text-gray-600">{item.sessions.toLocaleString()}</td>
-                    <td className="px-4 py-3 text-gray-600">
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                          <div className="bg-emerald-600 h-1.5 rounded-full" style={{ width: item.share }} />
+                  <tr key={item.city} className="hover:bg-emerald-50/50 transition-colors">
+                    <td className="px-6 py-4 font-extrabold text-emerald-950">{item.city}</td>
+                    <td className="px-6 py-4 text-emerald-700 font-bold">{item.sessions.toLocaleString()}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-20 bg-emerald-100 rounded-full h-2.5 overflow-hidden shadow-inner">
+                          <div className="bg-emerald-500 h-2.5 rounded-full" style={{ width: item.share }} />
                         </div>
-                        <span>{item.share}</span>
+                        <span className="font-bold text-emerald-900">{item.share}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-emerald-600 font-semibold">{item.growth}</td>
-                    <td className="px-4 py-3 text-right">
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-medium">
+                    <td className="px-6 py-4 text-emerald-600 font-extrabold">{item.growth}</td>
+                    <td className="px-6 py-4 text-right">
+                      <span className="px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 text-xs font-bold shadow-sm">
                         Active Hub
                       </span>
                     </td>

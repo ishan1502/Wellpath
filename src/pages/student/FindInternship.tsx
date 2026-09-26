@@ -96,85 +96,87 @@ export default function FindInternship() {
   });
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-8 animate-fade-in font-sans text-emerald-900">
       <div>
-        <h1 className="text-2xl font-bold text-text-main">Find Internships</h1>
-        <p className="text-text-muted mt-1">
+        <h1 className="text-3xl font-extrabold tracking-tight">Find Internships</h1>
+        <p className="text-emerald-700/80 font-medium mt-2">
           Apply to learn directly from verified mental health professionals.
         </p>
       </div>
 
-      <div className="bg-surface rounded-xl p-4 border border-border shadow-sm flex items-center gap-3">
-        <Search className="text-gray-400 w-5 h-5 ml-2" />
+      <div className="bg-white rounded-3xl p-3 border-0 shadow-sm flex items-center gap-3">
+        <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center shrink-0">
+          <Search className="text-emerald-600 w-5 h-5" />
+        </div>
         <input
           type="text"
           placeholder="Search by specialty, name, or location..."
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
-          className="flex-1 bg-transparent border-none focus:ring-0 text-text-main placeholder:text-gray-400 outline-none"
+          className="flex-1 bg-transparent border-none focus:ring-0 text-emerald-900 font-medium placeholder:text-emerald-900/30 outline-none"
         />
-        <button className="px-4 py-2 bg-primary text-primary-content rounded-lg font-medium hover:bg-primary-dark transition-colors">
+        <button className="px-6 py-4 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-md hover:shadow-lg">
           Search
         </button>
       </div>
 
       {loading ? (
-        <div className="text-center py-12">
-          <div className="inline-block animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-          <p className="mt-4 text-text-muted">Loading opportunities...</p>
+        <div className="text-center py-20">
+          <div className="inline-block animate-spin w-10 h-10 border-4 border-emerald-600 border-t-transparent rounded-full" />
+          <p className="mt-4 text-emerald-900/60 font-bold">Loading opportunities...</p>
         </div>
       ) : filteredProfessionals.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
-          <Briefcase className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-          <h3 className="text-lg font-medium text-gray-900">No opportunities found</h3>
-          <p className="text-gray-500 mt-1">
+        <div className="text-center py-20 bg-white rounded-3xl border-0 shadow-sm">
+          <Briefcase className="w-16 h-16 text-emerald-100 mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-emerald-900">No opportunities found</h3>
+          <p className="text-emerald-700/60 mt-2 font-medium max-w-md mx-auto">
             {searchQuery
               ? `No professionals matched "${searchQuery}". Try a different search.`
               : 'There are currently no professionals accepting interns.'}
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {filteredProfessionals.map((prof) => (
-            <div key={prof.id} className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden flex flex-col">
-              <div className="p-6 flex-1">
-                <div className="flex gap-4">
+            <div key={prof.id} className="bg-white rounded-3xl border-0 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
+              <div className="p-8 flex-1">
+                <div className="flex gap-6">
                   {prof.avatarUrl ? (
-                    <img src={prof.avatarUrl} alt={prof.firstName} className="w-14 h-14 rounded-full object-cover border border-gray-200" />
+                    <img src={prof.avatarUrl} alt={prof.firstName} className="w-20 h-20 rounded-2xl object-cover shadow-sm" />
                   ) : (
-                    <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xl shrink-0">
+                    <div className="w-20 h-20 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-900 font-extrabold text-2xl shrink-0 shadow-sm">
                       {prof.firstName.charAt(0)}{prof.lastName.charAt(0)}
                     </div>
                   )}
                   <div>
-                    <h3 className="font-bold text-lg text-text-main">Dr. {prof.firstName} {prof.lastName}</h3>
-                    <p className="text-primary text-sm font-medium">{prof.type}</p>
-                    <div className="flex items-center text-sm text-text-muted mt-1 gap-3">
-                      <span className="flex items-center"><Star className="w-3.5 h-3.5 text-amber-400 mr-1" fill="currentColor" /> {prof.rating}</span>
-                      <span className="flex items-center"><MapPin className="w-3.5 h-3.5 mr-1" /> {prof.location || 'Remote'}</span>
+                    <h3 className="font-bold text-xl text-emerald-900">Dr. {prof.firstName} {prof.lastName}</h3>
+                    <p className="text-emerald-600 text-sm font-bold mt-1">{prof.type}</p>
+                    <div className="flex flex-wrap items-center text-xs font-bold text-emerald-800/70 mt-3 gap-3">
+                      <span className="flex items-center bg-gray-50 px-2 py-1 rounded-lg border border-gray-100"><Star className="w-3.5 h-3.5 text-amber-400 mr-1.5" fill="currentColor" /> {prof.rating}</span>
+                      <span className="flex items-center bg-gray-50 px-2 py-1 rounded-lg border border-gray-100"><MapPin className="w-3.5 h-3.5 mr-1.5 text-emerald-600" /> {prof.location || 'Remote'}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-border">
-                  <p className="text-sm text-text-muted line-clamp-2">{prof.about}</p>
+                <div className="mt-6 pt-6 border-t border-gray-50">
+                  <p className="text-sm text-emerald-900/70 font-medium leading-relaxed line-clamp-2">{prof.about}</p>
                 </div>
 
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-6 flex flex-wrap gap-2">
                   {prof.specializations.slice(0, 3).map((spec, i) => (
-                    <span key={i} className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-medium">{spec}</span>
+                    <span key={i} className="px-3 py-1.5 bg-emerald-50 border border-emerald-100 text-emerald-900 text-xs rounded-xl font-bold">{spec}</span>
                   ))}
                   {prof.specializations.length > 3 && (
-                    <span className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-medium">+{prof.specializations.length - 3} more</span>
+                    <span className="px-3 py-1.5 bg-emerald-50 border border-emerald-100 text-emerald-900 text-xs rounded-xl font-bold">+{prof.specializations.length - 3} more</span>
                   )}
                 </div>
               </div>
-              <div className="p-4 bg-gray-50 border-t border-border">
+              <div className="p-5 bg-gray-50/50 border-t border-gray-50">
                 <button
                   onClick={() => setSelectedProfessional(prof)}
-                  className="w-full py-2 bg-primary text-primary-content rounded-lg font-medium hover:bg-primary-dark transition-colors flex items-center justify-center"
+                  className="w-full py-4 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md flex items-center justify-center"
                 >
-                  <FileText className="w-4 h-4 mr-2" /> Apply for Internship
+                  <FileText className="w-5 h-5 mr-2" /> Apply for Internship
                 </button>
               </div>
             </div>
@@ -184,56 +186,57 @@ export default function FindInternship() {
 
       {/* Application Modal */}
       {selectedProfessional && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-surface rounded-2xl shadow-xl w-full max-w-lg overflow-hidden max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-emerald-900/40 backdrop-blur-sm animate-in">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] flex flex-col font-sans text-emerald-900">
             {/* Header */}
-            <div className="p-6 border-b border-border flex justify-between items-center shrink-0">
-              <h3 className="text-xl font-bold text-text-main">
-                Apply to Dr. {selectedProfessional.firstName} {selectedProfessional.lastName}
-              </h3>
-              <button onClick={closeModal} className="text-gray-400 hover:text-gray-600 text-2xl leading-none font-light">
-                ×
+            <div className="p-8 border-b border-gray-100 flex justify-between items-center shrink-0 bg-gray-50/50">
+              <div>
+                <h3 className="text-2xl font-extrabold tracking-tight">
+                  Apply to Dr. {selectedProfessional.firstName} {selectedProfessional.lastName}
+                </h3>
+                <p className="text-sm text-emerald-600 font-bold mt-1">Submit your internship application</p>
+              </div>
+              <button onClick={closeModal} className="p-3 bg-white rounded-full text-emerald-900/50 hover:text-emerald-900 hover:bg-emerald-50 transition-all shadow-sm">
+                <span className="text-xl leading-none font-bold">×</span>
               </button>
             </div>
 
             {/* Body */}
-            <div className="p-6 overflow-y-auto space-y-5 flex-1">
-              <p className="text-sm text-gray-600">
-                Tell the professional why you want to intern with them and what you hope to learn.
-              </p>
-
+            <div className="p-8 overflow-y-auto space-y-8 flex-1">
               {/* Profile as Resume toggle */}
-              <div className="flex items-start gap-3 p-4 rounded-xl border border-emerald-200 bg-emerald-50/40">
-                <input
-                  id="useProfile"
-                  type="checkbox"
-                  checked={useProfileAsResume}
-                  onChange={e => setUseProfileAsResume(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
-                />
+              <div className="flex items-start gap-4 p-6 rounded-3xl border border-emerald-100 bg-emerald-50/50 shadow-sm">
+                <div className="mt-1 relative flex items-center">
+                  <input
+                    id="useProfile"
+                    type="checkbox"
+                    checked={useProfileAsResume}
+                    onChange={e => setUseProfileAsResume(e.target.checked)}
+                    className="w-5 h-5 text-emerald-600 border-emerald-300 rounded focus:ring-emerald-500 cursor-pointer"
+                  />
+                </div>
                 <div className="flex-1">
-                  <label htmlFor="useProfile" className="text-sm font-semibold text-text-main cursor-pointer flex items-center gap-1.5">
-                    <UserCheck className="w-4 h-4 text-primary" />
-                    Add my Profile as Resume
+                  <label htmlFor="useProfile" className="text-base font-bold cursor-pointer flex items-center gap-2">
+                    <UserCheck className="w-5 h-5 text-emerald-600" />
+                    Attach Profile as Resume
                   </label>
-                  <p className="text-xs text-text-muted mt-0.5">
+                  <p className="text-sm text-emerald-700/70 font-medium mt-1">
                     Your education, certifications, and skills will be included with your application.
                     {!studentProfile && (
                       <Link
                         to="/student/profile"
                         onClick={closeModal}
-                        className="text-amber-600 underline font-medium ml-1"
+                        className="text-emerald-600 hover:text-emerald-700 underline font-bold ml-1.5"
                       >
                         Set up your profile first →
                       </Link>
                     )}
                   </p>
                   {useProfileAsResume && studentProfile && (
-                    <div className="mt-2 text-xs text-emerald-800 space-y-0.5">
-                      {studentProfile.fieldOfStudy && <p>📚 {studentProfile.fieldOfStudy} · {studentProfile.currentYear}</p>}
-                      {studentProfile.education?.length > 0 && <p>🎓 {studentProfile.education.length} education entr{studentProfile.education.length === 1 ? 'y' : 'ies'}</p>}
-                      {studentProfile.certificates?.length > 0 && <p>🏆 {studentProfile.certificates.length} certificate(s)</p>}
-                      {studentProfile.skills?.length > 0 && <p>⚡ {studentProfile.skills.slice(0, 4).join(', ')}{studentProfile.skills.length > 4 ? '...' : ''}</p>}
+                    <div className="mt-4 p-4 bg-white rounded-2xl border border-emerald-100 text-sm font-medium text-emerald-800 space-y-2 shadow-sm">
+                      {studentProfile.fieldOfStudy && <p className="flex items-center gap-2">📚 {studentProfile.fieldOfStudy} · {studentProfile.currentYear}</p>}
+                      {studentProfile.education?.length > 0 && <p className="flex items-center gap-2">🎓 {studentProfile.education.length} education entr{studentProfile.education.length === 1 ? 'y' : 'ies'}</p>}
+                      {studentProfile.certificates?.length > 0 && <p className="flex items-center gap-2">🏆 {studentProfile.certificates.length} certificate(s)</p>}
+                      {studentProfile.skills?.length > 0 && <p className="flex items-center gap-2">⚡ {studentProfile.skills.slice(0, 4).join(', ')}{studentProfile.skills.length > 4 ? '...' : ''}</p>}
                     </div>
                   )}
                 </div>
@@ -241,58 +244,58 @@ export default function FindInternship() {
 
               {/* Motivation Statement */}
               <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-medium text-gray-700">
+                <div className="flex justify-between items-center mb-3">
+                  <label className="block text-base font-bold">
                     Motivation Statement <span className="text-red-500">*</span>
                   </label>
-                  <span className={`text-xs font-semibold ${
-                    wordCount === 0 ? 'text-gray-400' :
-                    wordCount < MIN_WORDS ? 'text-amber-600' :
-                    wordCount > MAX_WORDS ? 'text-red-600' :
-                    'text-emerald-600'
+                  <span className={`px-3 py-1 rounded-xl text-xs font-bold ${
+                    wordCount === 0 ? 'bg-gray-100 text-gray-500' :
+                    wordCount < MIN_WORDS ? 'bg-amber-100 text-amber-700' :
+                    wordCount > MAX_WORDS ? 'bg-red-100 text-red-700' :
+                    'bg-emerald-100 text-emerald-700'
                   }`}>
                     {wordCount} / {MAX_WORDS} words
                   </span>
                 </div>
                 <textarea
-                  rows={7}
-                  className="w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary focus:ring-1 focus:ring-primary text-sm p-3 resize-none outline-none"
+                  rows={8}
+                  className="w-full rounded-2xl border border-gray-200 bg-gray-50/50 shadow-inner focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm font-medium p-5 resize-none outline-none transition-all"
                   placeholder={`Write your motivation statement — minimum ${MIN_WORDS} words, maximum ${MAX_WORDS} words. Explain why you want to intern with them, your background, and what you hope to learn...`}
                   value={motivationText}
                   onChange={e => setMotivationText(e.target.value)}
                 />
-                <div className="mt-1.5">
+                <div className="mt-3">
                   {wordCount > 0 && wordCount < MIN_WORDS && (
-                    <p className="text-xs text-amber-600 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                    <p className="text-sm font-bold text-amber-600 flex items-center gap-1.5">
+                      <AlertCircle className="w-4 h-4" />
                       {MIN_WORDS - wordCount} more words needed (minimum {MIN_WORDS})
                     </p>
                   )}
                   {wordCount > MAX_WORDS && (
-                    <p className="text-xs text-red-600 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                    <p className="text-sm font-bold text-red-600 flex items-center gap-1.5">
+                      <AlertCircle className="w-4 h-4" />
                       {wordCount - MAX_WORDS} words over the limit (maximum {MAX_WORDS})
                     </p>
                   )}
                   {isWordCountValid && (
-                    <p className="text-xs text-emerald-600 flex items-center gap-1">✓ Word count is within the required range</p>
+                    <p className="text-sm font-bold text-emerald-600 flex items-center gap-1.5">✓ Word count is optimal</p>
                   )}
                 </div>
               </div>
             </div>
 
             {/* Footer */}
-            <div className="p-4 bg-gray-50 border-t border-border flex justify-end gap-3 shrink-0">
+            <div className="p-6 bg-gray-50/50 border-t border-gray-100 flex justify-end gap-4 shrink-0">
               <button
                 onClick={closeModal}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="px-6 py-4 bg-white border border-gray-200 rounded-2xl font-bold text-gray-500 hover:bg-gray-50 transition-all shadow-sm"
               >
                 Cancel
               </button>
               <button
                 onClick={handleApply}
                 disabled={!isWordCountValid}
-                className="px-4 py-2 bg-primary text-primary-content rounded-lg text-sm font-medium hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
               >
                 Submit Application
               </button>

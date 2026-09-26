@@ -11,57 +11,57 @@ export default function Dashboard() {
   const applications = JSON.parse(applicationsStr);
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in font-sans text-emerald-900">
       {/* Header */}
-      <section className="bg-surface rounded-2xl p-6 md:p-8 border border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <section className="bg-white rounded-3xl p-8 md:p-10 border-0 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-text-main">
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
             Welcome back, {user?.firstName || 'Student'}!
           </h1>
-          <p className="text-text-muted mt-2">
+          <p className="text-emerald-700/80 font-medium mt-2 max-w-2xl">
             Track your internship applications and find new opportunities to learn from verified professionals.
           </p>
         </div>
         <Link 
           to="/student/find-internship"
-          className="inline-flex items-center justify-center px-4 py-2 bg-primary text-primary-content font-medium rounded-lg hover:bg-primary-dark transition-colors"
+          className="inline-flex items-center justify-center px-6 py-4 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all shadow-md hover:shadow-lg whitespace-nowrap"
         >
-          <Search className="w-5 h-5 mr-2" />
+          <Search className="w-5 h-5 mr-2.5" />
           Find Internships
         </Link>
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-surface p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-          <div className="h-12 w-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-            <Briefcase className="w-6 h-6" />
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="bg-white p-8 rounded-3xl border-0 shadow-sm hover:shadow-xl transition-all duration-300 flex items-center gap-6">
+          <div className="h-16 w-16 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shadow-sm">
+            <Briefcase className="w-8 h-8" />
           </div>
           <div>
-            <p className="text-sm text-text-muted font-medium">Total Applications</p>
-            <p className="text-2xl font-bold text-text-main">{applications.length}</p>
+            <p className="text-sm text-emerald-700/70 font-bold uppercase tracking-wider mb-1">Total Apps</p>
+            <p className="text-4xl font-extrabold">{applications.length}</p>
           </div>
         </div>
         
-        <div className="bg-surface p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-          <div className="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
-            <GraduationCap className="w-6 h-6" />
+        <div className="bg-white p-8 rounded-3xl border-0 shadow-sm hover:shadow-xl transition-all duration-300 flex items-center gap-6">
+          <div className="h-16 w-16 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 shadow-sm">
+            <GraduationCap className="w-8 h-8" />
           </div>
           <div>
-            <p className="text-sm text-text-muted font-medium">Pending Review</p>
-            <p className="text-2xl font-bold text-text-main">
+            <p className="text-sm text-amber-700/70 font-bold uppercase tracking-wider mb-1">Pending</p>
+            <p className="text-4xl font-extrabold text-amber-900">
               {applications.filter((a: any) => a.status === 'pending').length}
             </p>
           </div>
         </div>
 
-        <div className="bg-surface p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-          <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-            <Building2 className="w-6 h-6" />
+        <div className="bg-white p-8 rounded-3xl border-0 shadow-sm hover:shadow-xl transition-all duration-300 flex items-center gap-6 md:col-span-2 lg:col-span-1">
+          <div className="h-16 w-16 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shadow-sm">
+            <Building2 className="w-8 h-8" />
           </div>
           <div>
-            <p className="text-sm text-text-muted font-medium">Accepted</p>
-            <p className="text-2xl font-bold text-text-main">
+            <p className="text-sm text-blue-700/70 font-bold uppercase tracking-wider mb-1">Accepted</p>
+            <p className="text-4xl font-extrabold text-blue-900">
               {applications.filter((a: any) => a.status === 'accepted').length}
             </p>
           </div>
@@ -69,47 +69,45 @@ export default function Dashboard() {
       </section>
 
       {/* Recent Applications */}
-      <section className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-border flex justify-between items-center">
-          <h2 className="text-lg font-bold text-text-main">Recent Applications</h2>
-          <Link to="/student/applications" className="text-sm font-medium text-primary hover:text-primary-dark flex items-center">
+      <section className="bg-white rounded-3xl border-0 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
+        <div className="p-8 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
+          <h2 className="text-xl font-bold">Recent Applications</h2>
+          <Link to="/student/applications" className="text-sm font-bold text-emerald-600 hover:text-emerald-800 transition-colors flex items-center bg-emerald-50 px-4 py-2 rounded-xl">
             View All <ChevronRight className="w-4 h-4 ml-1" />
           </Link>
         </div>
         <div className="p-0">
           {applications.length === 0 ? (
-            <div className="p-8 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
-                <Briefcase className="w-8 h-8 text-gray-400" />
+            <div className="p-16 text-center">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gray-50 border border-gray-100 mb-6 shadow-sm">
+                <Briefcase className="w-10 h-10 text-emerald-900/30" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900">No applications yet</h3>
-              <p className="mt-1 text-gray-500 max-w-sm mx-auto">
+              <h3 className="text-xl font-bold mb-2">No applications yet</h3>
+              <p className="text-emerald-700/70 max-w-sm mx-auto font-medium mb-8">
                 You haven't applied to any internships yet. Browse available professionals to start learning.
               </p>
-              <div className="mt-6">
-                <Link to="/student/find-internship" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-content bg-primary hover:bg-primary-dark">
-                  Browse Professionals
-                </Link>
-              </div>
+              <Link to="/student/find-internship" className="inline-flex items-center px-8 py-4 text-sm font-bold rounded-2xl text-white bg-emerald-600 hover:bg-emerald-700 transition-all shadow-md hover:shadow-lg">
+                Browse Professionals
+              </Link>
             </div>
           ) : (
-            <div className="divide-y divide-border">
+            <div className="divide-y divide-gray-50">
               {applications.slice(0, 5).map((app: any, idx: number) => (
-                <div key={idx} className="p-6 hover:bg-gray-50 transition-colors flex items-center justify-between">
+                <div key={idx} className="p-6 md:p-8 hover:bg-gray-50/50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <h3 className="font-medium text-text-main flex items-center gap-2">
+                    <h3 className="font-bold text-lg mb-1 flex items-center gap-2">
                       Application to {app.professionalName || 'Professional'}
                     </h3>
-                    <div className="flex items-center gap-4 mt-1 text-sm text-text-muted">
-                      <span className="flex items-center"><MapPin className="w-3.5 h-3.5 mr-1" /> {app.location || 'Remote'}</span>
+                    <div className="flex items-center gap-4 text-sm text-emerald-700/70 font-medium">
+                      <span className="flex items-center bg-gray-50 px-3 py-1 rounded-lg border border-gray-100"><MapPin className="w-3.5 h-3.5 mr-1.5 text-emerald-600" /> {app.location || 'Remote'}</span>
                       <span className="flex items-center">Applied: {new Date(app.appliedAt).toLocaleDateString()}</span>
                     </div>
                   </div>
                   <div>
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-                      ${app.status === 'accepted' ? 'bg-green-100 text-green-800' : 
-                        app.status === 'rejected' ? 'bg-red-100 text-red-800' : 
-                        'bg-amber-100 text-amber-800'}`}>
+                    <span className={`inline-flex items-center px-4 py-2 rounded-xl text-xs font-bold capitalize shadow-sm
+                      ${app.status === 'accepted' ? 'bg-emerald-50 text-emerald-800 border border-emerald-100' : 
+                        app.status === 'rejected' ? 'bg-red-50 text-red-800 border border-red-100' : 
+                        'bg-amber-50 text-amber-800 border border-amber-100'}`}>
                       {app.status}
                     </span>
                   </div>

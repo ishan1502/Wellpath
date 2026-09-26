@@ -10,10 +10,24 @@ export const getProfessionalById = async (id: string): Promise<Professional | un
 
   if (error || !data) return undefined;
 
+  let fallbackFirstName = 'Professional';
+  let fallbackLastName = '';
+  if (!data.users && data.bio) {
+    if (data.bio.startsWith('Dr. ')) {
+       const parts = data.bio.split(' ');
+       fallbackFirstName = 'Dr. ' + parts[1];
+       fallbackLastName = parts[2] || '';
+    } else {
+       const parts = data.bio.split(' ');
+       fallbackFirstName = parts[0];
+       fallbackLastName = parts[1] || '';
+    }
+  }
+
   return {
     id: data.id,
-    firstName: data.users?.first_name || 'Professional',
-    lastName: data.users?.last_name || '',
+    firstName: data.users?.first_name || fallbackFirstName,
+    lastName: data.users?.last_name || fallbackLastName,
     email: data.users?.email || '',
     role: data.users?.role || 'professional',
     avatarUrl: data.users?.avatar_url || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300',
@@ -49,35 +63,52 @@ export const professionalService = {
 
     if (error || !data) return [];
 
-    return data.map((d: any) => ({
-      id: d.id,
-      firstName: d.users?.first_name || 'Professional',
-      lastName: d.users?.last_name || '',
-      email: d.users?.email || '',
-      role: d.users?.role || 'professional',
-      avatarUrl: d.users?.avatar_url || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300',
-      title: d.title || 'Therapist',
-      type: d.title || 'Therapist',
-      specializations: d.specialty ? [d.specialty] : ['Counseling'],
-      hourlyRate: d.hourly_rate || 120,
-      rating: 4.9,
-      reviewCount: 12,
-      bio: d.bio || '',
-      verificationStatus: d.verification_status || 'approved',
-      verificationDocUrl: d.verification_doc_url || '',
-      isVerified: d.verification_status === 'approved',
-      acceptsInterns: true,
-      subscriptionPaid: true,
-      yearsExperience: d.years_experience || 6,
-      languages: ['English'],
-      sessionFee: d.hourly_rate || 120,
-      sessionDuration: 50,
-      isOnlineAvailable: true,
-      isInPersonAvailable: true,
-      about: d.bio || '',
-      approach: 'Compassionate, evidence-guided care.',
-      qualifications: [d.title || 'Licensed Practitioner']
-    })) as Professional[];
+    return data.map((d: any) => {
+      // Fallback name extraction from bio if users record is missing due to RLS
+      let fallbackFirstName = 'Professional';
+      let fallbackLastName = '';
+      if (!d.users && d.bio) {
+        if (d.bio.startsWith('Dr. ')) {
+           const parts = d.bio.split(' ');
+           fallbackFirstName = 'Dr. ' + parts[1];
+           fallbackLastName = parts[2] || '';
+        } else {
+           const parts = d.bio.split(' ');
+           fallbackFirstName = parts[0];
+           fallbackLastName = parts[1] || '';
+        }
+      }
+
+      return {
+        id: d.id,
+        firstName: d.users?.first_name || fallbackFirstName,
+        lastName: d.users?.last_name || fallbackLastName,
+        email: d.users?.email || '',
+        role: d.users?.role || 'professional',
+        avatarUrl: d.users?.avatar_url || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300',
+        title: d.title || 'Therapist',
+        type: d.title || 'Therapist',
+        specializations: d.specialty ? [d.specialty] : ['Counseling'],
+        hourlyRate: d.hourly_rate || 120,
+        rating: 4.9,
+        reviewCount: 12,
+        bio: d.bio || '',
+        verificationStatus: d.verification_status || 'approved',
+        verificationDocUrl: d.verification_doc_url || '',
+        isVerified: d.verification_status === 'approved',
+        acceptsInterns: true,
+        subscriptionPaid: true,
+        yearsExperience: d.years_experience || 6,
+        languages: ['English'],
+        sessionFee: d.hourly_rate || 120,
+        sessionDuration: 50,
+        isOnlineAvailable: true,
+        isInPersonAvailable: true,
+        about: d.bio || '',
+        approach: 'Compassionate, evidence-guided care.',
+        qualifications: [d.title || 'Licensed Practitioner']
+      };
+    }) as Professional[];
   },
 
   getProfessionalById,

@@ -111,6 +111,7 @@ const AdminEvents = React.lazy(() => import('./pages/admin/Events').catch(() => 
 // New Pages
 const JobBoard = React.lazy(() => import('./pages/public/JobBoard').catch(() => ({ default: () => <Placeholder title="Jobs & Internships" /> })));
 const Events = React.lazy(() => import('./pages/public/Events').catch(() => ({ default: () => <Placeholder title="Events & Webinars" /> })));
+const Courses = React.lazy(() => import('./pages/public/Courses').catch(() => ({ default: () => <Placeholder title="Courses & Certifications" /> })));
 const PostJob = React.lazy(() => import('./pages/professional/PostJob').catch(() => ({ default: () => <Placeholder title="Post Job/Internship" /> })));
 const PostEvent = React.lazy(() => import('./pages/professional/PostEvent').catch(() => ({ default: () => <Placeholder title="Post Event" /> })));
 const Privacy = React.lazy(() => import('./pages/public/Privacy').catch(() => ({ default: () => <Placeholder title="Privacy Policy" /> })));
@@ -134,6 +135,7 @@ function App() {
               <Route path="matching" element={<Matching />} />
               <Route path="how-it-works" element={<HowItWorks />} />
               <Route path="resources" element={<Resources />} />
+              <Route path="courses" element={<Courses />} />
               <Route path="about" element={<AboutUs />} />
               <Route path="for-professionals" element={<ForProfessionals />} />
               <Route path="jobs" element={<JobBoard />} />

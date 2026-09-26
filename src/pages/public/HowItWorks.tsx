@@ -116,43 +116,48 @@ const HowItWorks = () => {
   ];
 
   return (
-    <div className="bg-gray-50 text-gray-900 min-h-screen">
+    <div className="bg-gray-50 text-emerald-900 min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-emerald-50/70 via-white to-gray-50 py-16 lg:py-24 border-b border-gray-100 overflow-hidden">
+      <section className="relative bg-emerald-900 text-white py-20 lg:py-32 rounded-b-[3rem] shadow-xl overflow-hidden mb-16">
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+          <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] rounded-full bg-emerald-800/50 blur-3xl"></div>
+          <div className="absolute top-[60%] -right-[10%] w-[60%] h-[60%] rounded-full bg-emerald-800/40 blur-3xl"></div>
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 mb-6">
-            <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-800/60 backdrop-blur-md text-emerald-200 mb-8 border border-emerald-700/50">
+            <Sparkles className="w-4 h-4 mr-2" />
             Clear, Compassionate & Transparent
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight max-w-3xl mx-auto leading-tight">
-            How <span className="text-emerald-600">WELLPath</span> Works
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight max-w-3xl mx-auto leading-tight">
+            How <span className="text-emerald-400">WELLPath</span> Works
           </h1>
-          <p className="mt-6 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-8 text-lg sm:text-xl text-emerald-100/90 max-w-2xl mx-auto leading-relaxed">
             A seamless journey towards mental wellbeing and professional growth. Whether you are looking for therapy or clinical mentorship, here is how we guide you every step of the way.
           </p>
 
           {/* Toggle Tabs */}
-          <div className="mt-10 inline-flex p-1.5 bg-gray-200/70 backdrop-blur rounded-2xl shadow-inner border border-gray-200">
+          <div className="mt-12 inline-flex p-1.5 bg-emerald-800/50 backdrop-blur-md rounded-2xl shadow-inner border border-emerald-700/50">
             <button
               onClick={() => setActiveTab('patient')}
-              className={`flex items-center px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={`flex items-center px-8 py-4 rounded-xl text-sm font-bold transition-all duration-300 ${
                 activeTab === 'patient'
-                  ? 'bg-white text-emerald-800 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-white text-emerald-900 shadow-sm'
+                  : 'text-emerald-100 hover:text-white hover:bg-emerald-700/50'
               }`}
             >
-              <HeartHandshake className="w-4 h-4 mr-2" />
+              <HeartHandshake className="w-5 h-5 mr-2" />
               For Clients & Patients
             </button>
             <button
               onClick={() => setActiveTab('student')}
-              className={`flex items-center px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={`flex items-center px-8 py-4 rounded-xl text-sm font-bold transition-all duration-300 ${
                 activeTab === 'student'
-                  ? 'bg-white text-emerald-800 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-white text-emerald-900 shadow-sm'
+                  : 'text-emerald-100 hover:text-white hover:bg-emerald-700/50'
               }`}
             >
-              <GraduationCap className="w-4 h-4 mr-2" />
+              <GraduationCap className="w-5 h-5 mr-2" />
               For Students & Interns
             </button>
           </div>
@@ -160,12 +165,12 @@ const HowItWorks = () => {
       </section>
 
       {/* Step by step process */}
-      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl sm:text-4xl font-bold text-emerald-900">
             {activeTab === 'patient' ? 'Your 4-Step Healing Journey' : 'Your 4-Step Mentorship Path'}
           </h2>
-          <p className="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-emerald-700/80 max-w-2xl mx-auto">
             {activeTab === 'patient'
               ? 'From your first search to ongoing therapy sessions, we ensure a smooth, dignified, and comfortable experience.'
               : 'Bridge the gap between theoretical psychology education and hands-on supervised clinical learning.'}
@@ -178,29 +183,29 @@ const HowItWorks = () => {
             return (
               <div 
                 key={idx}
-                className="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative flex flex-col justify-between"
+                className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 relative flex flex-col justify-between group border border-emerald-50"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-                      <Icon className="w-6 h-6" />
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold group-hover:scale-110 transition-transform duration-300">
+                      <Icon className="w-7 h-7" />
                     </div>
-                    <span className="text-3xl font-black text-gray-200">
+                    <span className="text-4xl font-black text-emerald-50">
                       {item.step}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 leading-snug">
+                  <h3 className="text-xl font-bold text-emerald-900 mb-4 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                  <p className="text-emerald-800/70 text-sm leading-relaxed mb-8">
                     {item.description}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-gray-50 space-y-2">
+                <div className="pt-6 border-t border-emerald-50 space-y-3">
                   {item.details.map((detail, dIdx) => (
-                    <div key={dIdx} className="flex items-start text-xs text-gray-500">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <div key={dIdx} className="flex items-start text-xs text-emerald-700/80 font-medium">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" />
                       <span>{detail}</span>
                     </div>
                   ))}
@@ -211,35 +216,35 @@ const HowItWorks = () => {
         </div>
 
         {/* Dynamic CTA depending on tab */}
-        <div className="mt-12 text-center">
+        <div className="mt-16 text-center">
           {activeTab === 'patient' ? (
-            <div className="inline-flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to="/find-professional"
-                className="inline-flex items-center px-6 py-3.5 rounded-xl text-white bg-emerald-600 hover:bg-emerald-700 font-medium shadow-md shadow-emerald-200 transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-2xl text-white bg-emerald-600 hover:bg-emerald-700 font-bold shadow-sm hover:shadow-xl transition-all duration-300"
               >
                 Browse Therapists
-                <ArrowRight className="ml-2 w-4 h-4" />
+                <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
               <Link
                 to="/matching"
-                className="inline-flex items-center px-6 py-3.5 rounded-xl text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 font-medium transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-2xl text-emerald-800 bg-white hover:bg-emerald-50 font-bold shadow-sm hover:shadow-xl transition-all duration-300 border border-emerald-100"
               >
                 Take the Matching Quiz
               </Link>
             </div>
           ) : (
-            <div className="inline-flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to="/student/signup"
-                className="inline-flex items-center px-6 py-3.5 rounded-xl text-white bg-emerald-600 hover:bg-emerald-700 font-medium shadow-md shadow-emerald-200 transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-2xl text-white bg-emerald-600 hover:bg-emerald-700 font-bold shadow-sm hover:shadow-xl transition-all duration-300"
               >
                 Sign Up as a Student
-                <ArrowRight className="ml-2 w-4 h-4" />
+                <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
               <Link
                 to="/for-professionals"
-                className="inline-flex items-center px-6 py-3.5 rounded-xl text-gray-700 bg-white hover:bg-gray-50 border border-gray-200 font-medium transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-2xl text-emerald-800 bg-white hover:bg-emerald-50 font-bold shadow-sm hover:shadow-xl transition-all duration-300 border border-emerald-100"
               >
                 Learn How Supervisors Post Internships
               </Link>
@@ -249,42 +254,42 @@ const HowItWorks = () => {
       </section>
 
       {/* Trust & Quality Pillars */}
-      <section className="py-16 bg-white border-y border-gray-200">
+      <section className="py-24 bg-white border-y border-emerald-100 rounded-3xl mx-4 sm:mx-6 lg:mx-8 mb-16 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold text-gray-900">Why Patients & Clinicians Trust Us</h2>
-            <p className="mt-3 text-gray-600">
+            <h2 className="text-3xl font-bold text-emerald-900">Why Patients & Clinicians Trust Us</h2>
+            <p className="mt-4 text-emerald-700/80">
               We uphold the highest clinical, ethical, and technological standards in modern mental healthcare.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 rounded-2xl bg-gray-50 border border-gray-100 flex flex-col items-center text-center">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-5">
-                <ShieldCheck className="w-7 h-7" />
+            <div className="p-10 rounded-3xl bg-emerald-50/50 border border-emerald-50 flex flex-col items-center text-center shadow-sm hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 rounded-2xl bg-white text-emerald-600 flex items-center justify-center mb-6 shadow-sm">
+                <ShieldCheck className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">100% Credential-Vetted</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <h3 className="text-xl font-bold text-emerald-900 mb-3">100% Credential-Vetted</h3>
+              <p className="text-emerald-800/70 text-sm leading-relaxed">
                 Every therapist is manually inspected. We verify university degrees, recognized licensing board registrations, and background declarations.
               </p>
             </div>
 
-            <div className="p-8 rounded-2xl bg-gray-50 border border-gray-100 flex flex-col items-center text-center">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-5">
-                <Lock className="w-7 h-7" />
+            <div className="p-10 rounded-3xl bg-emerald-50/50 border border-emerald-50 flex flex-col items-center text-center shadow-sm hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 rounded-2xl bg-white text-emerald-600 flex items-center justify-center mb-6 shadow-sm">
+                <Lock className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Bank-Grade Privacy</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <h3 className="text-xl font-bold text-emerald-900 mb-3">Bank-Grade Privacy</h3>
+              <p className="text-emerald-800/70 text-sm leading-relaxed">
                 Your conversations, bookings, and telehealth video calls are safeguarded by 256-bit encryption. Your sessions remain confidential and secure.
               </p>
             </div>
 
-            <div className="p-8 rounded-2xl bg-gray-50 border border-gray-100 flex flex-col items-center text-center">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-5">
-                <Clock className="w-7 h-7" />
+            <div className="p-10 rounded-3xl bg-emerald-50/50 border border-emerald-50 flex flex-col items-center text-center shadow-sm hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 rounded-2xl bg-white text-emerald-600 flex items-center justify-center mb-6 shadow-sm">
+                <Clock className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Transparent & Flexible</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <h3 className="text-xl font-bold text-emerald-900 mb-3">Transparent & Flexible</h3>
+              <p className="text-emerald-800/70 text-sm leading-relaxed">
                 No hidden subscriptions or mandatory lock-in plans. Pay transparently per session and adjust your appointments with flexible rescheduling.
               </p>
             </div>
@@ -293,10 +298,10 @@ const HowItWorks = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900">Frequently Asked Questions</h2>
-          <p className="mt-3 text-gray-600">Have questions about getting started? Here are clear answers.</p>
+          <h2 className="text-3xl font-bold text-emerald-900">Frequently Asked Questions</h2>
+          <p className="mt-4 text-emerald-700/80">Have questions about getting started? Here are clear answers.</p>
         </div>
 
         <div className="space-y-4">
@@ -305,21 +310,21 @@ const HowItWorks = () => {
             return (
               <div 
                 key={index}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden transition-colors"
+                className="bg-white rounded-2xl shadow-sm border border-emerald-100 overflow-hidden transition-all duration-300"
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full text-left px-6 py-5 flex justify-between items-center focus:outline-none"
+                  className="w-full text-left px-8 py-6 flex justify-between items-center focus:outline-none hover:bg-emerald-50/50 transition-colors"
                 >
-                  <span className="font-semibold text-gray-900 text-base sm:text-lg">
+                  <span className="font-bold text-emerald-900 text-base sm:text-lg pr-8">
                     {faq.question}
                   </span>
-                  <span className="ml-4 text-gray-400">
-                    {isOpen ? <ChevronUp className="w-5 h-5 text-emerald-600" /> : <ChevronDown className="w-5 h-5" />}
+                  <span className="flex-shrink-0 text-emerald-500 bg-emerald-50 p-2 rounded-full">
+                    {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                   </span>
                 </button>
                 {isOpen && (
-                  <div className="px-6 pb-5 text-gray-600 text-sm leading-relaxed border-t border-gray-50 pt-3">
+                  <div className="px-8 pb-6 text-emerald-800/70 text-sm leading-relaxed pt-2">
                     {faq.answer}
                   </div>
                 )}
@@ -330,29 +335,29 @@ const HowItWorks = () => {
       </section>
 
       {/* Crisis Help Info */}
-      <section className="bg-amber-50/70 border-t border-amber-200 py-10">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0">
-              <PhoneCall className="w-6 h-6" />
+      <section className="bg-amber-100/50 border border-amber-200 py-12 rounded-3xl mx-4 sm:mx-6 lg:mx-8 mb-16">
+        <div className="max-w-5xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex items-start gap-6">
+            <div className="w-14 h-14 rounded-2xl bg-amber-200/50 text-amber-700 flex items-center justify-center flex-shrink-0">
+              <PhoneCall className="w-7 h-7" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-gray-900">Need Immediate Crisis Help?</h3>
-              <p className="text-sm text-gray-600 mt-1 max-w-xl">
+              <h3 className="text-xl font-bold text-emerald-900">Need Immediate Crisis Help?</h3>
+              <p className="text-sm text-emerald-800/70 mt-2 max-w-xl leading-relaxed">
                 If you are in distress or experiencing thoughts of self-harm, please reach out to dedicated 24/7 mental health emergency helplines. Help is always available.
               </p>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0 w-full sm:w-auto">
             <a 
               href="tel:14416"
-              className="px-4 py-2.5 bg-amber-600 text-white rounded-lg text-sm font-semibold hover:bg-amber-700 transition-colors text-center"
+              className="px-6 py-3.5 bg-amber-600 text-white rounded-xl text-sm font-bold hover:bg-amber-700 transition-colors text-center shadow-sm"
             >
               Tele-MANAS: 14416
             </a>
             <a 
               href="tel:9999666555"
-              className="px-4 py-2.5 bg-white border border-amber-300 text-amber-900 rounded-lg text-sm font-semibold hover:bg-amber-50 transition-colors text-center"
+              className="px-6 py-3.5 bg-white border border-amber-300 text-amber-900 rounded-xl text-sm font-bold hover:bg-amber-50 transition-colors text-center shadow-sm"
             >
               Vandrevala: +91 9999 666 555
             </a>
@@ -361,24 +366,27 @@ const HowItWorks = () => {
       </section>
 
       {/* Bottom CTA */}
-      <section className="bg-emerald-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+      <section className="bg-emerald-900 text-white py-24 rounded-t-[3rem] text-center relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-full h-full overflow-hidden z-0">
+          <div className="absolute -bottom-[20%] -right-[10%] w-[60%] h-[60%] rounded-full bg-emerald-800/40 blur-3xl"></div>
+        </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6">
             Ready to prioritize your mental wellbeing?
           </h2>
-          <p className="text-emerald-100/80 max-w-2xl mx-auto mb-8 text-lg">
+          <p className="text-emerald-200 max-w-2xl mx-auto mb-12 text-lg">
             Start with verified therapists who match your needs, schedule, and personal comfort.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
               to="/find-professional"
-              className="px-8 py-4 bg-white text-emerald-900 rounded-xl font-semibold hover:bg-emerald-50 transition-colors shadow-lg"
+              className="px-8 py-4 bg-white text-emerald-900 rounded-2xl font-bold hover:bg-emerald-50 shadow-xl hover:shadow-2xl transition-all duration-300"
             >
               Find a Therapist
             </Link>
             <Link
               to="/signup"
-              className="px-8 py-4 bg-emerald-800 text-white rounded-xl font-semibold hover:bg-emerald-700 border border-emerald-700 transition-colors"
+              className="px-8 py-4 bg-emerald-800 text-white rounded-2xl font-bold hover:bg-emerald-700 border border-emerald-600 shadow-xl hover:shadow-2xl transition-all duration-300"
             >
               Create Free Account
             </Link>

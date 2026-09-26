@@ -240,55 +240,60 @@ const Resources = () => {
   const featuredArticle = detailedArticles.find(a => a.featured) || detailedArticles[0];
 
   return (
-    <div className="bg-gray-50 text-gray-900 min-h-screen">
+    <div className="bg-gray-50 text-emerald-900 min-h-screen">
       {/* Header */}
-      <section className="bg-white border-b border-gray-200 py-14 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-emerald-900 text-white pt-24 pb-32 rounded-b-[3rem] shadow-xl overflow-hidden mb-16">
+        <div className="absolute top-0 right-0 w-full h-full overflow-hidden z-0">
+          <div className="absolute -top-[10%] -right-[10%] w-[60%] h-[60%] rounded-full bg-emerald-800/50 blur-3xl"></div>
+          <div className="absolute bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-emerald-800/40 blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 mb-4">
-              <BookOpen className="w-3.5 h-3.5 mr-1.5" />
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-800/80 backdrop-blur-sm text-emerald-200 mb-6 border border-emerald-700/50">
+              <BookOpen className="w-4 h-4 mr-2" />
               Evidence-Based Library
             </span>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
               Mental Health & Wellness Resources
             </h1>
-            <p className="mt-4 text-base sm:text-lg text-gray-600 leading-relaxed">
+            <p className="mt-6 text-lg sm:text-xl text-emerald-100/90 leading-relaxed max-w-2xl">
               Explore insightful guides, practical clinical worksheets, and evidence-based psychoeducation curated by certified psychologists and psychotherapists.
             </p>
           </div>
 
           {/* Search Bar */}
-          <div className="mt-8 max-w-2xl relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+          <div className="mt-12 max-w-2xl relative">
+            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-emerald-400">
               <Search className="w-5 h-5" />
             </div>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by topic, symptom (e.g. anxiety, sleep, burnout), or therapist name..."
-              className="w-full pl-12 pr-10 py-3.5 bg-gray-50 hover:bg-gray-100/70 focus:bg-white rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm transition-all shadow-sm"
+              placeholder="Search by topic, symptom (e.g. anxiety, sleep, burnout)..."
+              className="w-full pl-14 pr-12 py-4 bg-white/10 backdrop-blur-md border border-emerald-700 text-white placeholder-emerald-200/70 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:bg-white/20 text-base transition-all shadow-sm"
             />
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery('')}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600"
+                className="absolute inset-y-0 right-0 pr-5 flex items-center text-emerald-400 hover:text-white transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             )}
           </div>
 
           {/* Category Filter Pills */}
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-8 flex flex-wrap gap-3">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+                className={`px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300 ${
                   selectedCategory === cat
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-emerald-400 text-emerald-950 shadow-md'
+                    : 'bg-emerald-800/50 text-emerald-100 hover:bg-emerald-700/80 border border-emerald-700/50'
                 }`}
               >
                 {cat}
@@ -299,63 +304,63 @@ const Resources = () => {
       </section>
 
       {/* Main Content Area */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-24 relative z-20">
         {/* Featured Article Spotlight (shown only when on 'All Topics' with no search) */}
         {selectedCategory === 'All Topics' && !searchQuery && featuredArticle && (
-          <div className="mb-14">
-            <div className="flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-emerald-700 mb-4">
-              <Sparkles className="w-4 h-4" />
+          <div className="mb-20">
+            <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-emerald-100 mb-6 drop-shadow-md">
+              <Sparkles className="w-4 h-4 text-emerald-400" />
               <span>Featured Spotlight</span>
             </div>
 
             <div 
               onClick={() => setSelectedArticle(featuredArticle)}
-              className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 shadow-sm hover:shadow-md transition-all cursor-pointer group grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+              className="bg-white rounded-3xl border border-emerald-100 p-8 sm:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer group grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"
             >
               <div className="lg:col-span-8">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="px-3 py-1 bg-emerald-50 text-emerald-700 font-semibold rounded-full text-xs">
+                <div className="flex flex-wrap items-center gap-3 mb-6">
+                  <span className="px-4 py-1.5 bg-emerald-50 text-emerald-700 font-bold rounded-2xl text-xs">
                     {featuredArticle.category}
                   </span>
-                  <div className="flex items-center text-xs text-gray-500">
-                    <Clock className="w-3.5 h-3.5 mr-1 text-gray-400" />
+                  <div className="flex items-center text-sm font-medium text-emerald-800/60">
+                    <Clock className="w-4 h-4 mr-1.5 text-emerald-400" />
                     {featuredArticle.readingTime} min read
                   </div>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 group-hover:text-emerald-700 transition-colors leading-snug mb-4">
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-emerald-900 group-hover:text-emerald-600 transition-colors leading-tight mb-6">
                   {featuredArticle.title}
                 </h2>
 
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6">
+                <p className="text-emerald-800/70 text-lg leading-relaxed mb-8">
                   {featuredArticle.excerpt}
                 </p>
 
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-gray-100">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm">
+                <div className="flex flex-wrap items-center justify-between gap-6 pt-6 border-t border-emerald-50">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg shadow-sm">
                       {featuredArticle.author.slice(0, 2)}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-900">{featuredArticle.author}</p>
-                      <p className="text-xs text-gray-500">{featuredArticle.authorRole}</p>
+                      <p className="text-base font-bold text-emerald-900">{featuredArticle.author}</p>
+                      <p className="text-sm font-medium text-emerald-700/70">{featuredArticle.authorRole}</p>
                     </div>
                   </div>
 
-                  <span className="inline-flex items-center text-sm font-semibold text-emerald-600 group-hover:text-emerald-700">
-                    Read Full Guide <ArrowRight className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1" />
+                  <span className="inline-flex items-center text-base font-bold text-emerald-600 group-hover:text-emerald-700 bg-emerald-50 px-5 py-2.5 rounded-2xl transition-all group-hover:bg-emerald-100">
+                    Read Full Guide <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>
               </div>
 
-              <div className="lg:col-span-4 bg-emerald-50/70 border border-emerald-100 rounded-xl p-6">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-3">
-                  Key Takeaways
+              <div className="lg:col-span-4 bg-emerald-900 border border-emerald-800 rounded-3xl p-8 shadow-inner text-white h-full flex flex-col justify-center">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-6 flex items-center">
+                  <Check className="w-4 h-4 mr-2" /> Key Takeaways
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-5">
                   {featuredArticle.keyTakeaways.map((point, pIdx) => (
-                    <li key={pIdx} className="text-xs sm:text-sm text-emerald-900/80 flex items-start">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-2 mr-2.5 flex-shrink-0" />
+                    <li key={pIdx} className="text-sm text-emerald-100/90 flex items-start leading-relaxed font-medium">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 mr-3 flex-shrink-0" />
                       <span>{point}</span>
                     </li>
                   ))}
@@ -366,87 +371,89 @@ const Resources = () => {
         )}
 
         {/* Articles Grid */}
-        <div className="mb-16">
-          <div className="flex justify-between items-baseline mb-6">
-            <h3 className="text-xl font-bold text-gray-900">
+        <div className="mb-20">
+          <div className="flex justify-between items-baseline mb-8">
+            <h3 className="text-3xl font-extrabold text-emerald-900">
               {searchQuery ? `Search Results for "${searchQuery}"` : `${selectedCategory} Articles`}
             </h3>
-            <span className="text-xs text-gray-500 font-medium">
-              Showing {filteredArticles.length} {filteredArticles.length === 1 ? 'article' : 'articles'}
+            <span className="text-sm font-bold text-emerald-700/60 bg-white px-4 py-1.5 rounded-full border border-emerald-100 shadow-sm">
+              Showing {filteredArticles.length}
             </span>
           </div>
 
           {filteredArticles.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center max-w-md mx-auto">
-              <BookOpen className="w-10 h-10 text-gray-400 mx-auto mb-3" />
-              <h4 className="text-base font-bold text-gray-900 mb-1">No articles found</h4>
-              <p className="text-xs text-gray-500 mb-4">
+            <div className="bg-white rounded-3xl border border-emerald-100 p-16 text-center max-w-lg mx-auto shadow-sm">
+              <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <BookOpen className="w-10 h-10 text-emerald-300" />
+              </div>
+              <h4 className="text-xl font-bold text-emerald-900 mb-2">No articles found</h4>
+              <p className="text-sm text-emerald-700/70 mb-8 leading-relaxed">
                 We couldn't find any resources matching your search. Try adjusting keywords or category filters.
               </p>
               <button
                 onClick={() => { setSearchQuery(''); setSelectedCategory('All Topics'); }}
-                className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors"
+                className="px-6 py-3 bg-emerald-600 text-white rounded-2xl text-sm font-bold hover:bg-emerald-700 transition-colors shadow-sm"
               >
                 Reset Filters
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredArticles.map((article) => {
                 const isBookmarked = bookmarkedIds.includes(article.id);
                 return (
                   <article
                     key={article.id}
                     onClick={() => setSelectedArticle(article)}
-                    className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col justify-between overflow-hidden group"
+                    className="bg-white rounded-3xl border border-emerald-50 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden group"
                   >
-                    <div className="p-6">
-                      <div className="flex items-center justify-between gap-2 mb-3">
-                        <span className="px-3 py-1 bg-gray-100 group-hover:bg-emerald-50 text-gray-700 group-hover:text-emerald-700 font-medium rounded-full text-xs transition-colors">
+                    <div className="p-8">
+                      <div className="flex items-center justify-between gap-2 mb-6">
+                        <span className="px-3 py-1.5 bg-emerald-50 group-hover:bg-emerald-100 text-emerald-700 font-bold rounded-xl text-xs transition-colors">
                           {article.category}
                         </span>
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={(e) => toggleBookmark(article.id, e)}
                             title={isBookmarked ? 'Bookmarked' : 'Save for later'}
-                            className="text-gray-400 hover:text-emerald-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
+                            className="text-emerald-300 hover:text-emerald-600 p-2 rounded-xl hover:bg-emerald-50 transition-colors"
                           >
-                            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-emerald-600 text-emerald-600' : ''}`} />
+                            <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-emerald-600 text-emerald-600' : ''}`} />
                           </button>
                         </div>
                       </div>
 
-                      <h4 className="text-lg font-bold text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2 mb-2 leading-snug">
+                      <h4 className="text-xl font-bold text-emerald-900 group-hover:text-emerald-600 transition-colors line-clamp-2 mb-4 leading-snug">
                         {article.title}
                       </h4>
 
-                      <p className="text-gray-600 text-xs sm:text-sm line-clamp-3 leading-relaxed mb-4">
+                      <p className="text-emerald-800/70 text-sm line-clamp-3 leading-relaxed mb-6 font-medium">
                         {article.excerpt}
                       </p>
 
-                      <div className="flex flex-wrap gap-1.5 mb-2">
+                      <div className="flex flex-wrap gap-2 mb-2">
                         {article.tags.slice(0, 2).map((t, idx) => (
-                          <span key={idx} className="text-[11px] text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100">
+                          <span key={idx} className="text-xs font-semibold text-emerald-600 bg-white border border-emerald-100 px-2.5 py-1 rounded-lg">
                             #{t}
                           </span>
                         ))}
                       </div>
                     </div>
 
-                    <div className="px-6 py-4 bg-gray-50/70 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[10px]">
+                    <div className="px-8 py-5 bg-emerald-50/50 border-t border-emerald-50 flex items-center justify-between text-sm text-emerald-800/70">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 rounded-xl bg-white text-emerald-700 flex items-center justify-center font-bold text-xs shadow-sm">
                           {article.author.charAt(0)}
                         </div>
-                        <span className="font-medium text-gray-800 truncate max-w-[120px]">{article.author}</span>
+                        <span className="font-bold text-emerald-900 truncate max-w-[120px]">{article.author}</span>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <span className="flex items-center">
-                          <Clock className="w-3 h-3 mr-1 text-gray-400" />
+                      <div className="flex items-center space-x-4">
+                        <span className="flex items-center font-medium">
+                          <Clock className="w-4 h-4 mr-1.5 text-emerald-400" />
                           {article.readingTime}m
                         </span>
-                        <span className="text-emerald-600 font-semibold group-hover:translate-x-0.5 transition-transform">
-                          Read &rarr;
+                        <span className="text-emerald-600 font-bold group-hover:translate-x-1 transition-transform">
+                          &rarr;
                         </span>
                       </div>
                     </div>
@@ -458,44 +465,46 @@ const Resources = () => {
         </div>
 
         {/* Free Downloadable Worksheets & Clinical Tools */}
-        <div className="mt-16 bg-white rounded-2xl border border-gray-200 p-8 sm:p-10 shadow-sm">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-gray-100 gap-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">Free Practice Tools</span>
-              <h3 className="text-2xl font-bold text-gray-900 mt-1">Downloadable Self-Care & Clinical Worksheets</h3>
-              <p className="text-sm text-gray-600 mt-1">
-                Printable tools recommended by psychologists for self-guided reflection between sessions.
+        <div className="mb-20 bg-white rounded-3xl border border-emerald-50 p-8 sm:p-12 shadow-sm relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-60 pointer-events-none"></div>
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-8 border-b border-emerald-50 gap-6 relative z-10">
+            <div className="max-w-2xl">
+              <span className="text-xs font-bold uppercase tracking-widest text-emerald-500 mb-2 block">Free Practice Tools</span>
+              <h3 className="text-3xl font-extrabold text-emerald-900 mt-2 mb-3">Downloadable Self-Care Worksheets</h3>
+              <p className="text-lg text-emerald-700/80 leading-relaxed">
+                Printable clinical tools recommended by psychologists for self-guided reflection between sessions.
               </p>
             </div>
             {downloadSuccess && (
-              <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-2 rounded-lg text-xs font-medium flex items-center">
-                <Check className="w-4 h-4 mr-1.5" />
+              <div className="bg-emerald-600 text-white px-5 py-3 rounded-2xl text-sm font-bold flex items-center shadow-lg animate-in fade-in slide-in-from-bottom-2">
+                <Check className="w-5 h-5 mr-2" />
                 Downloaded "{downloadSuccess}"!
               </div>
             )}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
             {downloadableTools.map((tool, idx) => (
               <div 
                 key={idx}
-                className="bg-gray-50 rounded-xl p-5 border border-gray-100 flex flex-col justify-between hover:border-emerald-200 transition-colors"
+                className="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-100 flex flex-col justify-between hover:border-emerald-300 hover:shadow-md transition-all duration-300 group"
               >
                 <div>
-                  <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
-                    <FileText className="w-5 h-5" />
+                  <div className="w-12 h-12 rounded-xl bg-white text-emerald-600 flex items-center justify-center mb-5 shadow-sm group-hover:scale-110 transition-transform">
+                    <FileText className="w-6 h-6" />
                   </div>
-                  <h4 className="font-bold text-gray-900 text-sm mb-1.5">{tool.title}</h4>
-                  <p className="text-gray-500 text-xs leading-relaxed mb-4">{tool.description}</p>
+                  <h4 className="font-bold text-emerald-900 text-base mb-2 leading-snug">{tool.title}</h4>
+                  <p className="text-emerald-700/70 text-sm leading-relaxed mb-6 font-medium">{tool.description}</p>
                 </div>
-                <div className="flex items-center justify-between pt-3 border-t border-gray-200/60 text-xs">
-                  <span className="text-gray-400">{tool.size}</span>
+                <div className="flex items-center justify-between pt-4 border-t border-emerald-100 text-sm">
+                  <span className="font-bold text-emerald-800/40">{tool.size}</span>
                   <button
                     onClick={() => handleDownload(tool.title)}
-                    className="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-semibold"
+                    className="inline-flex items-center bg-white px-3 py-1.5 rounded-lg text-emerald-700 hover:text-emerald-900 hover:bg-emerald-100 font-bold shadow-sm transition-colors"
                   >
-                    <Download className="w-3.5 h-3.5 mr-1" />
-                    Download
+                    <Download className="w-4 h-4 mr-1.5" />
+                    Get
                   </button>
                 </div>
               </div>
@@ -504,28 +513,28 @@ const Resources = () => {
         </div>
 
         {/* Emergency Helpline Banner */}
-        <div className="mt-12 bg-amber-50 border border-amber-200 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0">
-              <PhoneCall className="w-6 h-6" />
+        <div className="mb-20 bg-amber-50 border border-amber-200 rounded-3xl p-8 sm:p-10 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-sm">
+          <div className="flex items-start gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-amber-200/50 text-amber-700 flex items-center justify-center flex-shrink-0">
+              <PhoneCall className="w-8 h-8" />
             </div>
             <div>
-              <h4 className="text-base font-bold text-gray-900">In Crisis or Need Immediate Support?</h4>
-              <p className="text-xs sm:text-sm text-gray-600 mt-1 max-w-xl">
+              <h4 className="text-2xl font-extrabold text-amber-900 mb-2">In Crisis or Need Immediate Support?</h4>
+              <p className="text-sm sm:text-base text-amber-800/80 leading-relaxed max-w-2xl font-medium">
                 These articles are for educational purposes. If you or someone you know is in severe emotional distress, free 24/7 telephonic crisis lines are available nationwide.
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-4 flex-shrink-0">
             <a
               href="tel:14416"
-              className="px-4 py-2.5 bg-amber-600 text-white rounded-lg text-xs sm:text-sm font-semibold hover:bg-amber-700 transition-colors"
+              className="w-full sm:w-auto px-6 py-4 bg-amber-600 text-white rounded-2xl text-sm font-bold hover:bg-amber-700 transition-colors text-center shadow-sm"
             >
               Tele-MANAS: 14416
             </a>
             <a
               href="tel:9999666555"
-              className="px-4 py-2.5 bg-white border border-amber-300 text-amber-900 rounded-lg text-xs sm:text-sm font-semibold hover:bg-amber-50 transition-colors"
+              className="w-full sm:w-auto px-6 py-4 bg-white border border-amber-300 text-amber-900 rounded-2xl text-sm font-bold hover:bg-amber-100 transition-colors text-center shadow-sm"
             >
               Vandrevala: +91 9999 666 555
             </a>
@@ -533,84 +542,94 @@ const Resources = () => {
         </div>
 
         {/* Newsletter Signup Card */}
-        <div className="mt-12 bg-emerald-900 text-white rounded-2xl p-8 sm:p-12 text-center">
-          <h3 className="text-2xl sm:text-3xl font-bold mb-3">
-            Evidence-Based Wellness in Your Inbox
-          </h3>
-          <p className="text-emerald-100/80 text-sm sm:text-base max-w-xl mx-auto mb-6">
-            Join thousands of readers who receive our bi-weekly digests on modern psychology, stress mitigation, and emotional resilience.
-          </p>
-          <form 
-            onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to WELLPath insights!'); }}
-            className="flex flex-col sm:flex-row justify-center max-w-md mx-auto gap-3"
-          >
-            <input
-              type="email"
-              required
-              placeholder="Enter your email address"
-              className="px-4 py-3 rounded-xl bg-white/10 border border-emerald-700 text-white placeholder-emerald-200 text-sm focus:outline-none focus:ring-2 focus:ring-white flex-1"
-            />
-            <button
-              type="submit"
-              className="px-6 py-3 rounded-xl bg-white text-emerald-900 font-semibold text-sm hover:bg-emerald-50 transition-colors"
+        <div className="bg-emerald-900 text-white rounded-[3rem] p-12 sm:p-20 text-center relative overflow-hidden shadow-xl">
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+             <div className="absolute -bottom-[50%] -left-[20%] w-[80%] h-[80%] rounded-full bg-emerald-800/60 blur-3xl"></div>
+          </div>
+          
+          <div className="relative z-10">
+            <h3 className="text-3xl sm:text-5xl font-extrabold mb-6 tracking-tight">
+              Evidence-Based Wellness in Your Inbox
+            </h3>
+            <p className="text-emerald-100/90 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+              Join thousands of readers who receive our bi-weekly digests on modern psychology, stress mitigation, and emotional resilience.
+            </p>
+            <form 
+              onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to WELLPath insights!'); }}
+              className="flex flex-col sm:flex-row justify-center max-w-lg mx-auto gap-4"
             >
-              Subscribe
-            </button>
-          </form>
+              <input
+                type="email"
+                required
+                placeholder="Enter your email address"
+                className="px-6 py-4 rounded-2xl bg-emerald-950/50 backdrop-blur-md border border-emerald-700/50 text-white placeholder-emerald-300/50 text-base font-medium focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:bg-emerald-900 flex-1 shadow-inner"
+              />
+              <button
+                type="submit"
+                className="px-8 py-4 rounded-2xl bg-white text-emerald-900 font-extrabold text-base hover:bg-emerald-50 transition-colors shadow-lg hover:shadow-xl"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
         </div>
       </section>
 
       {/* Full Article Reader Modal */}
       {selectedArticle && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-slide-up">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-emerald-950/80 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-white rounded-[2.5rem] max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl relative animate-in zoom-in-95 duration-300 overflow-hidden border border-emerald-100">
+            
             {/* Modal Header */}
-            <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-gray-100 px-6 sm:px-8 py-4 flex items-center justify-between z-10">
-              <div className="flex items-center space-x-2">
-                <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full">
+            <div className="bg-white px-8 py-5 flex items-center justify-between border-b border-emerald-50 flex-shrink-0 z-10">
+              <div className="flex items-center space-x-3">
+                <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-xl">
                   {selectedArticle.category}
                 </span>
-                <span className="text-xs text-gray-400">&bull;</span>
-                <span className="text-xs text-gray-500">{selectedArticle.readingTime} min read</span>
+                <span className="text-xs font-bold text-emerald-800/40">&bull;</span>
+                <span className="text-xs font-bold text-emerald-800/60 flex items-center">
+                  <Clock className="w-3.5 h-3.5 mr-1" />
+                  {selectedArticle.readingTime} min read
+                </span>
               </div>
               <button
                 onClick={() => setSelectedArticle(null)}
-                className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 flex items-center justify-center transition-colors shadow-sm"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Modal Content */}
-            <div className="p-6 sm:p-8 space-y-6">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight">
+            {/* Modal Content Scrollable */}
+            <div className="p-8 sm:p-12 overflow-y-auto flex-1 text-emerald-900">
+              <h2 className="text-3xl sm:text-5xl font-extrabold leading-tight mb-8">
                 {selectedArticle.title}
               </h2>
 
-              <div className="flex items-center justify-between border-y border-gray-100 py-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm">
+              <div className="flex items-center justify-between border-y border-emerald-50 py-6 mb-10">
+                <div className="flex items-center space-x-4">
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xl shadow-sm">
                     {selectedArticle.author.slice(0, 2)}
                   </div>
                   <div>
-                    <h5 className="font-semibold text-sm text-gray-900">{selectedArticle.author}</h5>
-                    <p className="text-xs text-gray-500">{selectedArticle.authorRole}</p>
+                    <h5 className="font-extrabold text-lg">{selectedArticle.author}</h5>
+                    <p className="text-sm font-medium text-emerald-700/70">{selectedArticle.authorRole}</p>
                   </div>
                 </div>
-                <div className="text-xs text-gray-400">
-                  Published on {selectedArticle.publishedAt}
+                <div className="text-sm font-bold text-emerald-800/50 bg-emerald-50/50 px-4 py-2 rounded-xl">
+                  {selectedArticle.publishedAt}
                 </div>
               </div>
 
               {/* Key Takeaways Box */}
-              <div className="bg-emerald-50/80 border border-emerald-100 rounded-xl p-5">
-                <h5 className="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-2.5">
-                  Summary & Key Takeaways
+              <div className="bg-emerald-900 text-white rounded-3xl p-8 mb-10 shadow-inner">
+                <h5 className="text-sm font-bold uppercase tracking-wider text-emerald-400 mb-6 flex items-center">
+                  <Check className="w-5 h-5 mr-2" /> Summary & Key Takeaways
                 </h5>
-                <ul className="space-y-2">
+                <ul className="space-y-4">
                   {selectedArticle.keyTakeaways.map((takeaway, tIdx) => (
-                    <li key={tIdx} className="text-xs sm:text-sm text-emerald-950 flex items-start">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-2 mr-2 flex-shrink-0" />
+                    <li key={tIdx} className="text-base text-emerald-50 flex items-start font-medium leading-relaxed">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 mt-2 mr-4 flex-shrink-0" />
                       <span>{takeaway}</span>
                     </li>
                   ))}
@@ -618,48 +637,49 @@ const Resources = () => {
               </div>
 
               {/* Body Paragraphs */}
-              <div className="space-y-4 text-gray-700 leading-relaxed text-sm sm:text-base">
+              <div className="space-y-6 text-emerald-950/80 leading-relaxed text-lg font-medium">
                 {selectedArticle.content.map((para, pIdx) => (
                   <p key={pIdx}>{para}</p>
                 ))}
               </div>
 
               {/* Tags */}
-              <div className="pt-4 border-t border-gray-100 flex flex-wrap gap-2">
+              <div className="pt-10 mt-10 border-t border-emerald-50 flex flex-wrap gap-3">
                 {selectedArticle.tags.map((tag, idx) => (
-                  <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
+                  <span key={idx} className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl text-sm font-bold">
                     #{tag}
                   </span>
                 ))}
               </div>
 
               {/* Medical Disclaimer */}
-              <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 text-xs text-gray-500">
-                <strong>Disclaimer:</strong> This content is published solely for educational and informational purposes. It does not constitute individual clinical advice, diagnosis, or treatment. If you are struggling with a mental health condition, we encourage consulting with a licensed therapist or psychiatrist.
-              </div>
-
-              {/* Modal Footer CTA */}
-              <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-100">
-                <span className="text-xs text-gray-500">
-                  Looking to discuss this with a licensed professional?
-                </span>
-                <div className="flex gap-3 w-full sm:w-auto">
-                  <Link
-                    to="/find-professional"
-                    onClick={() => setSelectedArticle(null)}
-                    className="flex-1 sm:flex-none px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs sm:text-sm font-semibold text-center transition-colors"
-                  >
-                    Find a Therapist
-                  </Link>
-                  <button
-                    onClick={() => setSelectedArticle(null)}
-                    className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs sm:text-sm font-semibold transition-colors"
-                  >
-                    Close
-                  </button>
-                </div>
+              <div className="mt-10 p-6 bg-gray-50 rounded-2xl border border-gray-200 text-sm text-gray-500 font-medium leading-relaxed">
+                <strong className="text-gray-700">Disclaimer:</strong> This content is published solely for educational and informational purposes. It does not constitute individual clinical advice, diagnosis, or treatment. If you are struggling with a mental health condition, we encourage consulting with a licensed therapist or psychiatrist.
               </div>
             </div>
+            
+            {/* Modal Footer CTA */}
+            <div className="bg-emerald-50/50 px-8 py-6 border-t border-emerald-100 flex flex-col sm:flex-row items-center justify-between gap-6 flex-shrink-0">
+              <span className="text-sm font-bold text-emerald-800/70">
+                Looking to discuss this with a licensed professional?
+              </span>
+              <div className="flex gap-4 w-full sm:w-auto">
+                <Link
+                  to="/find-professional"
+                  onClick={() => setSelectedArticle(null)}
+                  className="flex-1 sm:flex-none px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold text-center transition-colors shadow-sm"
+                >
+                  Find a Therapist
+                </Link>
+                <button
+                  onClick={() => setSelectedArticle(null)}
+                  className="px-6 py-3 bg-white border border-emerald-200 hover:bg-emerald-50 text-emerald-900 rounded-xl text-sm font-bold transition-colors shadow-sm"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       )}
