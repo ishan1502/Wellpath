@@ -1,67 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Briefcase, GraduationCap, Clock, DollarSign, Calendar, CheckCircle, X } from 'lucide-react';
-import { mockJobPostings } from '../../data/mockData';
+import { Briefcase, GraduationCap, Clock, DollarSign, Calendar, CheckCircle, X, Loader2 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { JobPosting } from '../../types';
-
-const defaultJobs: JobPosting[] = [
-  {
-    id: 'job-1',
-    professionalId: 'prof-demo',
-    title: 'Associate Licensed Clinical Psychologist',
-    description: 'Seeking a compassionate clinical psychologist to join our multidisciplinary outpatient mental health practice. Flexible telehealth and in-person hybrid schedule.',
-    type: 'job',
-    requirements: ['Ph.D. or Psy.D. in Clinical Psychology', 'Active state medical/clinical license', '2+ years outpatient experience'],
-    compensation: '$90,000 - $115,000 / year',
-    deadline: '2026-12-31',
-    postedAt: '2026-09-01',
-    status: 'open'
-  },
-  {
-    id: 'job-2',
-    professionalId: 'prof-demo',
-    title: 'Adolescent & Family Behavioral Counselor',
-    description: 'Focus on adolescent anxiety, school stress, and parent-child communication therapy in an innovative digital-first clinic.',
-    type: 'job',
-    requirements: ['Master in Counseling or Social Work (LCSW / LMFT)', 'Proven child and family counseling background', 'Proficiency with telehealth tools'],
-    compensation: '$75,000 - $95,000 / year',
-    deadline: '2026-11-30',
-    postedAt: '2026-09-10',
-    status: 'open'
-  },
-  {
-    id: 'intern-1',
-    professionalId: 'prof-demo',
-    title: 'Clinical Psychology Graduate Internship (Fall 2026)',
-    description: 'Supervised clinical internship for advanced master or doctoral students. Gain direct hours under board-certified supervisors with comprehensive case reviews.',
-    type: 'internship',
-    requirements: ['Enrolled in an accredited clinical psychology program', 'Completed practicum coursework', 'Commitment of 15-20 hours/week'],
-    compensation: '$25 / hour stipend',
-    deadline: '2026-10-31',
-    postedAt: '2026-09-15',
-    status: 'open'
-  },
-  {
-    id: 'intern-2',
-    professionalId: 'prof-demo',
-    title: 'Mental Health Research & Psychoeducation Intern',
-    description: 'Work alongside leading clinicians to develop evidence-based wellness modules and analyze telehealth patient outcome metrics.',
-    type: 'internship',
-    requirements: ['Undergraduate senior or graduate student in psychology/neuroscience', 'Strong statistical & scientific writing skills'],
-    compensation: 'Academic Credit + $500 monthly stipend',
-    deadline: '2026-11-15',
-    postedAt: '2026-09-18',
-    status: 'open'
-  }
-];
+import { supabase } from '../../lib/supabase';
 
 const JobBoard = () => {
+  const [jobs, setJobs] = useState<JobPosting[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'job' | 'internship'>('job');
   const [appliedJobs, setAppliedJobs] = useState<Set<string>>(new Set());
   const [toast, setToast] = useState<string | null>(null);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('job_postings')
+        .select('*')
+        .eq('status', 'approved')
+        .order('created_at', { ascending: false });
+        
+      if (error) throw error;
+      setJobs(data || []);
+    } catch (err) {
+      console.error('Error fetching jobs:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const allJobs = jobs;
 
   const showToast = (message: string) => {
     setToast(message);

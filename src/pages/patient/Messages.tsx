@@ -1,32 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Send, Search, Phone, Video, MoreVertical, MessageSquare } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-
-// Empty arrays since we don't want mock data shown to real users
-const mockConversations: any[] = [];
-
-const initialMessages: any[] = [];
+import { messageService } from '../../services/messageService';
 
 const Messages = () => {
   const { user } = useAuth();
   const [activeConv, setActiveConv] = useState<any>(null);
-  const [messages, setMessages] = useState<any[]>(initialMessages); // Added initial messages for preview
+  const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState('');
-  const [conversations, setConversations] = useState<any[]>(mockConversations); // Use mock data
+  const [conversations, setConversations] = useState<any[]>([]);
 
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newMessage.trim() || !activeConv) return;
+  useEffect(() => {
+    if (!user) return;
+    loadConversations();
 
-    const newMsg = {
-      id: Date.now(),
-      text: newMessage,
-      sender: 'patient',
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    const subscription = messageService.subscribeToMessages((payload) => {
+      const newMsg = payload.new;
+      if (activeConv && newMsg.conversation_id === activeConv.id) {
+        setMessages((prev) => [...prev, newMsg]);
+      } else {
+        // Optionally update conversation list for unread count
+        loadConversations();
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
     };
+  }, [user, activeConv]);
 
-    setMessages([...messages, newMsg]);
-    setNewMessage('');
+  const loadConversations = async () => {
+    if (!user) return;
+    try {
+      const data = await messageService.getConversations(user.id, 'patient');
+      const formattedConvs = data.map((conv: any) => {
+        const msgs = conv.messages || [];
+        const lastMsg = msgs.length > 0 ? msgs[msgs.length - 1] : null;
+        return {
+          id: conv.id,
+          name: 'Professional User', // Placeholder since we don't have profile join
+          avatar: 'P',
+          lastMessage: lastMsg ? lastMsg.content : 'No messages yet',
+          time: lastMsg ? new Date(lastMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '',
+          unread: 0, // Placeholder
+        };
+      });
+      setConversations(formattedConvs);
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+    }
+  };
+
+  const loadMessages = async (convId: string) => {
+    try {
+      const data = await messageService.getMessages(convId);
+      setMessages(data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  const handleConvSelect = (conv: any) => {
+    setActiveConv(conv);
+    loadMessages(conv.id);
+  };
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newMessage.trim() || !activeConv || !user) return;
+
+    try {
+      await messageService.sendMessage(activeConv.id, user.id, newMessage);
+      // The real-time subscription will append the message to the list
+      setNewMessage('');
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
   };
 
   return (
@@ -54,7 +103,7 @@ const Messages = () => {
           ) : conversations.map(conv => (
             <div 
               key={conv.id}
-              onClick={() => { setActiveConv(conv); setMessages(initialMessages); }}
+              onClick={() => handleConvSelect(conv)}
               className={`p-5 border-b border-gray-100 flex items-center gap-4 cursor-pointer transition-all duration-300 ${
                 activeConv?.id === conv.id ? 'bg-emerald-50' : 'hover:bg-gray-50 bg-white'
               }`}
@@ -119,23 +168,28 @@ const Messages = () => {
 
             {/* Messages */}
             <div className="flex-grow overflow-y-auto p-6 space-y-6 bg-gray-50/50">
-              {messages.map(msg => (
-                <div 
-                  key={msg.id} 
-                  className={`flex flex-col ${msg.sender === 'patient' ? 'items-end' : 'items-start'}`}
-                >
+              {messages.map(msg => {
+                const isMine = msg.sender_id === user?.id;
+                return (
                   <div 
-                    className={`max-w-[75%] px-5 py-3.5 shadow-sm font-medium text-sm ${
-                      msg.sender === 'patient' 
-                        ? 'bg-emerald-600 text-white rounded-2xl rounded-tr-sm' 
-                        : 'bg-white border border-gray-100 text-emerald-900 rounded-2xl rounded-tl-sm'
-                    }`}
+                    key={msg.id} 
+                    className={`flex flex-col ${isMine ? 'items-end' : 'items-start'}`}
                   >
-                    <p leading-relaxed>{msg.text}</p>
+                    <div 
+                      className={`max-w-[75%] px-5 py-3.5 shadow-sm font-medium text-sm ${
+                        isMine 
+                          ? 'bg-emerald-600 text-white rounded-2xl rounded-tr-sm' 
+                          : 'bg-white border border-gray-100 text-emerald-900 rounded-2xl rounded-tl-sm'
+                      }`}
+                    >
+                      <p className="leading-relaxed">{msg.content || msg.text}</p>
+                    </div>
+                    <span className="text-[11px] font-bold text-emerald-600/50 mt-1.5 px-1">
+                      {msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : msg.time}
+                    </span>
                   </div>
-                  <span className="text-[11px] font-bold text-emerald-600/50 mt-1.5 px-1">{msg.time}</span>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Input Area */}

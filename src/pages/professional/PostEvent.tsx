@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { CalendarPlus, FileText, Calendar, Clock, Video, Users, DollarSign, CheckCircle } from 'lucide-react';
+import { CalendarPlus, FileText, Calendar, Clock, Video, Users, DollarSign, CheckCircle, Loader2 } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../hooks/useAuth';
 
 const PostEvent = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  
+  const { user } = useAuth();
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -18,31 +25,51 @@ const PostEvent = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) {
+      setError('You must be logged in to post an event');
+      return;
+    }
+    
+    setLoading(true);
+    setError('');
 
-    const newEvent = {
-      id: Date.now().toString(),
-      ...formData,
-      maxAttendees: parseInt(formData.maxAttendees) || 50,
-      fee: parseInt(formData.fee) || 0,
-      status: 'pending' // Goes to admin approval
-    };
+    try {
+      const { error: insertError } = await supabase
+        .from('events')
+        .insert({
+          professional_id: user.id,
+          host_type: 'professional',
+          type: 'event', // fallback or update if formData has type
+          title: formData.title,
+          description: formData.description,
+          date: formData.date,
+          time: formData.time,
+          platform: formData.platform,
+          max_attendees: parseInt(formData.maxAttendees) || 50,
+          fee: parseInt(formData.fee) || 0,
+          status: 'pending' // Goes to admin approval
+        });
 
-    const existingStr = localStorage.getItem('wellpath_events');
-    const existingEvents = existingStr ? JSON.parse(existingStr) : [];
-    localStorage.setItem('wellpath_events', JSON.stringify([newEvent, ...existingEvents]));
+      if (insertError) throw insertError;
 
-    setIsSubmitted(true);
-    setFormData({
-      title: '',
-      description: '',
-      date: '',
-      time: '',
-      platform: 'Zoom',
-      maxAttendees: '',
-      fee: ''
-    });
+      setIsSubmitted(true);
+      setFormData({
+        title: '',
+        description: '',
+        date: '',
+        time: '',
+        platform: 'Zoom',
+        maxAttendees: '',
+        fee: ''
+      });
+    } catch (err: any) {
+      console.error('Error posting event:', err);
+      setError(err.message || 'Failed to post event');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (isSubmitted) {
@@ -202,13 +229,15 @@ const PostEvent = () => {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-emerald-100 flex justify-end">
+          <div className="pt-8 border-t border-emerald-100 flex flex-col items-end gap-4">
+            {error && <p className="text-red-500 font-medium text-sm">{error}</p>}
             <button
               type="submit"
-              className="px-8 py-3 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center"
+              disabled={loading}
+              className="px-8 py-3 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <CalendarPlus className="w-5 h-5 mr-2" />
-              Publish Event
+              {loading ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <CalendarPlus className="w-5 h-5 mr-2" />}
+              {loading ? 'Publishing...' : 'Publish Event'}
             </button>
           </div>
         </form>

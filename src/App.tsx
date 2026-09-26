@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth';
 
@@ -36,11 +36,25 @@ const PendingVerification = () => (
 // Protected Route wrappers
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode, allowedRoles: string[] }) => {
   const { user } = useAuth();
+  const location = useLocation();
   
   if (!user) return <Navigate to="/login" replace />;
   
   if (!allowedRoles.includes(user.role)) {
     // Redirect to correct dashboard if logged in but wrong role
+    if (user.role === 'admin') return <Navigate to="/admin" replace />;
+    if (user.role === 'professional') return <Navigate to="/professional/dashboard" replace />;
+    if (user.role === 'student') return <Navigate to="/student/dashboard" replace />;
+    return <Navigate to="/patient/dashboard" replace />;
+  }
+
+  // Redirect to onboarding if they need it
+  if (user.needsOnboarding && location.pathname !== '/onboarding') {
+    return <Navigate to="/onboarding" replace />;
+  }
+
+  // If they don't need onboarding but try to access it, send them away
+  if (!user.needsOnboarding && location.pathname === '/onboarding') {
     if (user.role === 'admin') return <Navigate to="/admin" replace />;
     if (user.role === 'professional') return <Navigate to="/professional/dashboard" replace />;
     if (user.role === 'student') return <Navigate to="/student/dashboard" replace />;
@@ -70,6 +84,7 @@ const Saved = React.lazy(() => import('./pages/patient/Saved').catch(() => ({ de
 // Auth Pages
 const Login = React.lazy(() => import('./pages/auth/Login').catch(() => ({ default: () => <Placeholder title="Login" /> })));
 const Signup = React.lazy(() => import('./pages/auth/Signup').catch(() => ({ default: () => <Placeholder title="Sign Up" /> })));
+const Onboarding = React.lazy(() => import('./pages/auth/Onboarding').catch(() => ({ default: () => <Placeholder title="Onboarding" /> })));
 
 const ProfessionalDashboard = React.lazy(() => import('./pages/professional/Dashboard').catch(() => ({ default: () => <Placeholder title="Professional Dashboard" /> })));
 const AdminDashboard = React.lazy(() => import('./pages/admin/Dashboard').catch(() => ({ default: () => <Placeholder title="Admin Dashboard" /> })));
@@ -146,6 +161,11 @@ function App() {
               {/* Auth Routes */}
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
+              <Route path="onboarding" element={
+                <ProtectedRoute allowedRoles={['patient', 'professional', 'student']}>
+                  <Onboarding />
+                </ProtectedRoute>
+              } />
             </Route>
             
             {/* Patient Routes */}

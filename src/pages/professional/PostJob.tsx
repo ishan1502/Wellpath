@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { Briefcase, Building, DollarSign, Calendar, FileText, CheckCircle } from 'lucide-react';
+import { Briefcase, Building, DollarSign, Calendar, FileText, CheckCircle, Loader2 } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../hooks/useAuth';
 
 const PostJob = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedType, setSubmittedType] = useState('job');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  
+  const { user } = useAuth();
+
   const [formData, setFormData] = useState({
     title: '',
     type: 'job',
@@ -18,10 +25,32 @@ const PostJob = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmittedType(formData.type);
-    setTimeout(() => {
+    if (!user) {
+      setError('You must be logged in to post a job');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    
+    try {
+      const { error: insertError } = await supabase
+        .from('job_postings')
+        .insert({
+          professional_id: user.id,
+          title: formData.title,
+          type: formData.type,
+          description: formData.description,
+          requirements: formData.requirements,
+          compensation: formData.compensation,
+          deadline: formData.deadline,
+          status: 'pending'
+        });
+
+      if (insertError) throw insertError;
+
+      setSubmittedType(formData.type);
       setIsSubmitted(true);
       setFormData({
         title: '',
@@ -31,7 +60,12 @@ const PostJob = () => {
         compensation: '',
         deadline: ''
       });
-    }, 1000);
+    } catch (err: any) {
+      console.error('Error posting job:', err);
+      setError(err.message || 'Failed to post job');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (isSubmitted) {
@@ -171,13 +205,15 @@ const PostJob = () => {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-emerald-100 flex justify-end">
+          <div className="pt-8 border-t border-emerald-100 flex flex-col items-end gap-4">
+            {error && <p className="text-red-500 font-medium text-sm">{error}</p>}
             <button
               type="submit"
-              className="px-8 py-3 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center"
+              disabled={loading}
+              className="px-8 py-3 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Briefcase className="w-5 h-5 mr-2" />
-              Post Opportunity
+              {loading ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <Briefcase className="w-5 h-5 mr-2" />}
+              {loading ? 'Posting...' : 'Post Opportunity'}
             </button>
           </div>
         </form>

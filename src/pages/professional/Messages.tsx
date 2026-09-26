@@ -1,12 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Search, Send, User, MessageSquare } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
+import { messageService } from '../../services/messageService';
 
 export default function Messages() {
-  const [selectedChat, setSelectedChat] = useState<number | null>(null);
+  const { user } = useAuth();
+  const [selectedChat, setSelectedChat] = useState<any>(null);
   const [message, setMessage] = useState('');
+  const [chats, setChats] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
 
-  const chats: any[] = [];
+  useEffect(() => {
+    if (!user) return;
+    loadConversations();
+
+    const subscription = messageService.subscribeToMessages((payload) => {
+      const newMsg = payload.new;
+      if (selectedChat && newMsg.conversation_id === selectedChat.id) {
+        setMessages((prev) => [...prev, newMsg]);
+      } else {
+        loadConversations();
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [user, selectedChat]);
+
+  const loadConversations = async () => {
+    if (!user) return;
+    try {
+      const data = await messageService.getConversations(user.id, 'professional');
+      const formattedConvs = data.map((conv: any) => {
+        const msgs = conv.messages || [];
+        const lastMsg = msgs.length > 0 ? msgs[msgs.length - 1] : null;
+        return {
+          id: conv.id,
+          name: 'Patient User', 
+          lastMessage: lastMsg ? lastMsg.content : 'No messages yet',
+          time: lastMsg ? new Date(lastMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '',
+          unread: 0,
+        };
+      });
+      setChats(formattedConvs);
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+    }
+  };
+
+  const loadMessages = async (convId: string) => {
+    try {
+      const data = await messageService.getMessages(convId);
+      setMessages(data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  const handleChatSelect = (chat: any) => {
+    setSelectedChat(chat);
+    loadMessages(chat.id);
+  };
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim() || !selectedChat || !user) return;
+
+    try {
+      await messageService.sendMessage(selectedChat.id, user.id, message);
+      setMessage('');
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
 
   return (
     <div className="h-[calc(100vh-120px)] flex flex-col animate-fade-in">
@@ -32,8 +100,8 @@ export default function Messages() {
             {chats.map(chat => (
               <div 
                 key={chat.id} 
-                onClick={() => setSelectedChat(chat.id)}
-                className={`flex items-center p-5 border-b border-emerald-50 cursor-pointer transition-all duration-300 ${selectedChat === chat.id ? 'bg-emerald-50/50 border-l-4 border-l-emerald-600' : 'hover:bg-emerald-50/30 border-l-4 border-l-transparent'}`}
+                onClick={() => handleChatSelect(chat)}
+                className={`flex items-center p-5 border-b border-emerald-50 cursor-pointer transition-all duration-300 ${selectedChat?.id === chat.id ? 'bg-emerald-50/50 border-l-4 border-l-emerald-600' : 'hover:bg-emerald-50/30 border-l-4 border-l-transparent'}`}
               >
                 <div className="h-12 w-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0 mr-4 relative shadow-sm">
                   <User className="h-6 w-6" />
@@ -45,10 +113,10 @@ export default function Messages() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-baseline mb-1.5">
-                    <h3 className={`text-sm font-bold truncate ${selectedChat === chat.id ? 'text-emerald-950' : 'text-emerald-900'}`}>{chat.name}</h3>
+                    <h3 className={`text-sm font-bold truncate ${selectedChat?.id === chat.id ? 'text-emerald-950' : 'text-emerald-900'}`}>{chat.name}</h3>
                     <span className="text-[10px] font-bold text-emerald-600/70 uppercase tracking-wider">{chat.time}</span>
                   </div>
-                  <p className={`text-xs truncate font-medium ${selectedChat === chat.id ? 'text-emerald-800/80' : 'text-emerald-700/60'}`}>{chat.lastMessage}</p>
+                  <p className={`text-xs truncate font-medium ${selectedChat?.id === chat.id ? 'text-emerald-800/80' : 'text-emerald-700/60'}`}>{chat.lastMessage}</p>
                 </div>
               </div>
             ))}
@@ -65,7 +133,7 @@ export default function Messages() {
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-emerald-950">
-                    {chats.find(c => c.id === selectedChat)?.name}
+                    {selectedChat.name}
                   </h3>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -75,23 +143,24 @@ export default function Messages() {
               </div>
               
               <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                <div className="flex justify-start">
-                  <div className="bg-white border border-emerald-100 p-4 rounded-2xl rounded-tl-none max-w-[75%] shadow-sm">
-                    <p className="text-sm font-medium text-emerald-950">Hello, I have a question regarding our last session.</p>
-                    <span className="text-[10px] font-bold text-emerald-600/60 mt-2 block uppercase tracking-wider">10:25 AM</span>
-                  </div>
-                </div>
-                <div className="flex justify-end">
-                  <div className="bg-emerald-600 text-white p-4 rounded-2xl rounded-tr-none max-w-[75%] shadow-md">
-                    <p className="text-sm font-medium">Of course! What would you like to know?</p>
-                    <span className="text-[10px] font-bold text-emerald-200 mt-2 block text-right uppercase tracking-wider">10:28 AM</span>
-                  </div>
-                </div>
+                {messages.map(msg => {
+                  const isMine = msg.sender_id === user?.id;
+                  return (
+                    <div key={msg.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`${isMine ? 'bg-emerald-600 text-white rounded-tr-none shadow-md' : 'bg-white border border-emerald-100 text-emerald-950 rounded-tl-none shadow-sm'} p-4 rounded-2xl max-w-[75%]`}>
+                        <p className="text-sm font-medium">{msg.content || msg.text}</p>
+                        <span className={`text-[10px] font-bold ${isMine ? 'text-emerald-200' : 'text-emerald-600/60'} mt-2 block ${isMine ? 'text-right' : ''} uppercase tracking-wider`}>
+                          {msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : msg.time}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
 
               <div className="p-5 bg-white border-t border-emerald-100">
                 <form 
-                  onSubmit={(e) => { e.preventDefault(); if(message.trim()) setMessage(''); }}
+                  onSubmit={handleSend}
                   className="flex gap-3"
                 >
                   <input 

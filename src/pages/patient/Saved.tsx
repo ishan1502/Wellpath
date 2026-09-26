@@ -79,7 +79,7 @@ const Saved = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-2 mt-auto">
-                  {pro.specializations.slice(0, 3).map(spec => (
+                  {pro.specializations?.slice(0, 3).map((spec: string) => (
                     <span key={spec} className="px-3 py-1.5 bg-emerald-50 border border-emerald-100 text-emerald-900 rounded-xl text-xs font-bold">
                       {spec}
                     </span>

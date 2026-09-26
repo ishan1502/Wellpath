@@ -20,13 +20,21 @@ export const authService = {
 
     if (profileError) throw new Error('User profile not found');
 
+    let needsOnboarding = false;
+    if (profile.role !== 'admin') {
+      const table = profile.role === 'professional' ? 'professionals' : (profile.role === 'student' ? 'students' : 'patients');
+      const { count } = await supabase.from(table).select('*', { count: 'exact', head: true }).eq('id', authData.user.id);
+      needsOnboarding = count === 0;
+    }
+
     return {
       id: profile.id,
       email: profile.email,
       firstName: profile.first_name,
       lastName: profile.last_name,
       role: profile.role,
-      avatarUrl: profile.avatar_url
+      avatarUrl: profile.avatar_url,
+      needsOnboarding
     } as User;
   },
 
@@ -58,24 +66,8 @@ export const authService = {
       throw new Error('Failed to create user profile');
     }
 
-    // 3. If role is professional, create the professional record
-    if (role === 'professional') {
-      const { error: proError } = await supabase
-        .from('professionals')
-        .insert([
-          {
-            id: authData.user.id,
-            title: 'Licensed Professional',
-            specialty: 'General Practice',
-            verification_status: 'pending'
-          }
-        ]);
-        
-      if (proError) {
-        console.error(proError);
-        // Do not throw here, the user is created, but professional data might need to be filled out later.
-      }
-    }
+    // We do not insert into role-specific tables here. 
+    // This is handled by the onboarding flow.
   },
 
   resetPassword: async (email: string): Promise<void> => {
@@ -129,36 +121,15 @@ export const authService = {
         return null;
       }
 
-      if (pendingRole === 'professional') {
-        const { error: proError } = await supabase
-          .from('professionals')
-          .insert([
-            {
-              id: session.user.id,
-              title: 'Licensed Professional',
-              specialty: 'General Practice',
-              verification_status: 'pending'
-            }
-          ]);
-        if (proError) console.error('Failed to create OAuth professional record:', proError);
-      }
-      
       profile = newProfile;
-      
-      if (pendingRole === 'professional') {
-        await supabase
-          .from('professionals')
-          .insert([
-            {
-              id: session.user.id,
-              title: 'Licensed Professional',
-              specialty: 'General Practice',
-              verification_status: 'pending'
-            }
-          ]);
-      }
-      
       localStorage.removeItem('pending_signup_role');
+    }
+
+    let needsOnboarding = false;
+    if (profile.role !== 'admin') {
+      const table = profile.role === 'professional' ? 'professionals' : (profile.role === 'student' ? 'students' : 'patients');
+      const { count } = await supabase.from(table).select('*', { count: 'exact', head: true }).eq('id', session.user.id);
+      needsOnboarding = count === 0;
     }
 
     return {
@@ -167,7 +138,8 @@ export const authService = {
       firstName: profile.first_name,
       lastName: profile.last_name,
       role: profile.role,
-      avatarUrl: profile.avatar_url
+      avatarUrl: profile.avatar_url,
+      needsOnboarding
     } as User;
   }
 };

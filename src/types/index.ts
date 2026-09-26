@@ -7,6 +7,7 @@ export interface User {
   lastName: string;
   role: Role;
   avatarUrl?: string;
+  needsOnboarding?: boolean;
 }
 
 export type VerificationStatus = 'pending' | 'approved' | 'rejected';
@@ -137,7 +138,7 @@ export interface JobPosting {
   compensation: string;
   deadline: string;
   postedAt: string;
-  status: 'open' | 'closed';
+  status: 'pending' | 'approved' | 'rejected' | 'open' | 'closed';
 }
 
 export interface Event {
