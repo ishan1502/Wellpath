@@ -3,13 +3,10 @@ import { Card, CardContent } from '@/components/ui/Card';
 import { Search, Send, User, MessageSquare } from 'lucide-react';
 
 export default function Messages() {
-  const [selectedChat, setSelectedChat] = useState<number | null>(1);
+  const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [message, setMessage] = useState('');
 
-  const chats = [
-    { id: 1, name: 'John Doe', lastMessage: 'Thank you for the session.', time: '10:30 AM', unread: 0 },
-    { id: 2, name: 'Alice Smith', lastMessage: 'See you next week!', time: 'Yesterday', unread: 2 },
-  ];
+  const chats: any[] = [];
 
   return (
     <div className="h-[calc(100vh-120px)] flex flex-col animate-fade-in">

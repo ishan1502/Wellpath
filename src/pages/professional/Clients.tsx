@@ -176,7 +176,7 @@ const INITIAL_CLIENTS: Client[] = [
 ];
 
 export default function Clients() {
-  const [clients, setClients] = useState<Client[]>(INITIAL_CLIENTS);
+  const [clients, setClients] = useState<Client[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'on_hold' | 'discharged'>('all');
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);

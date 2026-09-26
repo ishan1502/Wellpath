@@ -24,47 +24,7 @@ interface ApplicationItem {
   feedbackNote?: string;
 }
 
-const DEFAULT_APPLICATIONS: ApplicationItem[] = [
-  {
-    id: 'app-001',
-    professionalId: 'd1',
-    professionalName: 'Dr. Ananya Mehta',
-    professionalTitle: 'Lead Clinical Psychologist',
-    location: 'Mumbai (Hybrid)',
-    status: 'accepted',
-    appliedAt: '2026-09-02T10:30:00Z',
-    duration: '12 Weeks (Summer Cohort)',
-    specialty: 'Cognitive Behavioral Therapy (CBT) & Mood Disorders',
-    motivationText: 'I am a final-year psychology student with clinical coursework in CBT. I have completed foundational training in trauma-informed therapy and am passionate about observing therapy sessions under Dr. Mehta’s guidance.',
-    feedbackNote: 'Application accepted! We were impressed with your academic background in CBT. Please check your email for orientation paperwork.'
-  },
-  {
-    id: 'app-002',
-    professionalId: 'd2',
-    professionalName: 'Dr. Karan Singh',
-    professionalTitle: 'Consultant Psychotherapist',
-    location: 'Delhi (In-Person)',
-    status: 'pending',
-    appliedAt: '2026-09-08T14:15:00Z',
-    duration: '8 Weeks',
-    specialty: 'Adult Psychotherapy & Workplace Burnout',
-    motivationText: 'I am keen to explore psychodynamic and systemic interventions for corporate professionals suffering from severe occupational exhaustion and panic symptoms.',
-    feedbackNote: 'Application is currently under initial review by Dr. Singh and the clinical administration committee.'
-  },
-  {
-    id: 'app-003',
-    professionalId: 'd3',
-    professionalName: 'Dr. Radhika Sen',
-    professionalTitle: 'Neuropsychologist & Researcher',
-    location: 'Bangalore (On-site)',
-    status: 'rejected',
-    appliedAt: '2026-08-15T09:00:00Z',
-    duration: '16 Weeks',
-    specialty: 'Neuropsychological Assessment & Rehabilitation',
-    motivationText: 'Seeking practical experience administering psychometric evaluations, WAIS-IV batteries, and cognitive rehabilitation routines.',
-    feedbackNote: 'Unfortunately, all 2 open supervision slots for the autumn cohort have been filled. You are encouraged to re-apply in spring.'
-  }
-];
+const DEFAULT_APPLICATIONS: ApplicationItem[] = [];
 
 export default function Applications() {
   const [applications, setApplications] = useState<ApplicationItem[]>(() => {

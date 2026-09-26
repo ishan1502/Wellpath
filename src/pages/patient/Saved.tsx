@@ -4,8 +4,8 @@ import { Star, MapPin, Video, Heart, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Saved = () => {
-  // Simulate saved professionals by taking the first 3
-  const [savedProfessionals, setSavedProfessionals] = useState(mockProfessionals.slice(0, 3));
+  // Simulate saved professionals (empty for real users)
+  const [savedProfessionals, setSavedProfessionals] = useState<any[]>([]);
 
   const removeSaved = (id: string, e: React.MouseEvent) => {
     e.preventDefault();

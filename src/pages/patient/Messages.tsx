@@ -2,19 +2,10 @@ import React, { useState } from 'react';
 import { Send, Search, Phone, Video, MoreVertical, MessageSquare } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
-// Mock data for messages
-const mockConversations = [
-  { id: '1', name: 'Dr. Sarah Jenkins', lastMessage: 'See you next Tuesday!', time: '10:30 AM', unread: 2, avatar: 'S' },
-  { id: '2', name: 'Dr. Michael Chen', lastMessage: 'Please complete the assessment form.', time: 'Yesterday', unread: 0, avatar: 'M' },
-];
+// Empty arrays since we don't want mock data shown to real users
+const mockConversations: any[] = [];
 
-const initialMessages = [
-  { id: 1, text: 'Hello! I would like to schedule a follow-up.', sender: 'patient', time: '10:00 AM' },
-  { id: 2, text: 'Hi! Of course. Does next Tuesday work for you?', sender: 'professional', time: '10:15 AM' },
-  { id: 3, text: 'Yes, that works perfectly. What time?', sender: 'patient', time: '10:20 AM' },
-  { id: 4, text: 'How about 2:00 PM?', sender: 'professional', time: '10:25 AM' },
-  { id: 5, text: 'See you next Tuesday!', sender: 'professional', time: '10:30 AM' },
-];
+const initialMessages: any[] = [];
 
 const Messages = () => {
   const { user } = useAuth();
