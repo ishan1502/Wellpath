@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabase';
-import { useEffect } from 'react';
 import { 
   User, Mail, Phone, MapPin, Calendar, Heart, Shield, Bell, Save, 
   CheckCircle2, Camera, AlertCircle, Sparkles, Lock
@@ -66,17 +65,17 @@ export default function Profile() {
     const { name, value, type } = e.target;
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
-      setFormData(prev => ({ ...prev, [name]: checked }));
+      setFormData((prev: any) => ({ ...prev, [name]: checked }));
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev: any) => ({ ...prev, [name]: value }));
     }
   };
 
   const toggleConcern = (concern: string) => {
-    setFormData(prev => {
+    setFormData((prev: any) => {
       const exists = prev.selectedConcerns.includes(concern);
       if (exists) {
-        return { ...prev, selectedConcerns: prev.selectedConcerns.filter(c => c !== concern) };
+        return { ...prev, selectedConcerns: prev.selectedConcerns.filter((c: any) => c !== concern) };
       } else {
         return { ...prev, selectedConcerns: [...prev.selectedConcerns, concern] };
       }

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase';
 import { 
   Settings as SettingsIcon, 
   Save, 
@@ -82,6 +84,7 @@ const DEFAULT_SETTINGS: PlatformConfig = {
 };
 
 export default function Settings() {
+  const { user } = useAuth();
   const [config, setConfig] = useState<PlatformConfig>(DEFAULT_SETTINGS as any);
 
   useEffect(() => {
