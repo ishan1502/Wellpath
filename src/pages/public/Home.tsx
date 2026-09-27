@@ -317,10 +317,7 @@ const Home = () => {
                 Your privacy is non-negotiable. We employ state-of-the-art security measures to ensure that your conversations, personal data, and payment information are protected at all times.
               </p>
               <ul className="space-y-4">
-                <li className="flex items-center gap-3 text-emerald-50">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
-                  <span>Fully HIPAA Compliant Platform</span>
-                </li>
+
                 <li className="flex items-center gap-3 text-emerald-50">
                   <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
                   <span>End-to-end 256-bit encryption</span>
