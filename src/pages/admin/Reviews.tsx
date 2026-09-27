@@ -23,37 +23,37 @@ export default function Reviews() {
     fetchReviews();
   };
 
-  if (loading) return <div className="p-8 text-center text-gray-500">Loading reviews...</div>;
+  if (loading) return <div className="p-8 text-center text-muted-foreground">Loading reviews...</div>;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h2 className="text-2xl font-bold text-gray-900">Review Moderation</h2>
+        <h2 className="text-2xl font-bold text-foreground">Review Moderation</h2>
         <div className="relative w-full sm:w-64">
           <input 
             type="text" 
             placeholder="Search reviews..." 
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           />
           <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-surface rounded-lg shadow-sm border border-border overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-background">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & IDs</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating & Comment</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Date & IDs</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Rating & Comment</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-surface divide-y divide-gray-200">
             {reviews.map((review) => (
               <tr key={review.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-500 mb-1">{new Date(review.createdAt).toLocaleDateString()}</div>
+                  <div className="text-sm text-muted-foreground mb-1">{new Date(review.createdAt).toLocaleDateString()}</div>
                   <div className="text-xs text-gray-400">Pat: {review.patientId}</div>
                   <div className="text-xs text-gray-400">Prof: {review.professionalId}</div>
                 </td>
@@ -63,7 +63,7 @@ export default function Reviews() {
                       <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
                     ))}
                   </div>
-                  <p className="text-sm text-gray-900 line-clamp-2">{review.comment}</p>
+                  <p className="text-sm text-foreground line-clamp-2">{review.comment}</p>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full capitalize ${
@@ -97,7 +97,7 @@ export default function Reviews() {
                   {review.status !== 'pending' && (
                     <button 
                       onClick={() => handleStatusChange(review.id, 'pending')}
-                      className="text-gray-500 hover:text-gray-700"
+                      className="text-muted-foreground hover:text-gray-700"
                     >
                       Mark Pending
                     </button>
@@ -108,7 +108,7 @@ export default function Reviews() {
           </tbody>
         </table>
         {reviews.length === 0 && (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-8 text-center text-muted-foreground">
             No reviews found.
           </div>
         )}

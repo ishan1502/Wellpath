@@ -3,35 +3,49 @@
 @theme {
   --color-primary: #059669;
   --color-primary-hover: #047857;
+  --color-primary-foreground: #ffffff;
+  --color-primary-dark: #064e3b;
+  --color-primary-muted: #d1fae5;
+  --color-primary-muted-foreground: #064e3b;
+
   --color-background: #FAFAF8;
-  --color-surface: #FFFFFF;
-  --color-border: #E8E5E0;
-  --color-text-main: #1A1A1A;
-  --color-text-muted: #6B6B6B;
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
-  --color-info: #3B82F6;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f3f4f6;
+  
+  --color-border: #e5e7eb;
+  --color-input: #e5e7eb;
+  --color-ring: #059669;
+  
+  --color-foreground: #111827;
+  --color-muted: #f3f4f6;
+  --color-muted-foreground: #6b7280;
+  
+  --color-destructive: #ef4444;
+  --color-destructive-hover: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  
+  --color-success: #10b981;
+  --color-success-foreground: #ffffff;
 
-  --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Inter', sans-serif;
-
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 }
 
 @layer base {
+  * {
+    border-color: var(--color-border);
+  }
   body {
     background-color: var(--color-background);
-    color: var(--color-text-main);
+    color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Custom utilities for shadcn-like behavior */
 @layer utilities {
   .animate-in {
     animation: animate-in 0.2s ease-out;

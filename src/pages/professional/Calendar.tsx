@@ -74,25 +74,25 @@ export default function CalendarView() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-emerald-950 tracking-tight">Calendar</h1>
-        <p className="text-emerald-700/80 mt-1 font-medium">Manage your monthly schedule and availability.</p>
+        <h1 className="text-3xl font-bold text-foreground tracking-tight">Calendar</h1>
+        <p className="text-primary-hover/80 mt-1 font-medium">Manage your monthly schedule and availability.</p>
       </div>
 
-      <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+      <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
         <CardHeader className="flex flex-row items-center justify-between pb-6">
           <div>
-            <CardTitle className="text-xl font-bold text-emerald-950">
+            <CardTitle className="text-xl font-bold text-foreground">
               {format(currentMonth, 'MMMM yyyy')}
             </CardTitle>
-            <p className="text-xs text-emerald-600 mt-2 flex items-center gap-2 font-medium">
+            <p className="text-xs text-primary mt-2 flex items-center gap-2 font-medium">
               <Clock className="w-4 h-4" /> Click any day to manage your availability slots
             </p>
           </div>
           <div className="flex gap-3">
-            <button onClick={handlePrevMonth} className="p-2 border border-emerald-100 rounded-xl hover:bg-emerald-50 transition-colors shadow-sm text-emerald-700">
+            <button onClick={handlePrevMonth} className="p-2 border border-primary-muted rounded-xl hover:bg-primary-muted transition-colors shadow-sm text-primary-hover">
               <ChevronLeft className="w-6 h-6" />
             </button>
-            <button onClick={handleNextMonth} className="p-2 border border-emerald-100 rounded-xl hover:bg-emerald-50 transition-colors shadow-sm text-emerald-700">
+            <button onClick={handleNextMonth} className="p-2 border border-primary-muted rounded-xl hover:bg-primary-muted transition-colors shadow-sm text-primary-hover">
               <ChevronRight className="w-6 h-6" />
             </button>
           </div>
@@ -100,14 +100,14 @@ export default function CalendarView() {
         <CardContent>
           {loading ? (
             <div className="animate-pulse space-y-4">
-              <div className="h-[600px] bg-emerald-50 rounded-2xl"></div>
+              <div className="h-[600px] bg-primary-muted rounded-lg"></div>
             </div>
           ) : (
             <div>
               {/* Day Names */}
               <div className="grid grid-cols-7 gap-2 mb-4">
                 {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
-                  <div key={day} className="text-center font-bold text-sm text-emerald-800/70 py-2">
+                  <div key={day} className="text-center font-bold text-sm text-primary-dark/70 py-2">
                     {day}
                   </div>
                 ))}
@@ -127,20 +127,20 @@ export default function CalendarView() {
                     <div 
                       key={day.toISOString()} 
                       onClick={() => handleDayClick(day)}
-                      className={`min-h-[140px] p-3 border rounded-2xl cursor-pointer transition-all duration-300 ${
+                      className={`min-h-[140px] p-3 border rounded-lg cursor-pointer transition-all duration-300 ${
                         isCurrentMonth 
-                          ? 'bg-white border-emerald-100 hover:border-emerald-400 hover:shadow-md' 
-                          : 'bg-emerald-50/30 border-emerald-50 text-emerald-600/40'
+                          ? 'bg-surface border-primary-muted hover:border-primary hover:shadow-md' 
+                          : 'bg-primary-muted/30 border-primary-muted text-primary/40'
                       }`}
                     >
                       <div className="flex justify-between items-start mb-3">
                         <span className={`text-sm font-bold w-8 h-8 flex items-center justify-center rounded-xl ${
-                          isToday(day) ? 'bg-emerald-600 text-white shadow-sm' : 'text-emerald-950'
+                          isToday(day) ? 'bg-primary text-white shadow-sm' : 'text-foreground'
                         }`}>
                           {format(day, 'd')}
                         </span>
                         {daySlots.length > 0 && (
-                          <span className="text-[10px] flex items-center text-emerald-700 bg-emerald-100 px-2 py-1 rounded-lg font-bold">
+                          <span className="text-[10px] flex items-center text-primary-hover bg-primary-muted px-2 py-1 rounded-lg font-bold">
                             <Clock className="w-3 h-3 mr-1" /> {daySlots.length} slots
                           </span>
                         )}
@@ -148,12 +148,12 @@ export default function CalendarView() {
                       
                       <div className="space-y-1.5">
                         {dayAppointments.slice(0, 3).map(appt => (
-                          <div key={appt.id} className="text-[11px] px-2 py-1.5 bg-emerald-50 text-emerald-800 rounded-xl truncate border border-emerald-100/50 font-semibold shadow-sm">
+                          <div key={appt.id} className="text-[11px] px-2 py-1.5 bg-primary-muted text-primary-dark rounded-xl truncate border border-primary-muted/50 font-semibold shadow-sm">
                             {appt.time} - Session
                           </div>
                         ))}
                         {dayAppointments.length > 3 && (
-                          <div className="text-[10px] text-emerald-600 font-bold pl-1 mt-1">
+                          <div className="text-[10px] text-primary font-bold pl-1 mt-1">
                             +{dayAppointments.length - 3} more
                           </div>
                         )}

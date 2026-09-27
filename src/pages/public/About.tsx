@@ -68,23 +68,23 @@ const About = () => {
   ];
 
   return (
-    <div className="flex flex-col bg-gray-50 min-h-screen pb-20">
+    <div className="flex flex-col bg-background min-h-screen pb-20">
       {/* Hero Section */}
-      <section className="relative bg-emerald-900 pt-24 pb-32 overflow-hidden text-white">
+      <section className="relative bg-primary-dark pt-24 pb-32 overflow-hidden text-white">
         <div className="absolute inset-0 z-0 opacity-20">
           <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2000" alt="Team meeting" className="w-full h-full object-cover" />
         </div>
-        <div className="absolute inset-0 bg-emerald-900/90 z-0"></div>
+        <div className="absolute inset-0 bg-primary-dark/90 z-0"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-800/80 border border-emerald-700 text-emerald-100 font-medium mb-8">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-dark/80 border border-primary-hover text-primary-muted font-medium mb-8">
+            <Sparkles className="w-4 h-4 text-primary-muted-foreground" />
             <span>Our Mission</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 max-w-4xl mx-auto leading-tight">
-            Making world-class mental healthcare <span className="text-emerald-400">accessible to all.</span>
+            Making world-class mental healthcare <span className="text-primary-muted-foreground">accessible to all.</span>
           </h1>
-          <p className="text-xl text-emerald-100 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-primary-muted max-w-2xl mx-auto leading-relaxed">
             We're building a future where getting the right mental health support is as simple, normal, and effective as visiting a primary care doctor.
           </p>
         </div>
@@ -92,11 +92,11 @@ const About = () => {
 
       {/* Stats Section */}
       <section className="relative z-20 -mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="bg-surface rounded-xl shadow-md p-8 md:p-12 border border-gray-100 grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, idx) => (
             <div key={idx} className="text-center">
-              <div className="text-3xl md:text-4xl font-extrabold text-emerald-600 mb-2">{stat.value}</div>
-              <div className="text-sm md:text-base font-medium text-gray-500 uppercase tracking-wide">{stat.label}</div>
+              <div className="text-3xl md:text-4xl font-extrabold text-primary mb-2">{stat.value}</div>
+              <div className="text-sm md:text-base font-medium text-muted-foreground uppercase tracking-wide">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -106,20 +106,20 @@ const About = () => {
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">What Drives Us</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Our core values dictate every feature we build, every clinician we hire, and every decision we make.</p>
+            <h2 className="text-3xl font-bold text-foreground mb-4">What Drives Us</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Our core values dictate every feature we build, every clinician we hire, and every decision we make.</p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8">
             {coreValues.map((value, idx) => {
               const Icon = value.icon;
               return (
-                <div key={idx} className="bg-white p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-                  <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                <div key={idx} className="bg-surface p-8 rounded-xl border border-gray-100 hover:shadow-md transition-all duration-300 group">
+                  <div className="w-14 h-14 bg-primary-muted rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
                     <Icon className="w-7 h-7" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{value.title}</h3>
-                  <p className="text-gray-600 leading-relaxed text-lg">{value.description}</p>
+                  <h3 className="text-2xl font-bold text-foreground mb-4">{value.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed text-lg">{value.description}</p>
                 </div>
               );
             })}
@@ -128,21 +128,21 @@ const About = () => {
       </section>
 
       {/* Story / Mission */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-16 items-center">
             <div className="lg:w-1/2">
               <div className="relative">
-                <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=1000" alt="Therapy session" className="rounded-3xl shadow-2xl" />
-                <div className="absolute -bottom-8 -right-8 bg-emerald-900 text-white p-8 rounded-3xl hidden md:block max-w-xs shadow-xl">
-                  <Target className="w-10 h-10 text-emerald-400 mb-4" />
+                <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=1000" alt="Therapy session" className="rounded-xl shadow-lg" />
+                <div className="absolute -bottom-8 -right-8 bg-primary-dark text-white p-8 rounded-xl hidden md:block max-w-xs shadow-md">
+                  <Target className="w-10 h-10 text-primary-muted-foreground mb-4" />
                   <p className="font-bold text-lg leading-snug">"Therapy isn't just about surviving; it's about giving you the tools to thrive."</p>
                 </div>
               </div>
             </div>
             <div className="lg:w-1/2 lg:pl-10">
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
-              <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
+              <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-6">Our Story</h2>
+              <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                 <p>
                   WellPath began with a simple but painful realization: finding the right therapist was often harder than the struggles that led people to seek one in the first place.
                 </p>
@@ -153,7 +153,7 @@ const About = () => {
                   Today, we're proud to be the trusted mental health partner for over a million individuals. By integrating therapy, psychiatry, and educational courses, we provide a holistic ecosystem of care tailored to exactly where you are in your journey.
                 </p>
               </div>
-              <Link to="/matching" className="inline-flex items-center gap-2 px-8 py-4 bg-emerald-600 text-white rounded-xl font-bold mt-10 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200">
+              <Link to="/matching" className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-xl font-bold mt-10 hover:bg-primary-hover transition-all shadow-lg shadow-emerald-200">
                 Start Your Journey Today <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
@@ -165,23 +165,23 @@ const About = () => {
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet Our Leadership</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Guided by clinical experts and healthcare innovators committed to systemic change.</p>
+            <h2 className="text-3xl font-bold text-foreground mb-4">Meet Our Leadership</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Guided by clinical experts and healthcare innovators committed to systemic change.</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {team.map((member, idx) => (
-              <div key={idx} className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div key={idx} className="bg-surface rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
                 <div className="h-64 overflow-hidden">
                   <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-8 text-center">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-emerald-600 font-bold text-sm mb-3 uppercase tracking-wider">{member.role}</p>
-                  <div className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-semibold mb-6">
+                  <h3 className="text-2xl font-bold text-foreground mb-1">{member.name}</h3>
+                  <p className="text-primary font-bold text-sm mb-3 uppercase tracking-wider">{member.role}</p>
+                  <div className="inline-block px-3 py-1 bg-surface-hover text-gray-700 rounded-full text-xs font-semibold mb-6">
                     {member.qualifications}
                   </div>
-                  <p className="text-gray-600 text-sm leading-relaxed">{member.bio}</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{member.bio}</p>
                 </div>
               </div>
             ))}

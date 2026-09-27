@@ -43,8 +43,8 @@ export default function Appointments() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Appointments</h1>
-        <p className="text-gray-500">View all your upcoming and past appointments.</p>
+        <h1 className="text-2xl font-bold text-foreground tracking-tight">Appointments</h1>
+        <p className="text-muted-foreground">View all your upcoming and past appointments.</p>
       </div>
 
       <Card>
@@ -55,7 +55,7 @@ export default function Appointments() {
           {loading ? (
             <div className="space-y-4">
               {[1, 2, 3].map(i => (
-                <div key={i} className="h-20 bg-gray-100 animate-pulse rounded-lg"></div>
+                <div key={i} className="h-20 bg-surface-hover animate-pulse rounded-lg"></div>
               ))}
             </div>
           ) : appointments.length > 0 ? (
@@ -77,14 +77,14 @@ export default function Appointments() {
                 const whatsappLink = generateWhatsAppLink('919876543210', `Hi ${patientName}, I am confirming our therapy session on ${appt.date} at ${appt.time}. See you then!`);
 
                 return (
-                  <div key={appt.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-border rounded-lg hover:bg-gray-50 transition-colors">
+                  <div key={appt.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-border rounded-lg hover:bg-background transition-colors">
                     <div className="flex items-center mb-3 sm:mb-0">
                       <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 mr-4">
                         <User className="h-6 w-6" />
                       </div>
                       <div>
-                        <h3 className="text-sm font-semibold text-gray-900">{patientName}</h3>
-                        <div className="flex items-center text-xs text-gray-500 mt-1 space-x-3 mb-2">
+                        <h3 className="text-sm font-semibold text-foreground">{patientName}</h3>
+                        <div className="flex items-center text-xs text-muted-foreground mt-1 space-x-3 mb-2">
                           <span className="flex items-center"><CalendarIcon className="h-3 w-3 mr-1" /> {format(parseISO(appt.date), 'MMM d, yyyy')}</span>
                           <span className="flex items-center"><Clock className="h-3 w-3 mr-1" /> {appt.time} ({appt.duration} min)</span>
                           <span className="flex items-center capitalize"><Video className="h-3 w-3 mr-1" /> {appt.format}</span>
@@ -115,7 +115,7 @@ export default function Appointments() {
                           href={sessionLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-emerald-700 transition"
+                          className="flex items-center px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary-hover transition"
                         >
                           <ExternalLink className="w-3 h-3 mr-1" /> Join Call
                         </a>
@@ -126,7 +126,7 @@ export default function Appointments() {
               })}
             </div>
           ) : (
-            <div className="text-center py-10 text-gray-500">
+            <div className="text-center py-10 text-muted-foreground">
               <CalendarIcon className="h-10 w-10 mx-auto text-gray-300 mb-3" />
               <p>No appointments found.</p>
             </div>

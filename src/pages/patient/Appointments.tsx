@@ -77,28 +77,28 @@ const Appointments = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin text-emerald-600"><RefreshCw className="w-10 h-10" /></div>
+        <div className="animate-spin text-primary"><RefreshCw className="w-10 h-10" /></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 animate-fade-in font-sans text-emerald-900">
+    <div className="max-w-6xl mx-auto space-y-8 animate-fade-in font-sans text-primary-dark">
       <div>
         <h1 className="text-3xl font-extrabold tracking-tight">My Appointments</h1>
-        <p className="text-emerald-700/80 font-medium mt-1">Manage your upcoming and past therapy sessions.</p>
+        <p className="text-primary-hover/80 font-medium mt-1">Manage your upcoming and past therapy sessions.</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 p-1 bg-white rounded-2xl w-fit border border-gray-100 shadow-sm overflow-x-auto">
+      <div className="flex gap-2 p-1 bg-surface rounded-lg w-fit border border-gray-100 shadow-sm overflow-x-auto">
         {(['upcoming', 'past', 'cancelled'] as const).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-6 py-3 whitespace-nowrap font-bold text-sm transition-all rounded-xl capitalize ${
               activeTab === tab
-                ? 'bg-emerald-50 text-emerald-900 shadow-sm'
-                : 'bg-transparent text-emerald-700/60 hover:text-emerald-900 hover:bg-gray-50'
+                ? 'bg-primary-muted text-primary-dark shadow-sm'
+                : 'bg-transparent text-primary-hover/60 hover:text-primary-dark hover:bg-background'
             }`}
           >
             {tab === 'upcoming' ? 'Upcoming Sessions' : tab === 'past' ? 'Past Sessions' : 'Cancelled'}
@@ -107,10 +107,10 @@ const Appointments = () => {
       </div>
 
       {filteredAppointments.length === 0 ? (
-        <div className="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 p-16 text-center">
-          <Calendar className="w-20 h-20 text-emerald-100 mx-auto mb-6" />
-          <h3 className="text-2xl font-bold text-emerald-900 mb-3">No {activeTab} appointments</h3>
-          <p className="text-emerald-700/70 font-medium">
+        <div className="bg-surface rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 p-16 text-center">
+          <Calendar className="w-20 h-20 text-primary-muted mx-auto mb-6" />
+          <h3 className="text-2xl font-bold text-primary-dark mb-3">No {activeTab} appointments</h3>
+          <p className="text-primary-hover/70 font-medium">
             {activeTab === 'upcoming'
               ? "You don't have any upcoming sessions scheduled."
               : `You have no ${activeTab} sessions in your history.`}
@@ -136,28 +136,28 @@ const Appointments = () => {
             const whatsappLink = generateWhatsAppLink(profPhone, `Hi ${profName}, I wanted to confirm my upcoming appointment on ${new Date(apt.date).toLocaleDateString()} at ${apt.time}. Looking forward to our session!`);
 
             return (
-              <div key={apt.id} className="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 p-8">
+              <div key={apt.id} className="bg-surface rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 p-8">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
                   <div className="flex items-start gap-6">
-                    <div className="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-900 font-extrabold text-2xl flex-shrink-0 border border-emerald-100 shadow-sm">
+                    <div className="w-16 h-16 bg-primary-muted rounded-lg flex items-center justify-center text-primary-dark font-extrabold text-2xl flex-shrink-0 border border-primary-muted shadow-sm">
                       {profName.replace('Dr. ', '').charAt(0)}
                     </div>
                     <div>
                       <h3 className="font-bold text-xl mb-3">{profName}</h3>
-                      <div className="flex flex-wrap gap-3 text-sm text-emerald-900 font-medium mb-5">
-                        <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
-                          <Calendar className="w-4 h-4 mr-2 text-emerald-600" />
+                      <div className="flex flex-wrap gap-3 text-sm text-primary-dark font-medium mb-5">
+                        <div className="flex items-center bg-background px-3 py-1.5 rounded-xl border border-gray-100">
+                          <Calendar className="w-4 h-4 mr-2 text-primary" />
                           {new Date(apt.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
                         </div>
-                        <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
-                          <Clock className="w-4 h-4 mr-2 text-emerald-600" />
+                        <div className="flex items-center bg-background px-3 py-1.5 rounded-xl border border-gray-100">
+                          <Clock className="w-4 h-4 mr-2 text-primary" />
                           {apt.time} ({apt.duration} min)
                         </div>
-                        <div className="flex items-center bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
+                        <div className="flex items-center bg-background px-3 py-1.5 rounded-xl border border-gray-100">
                           {apt.format === 'online' ? (
-                            <><Video className="w-4 h-4 mr-2 text-emerald-600" /> Video Call</>
+                            <><Video className="w-4 h-4 mr-2 text-primary" /> Video Call</>
                           ) : (
-                            <><MapPin className="w-4 h-4 mr-2 text-emerald-600" /> In Person</>
+                            <><MapPin className="w-4 h-4 mr-2 text-primary" /> In Person</>
                           )}
                         </div>
                       </div>
@@ -171,7 +171,7 @@ const Appointments = () => {
                             <MessageCircle className="w-4 h-4 mr-1.5" /> WhatsApp Pro
                           </a>
                           {apt.format === 'online' && (
-                            <a href={sessionLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-xs font-bold text-white bg-emerald-600 px-4 py-2 rounded-xl hover:bg-emerald-700 transition-colors shadow-sm">
+                            <a href={sessionLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-xs font-bold text-white bg-primary px-4 py-2 rounded-xl hover:bg-primary-hover transition-colors shadow-sm">
                               <ExternalLink className="w-4 h-4 mr-1.5" /> Join Session
                             </a>
                           )}
@@ -184,14 +184,14 @@ const Appointments = () => {
                     {activeTab === 'upcoming' && (
                       <>
                         <button
-                          className="px-5 py-3 text-sm font-bold text-emerald-900 bg-emerald-50 rounded-2xl hover:bg-emerald-100 transition-colors shadow-sm whitespace-nowrap"
+                          className="px-5 py-3 text-sm font-bold text-primary-dark bg-primary-muted rounded-lg hover:bg-primary-muted transition-colors shadow-sm whitespace-nowrap"
                           onClick={() => navigate(`/patient/professionals/${apt.professionalId}`)}
                         >
                           Reschedule
                         </button>
                         <button
                           onClick={() => handleCancel(apt.id)}
-                          className="px-5 py-3 text-sm font-bold text-red-700 bg-red-50 rounded-2xl hover:bg-red-100 transition-colors flex items-center shadow-sm whitespace-nowrap"
+                          className="px-5 py-3 text-sm font-bold text-red-700 bg-red-50 rounded-lg hover:bg-red-100 transition-colors flex items-center shadow-sm whitespace-nowrap"
                         >
                           <X className="w-4 h-4 mr-1.5" /> Cancel
                         </button>
@@ -199,7 +199,7 @@ const Appointments = () => {
                     )}
                     {activeTab === 'past' && (
                       <button
-                        className="px-5 py-3 text-sm font-bold text-emerald-900 bg-emerald-50 rounded-2xl hover:bg-emerald-100 transition-colors shadow-sm"
+                        className="px-5 py-3 text-sm font-bold text-primary-dark bg-primary-muted rounded-lg hover:bg-primary-muted transition-colors shadow-sm"
                         onClick={() => navigate(`/patient/professionals/${apt.professionalId}`)}
                       >
                         Book Again

@@ -20,50 +20,50 @@ export default function Analytics() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-bold text-emerald-950 tracking-tight">Analytics</h1>
-        <p className="text-emerald-700/80 mt-1 font-medium">Monitor your profile performance and engagement.</p>
+        <h1 className="text-3xl font-bold text-foreground tracking-tight">Analytics</h1>
+        <p className="text-primary-hover/80 mt-1 font-medium">Monitor your profile performance and engagement.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+        <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
           <CardContent className="p-6 md:p-8">
             <div className="flex items-center space-x-5">
-              <div className="p-4 bg-emerald-100 text-emerald-700 rounded-2xl shadow-sm">
+              <div className="p-4 bg-primary-muted text-primary-hover rounded-lg shadow-sm">
                 <Eye className="h-7 w-7" />
               </div>
               <div>
-                <p className="text-sm font-bold text-emerald-800/70 uppercase tracking-wider">Profile Views</p>
-                <h3 className="text-3xl font-bold text-emerald-950 mt-1">{totalViews}</h3>
-                <p className="text-xs font-bold text-emerald-600 mt-2 bg-emerald-50 inline-block px-2 py-1 rounded-lg">+12% from last week</p>
+                <p className="text-sm font-bold text-primary-dark/70 uppercase tracking-wider">Profile Views</p>
+                <h3 className="text-3xl font-bold text-foreground mt-1">{totalViews}</h3>
+                <p className="text-xs font-bold text-primary mt-2 bg-primary-muted inline-block px-2 py-1 rounded-lg">+12% from last week</p>
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+        <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
           <CardContent className="p-6 md:p-8">
             <div className="flex items-center space-x-5">
-              <div className="p-4 bg-emerald-100 text-emerald-700 rounded-2xl shadow-sm">
+              <div className="p-4 bg-primary-muted text-primary-hover rounded-lg shadow-sm">
                 <MousePointerClick className="h-7 w-7" />
               </div>
               <div>
-                <p className="text-sm font-bold text-emerald-800/70 uppercase tracking-wider">Profile Clicks</p>
-                <h3 className="text-3xl font-bold text-emerald-950 mt-1">{totalClicks}</h3>
-                <p className="text-xs font-bold text-emerald-600 mt-2 bg-emerald-50 inline-block px-2 py-1 rounded-lg">+8% from last week</p>
+                <p className="text-sm font-bold text-primary-dark/70 uppercase tracking-wider">Profile Clicks</p>
+                <h3 className="text-3xl font-bold text-foreground mt-1">{totalClicks}</h3>
+                <p className="text-xs font-bold text-primary mt-2 bg-primary-muted inline-block px-2 py-1 rounded-lg">+8% from last week</p>
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+        <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
           <CardContent className="p-6 md:p-8">
             <div className="flex items-center space-x-5">
-              <div className="p-4 bg-emerald-100 text-emerald-700 rounded-2xl shadow-sm">
+              <div className="p-4 bg-primary-muted text-primary-hover rounded-lg shadow-sm">
                 <Users className="h-7 w-7" />
               </div>
               <div>
-                <p className="text-sm font-bold text-emerald-800/70 uppercase tracking-wider">Conversion Rate</p>
-                <h3 className="text-3xl font-bold text-emerald-950 mt-1">{((totalClicks / totalViews) * 100).toFixed(1)}%</h3>
+                <p className="text-sm font-bold text-primary-dark/70 uppercase tracking-wider">Conversion Rate</p>
+                <h3 className="text-3xl font-bold text-foreground mt-1">{((totalClicks / totalViews) * 100).toFixed(1)}%</h3>
                 <p className="text-xs font-bold text-rose-600 mt-2 bg-rose-50 inline-block px-2 py-1 rounded-lg">-2% from last week</p>
               </div>
             </div>
@@ -71,9 +71,9 @@ export default function Analytics() {
         </Card>
       </div>
 
-      <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+      <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
         <CardHeader className="pb-4 md:p-8">
-          <CardTitle className="text-xl font-bold text-emerald-950">Profile Views vs Clicks (This Week)</CardTitle>
+          <CardTitle className="text-xl font-bold text-foreground">Profile Views vs Clicks (This Week)</CardTitle>
         </CardHeader>
         <CardContent className="md:px-8 pb-8">
           <div className="h-80 w-full mt-4">

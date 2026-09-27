@@ -115,18 +115,18 @@ export default function StudentProfilePage() {
   const removeCertificate = (id: string) => handleFieldChange('certificates', profile.certificates.filter(c => c.id !== id));
 
   return (
-    <div className="space-y-10 max-w-4xl mx-auto animate-fade-in font-sans text-emerald-900 pb-12">
+    <div className="space-y-10 max-w-4xl mx-auto animate-fade-in font-sans text-primary-dark pb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight">My Profile</h1>
-          <p className="text-emerald-700/80 font-medium mt-2">
+          <p className="text-primary-hover/80 font-medium mt-2">
             This information is used as your resume when applying for internships.
           </p>
         </div>
         <button
           onClick={handleSave}
-          className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-md hover:shadow-lg w-full sm:w-auto"
+          className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white rounded-lg font-bold hover:bg-primary-hover transition-all shadow-md hover:shadow-lg w-full sm:w-auto"
         >
           {saved ? <CheckCircle2 className="w-5 h-5" /> : <Save className="w-5 h-5" />}
           {saved ? 'Saved Successfully!' : 'Save Profile'}
@@ -134,22 +134,22 @@ export default function StudentProfilePage() {
       </div>
 
       {/* Basic Info Card */}
-      <section className="bg-white rounded-3xl border-0 p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 space-y-8">
+      <section className="bg-surface rounded-xl border-0 p-8 md:p-10 shadow-sm hover:shadow-md transition-all duration-300 space-y-8">
         <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
-          <div className="p-2.5 bg-emerald-50 rounded-xl">
-            <User className="w-6 h-6 text-emerald-600" />
+          <div className="p-2.5 bg-primary-muted rounded-xl">
+            <User className="w-6 h-6 text-primary" />
           </div>
           <h2 className="text-xl font-extrabold">Personal Information</h2>
         </div>
 
         {/* Avatar placeholder */}
         <div className="flex items-center gap-6">
-          <div className="h-24 w-24 rounded-3xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-900 font-extrabold text-3xl shadow-sm">
+          <div className="h-24 w-24 rounded-xl bg-primary-muted border border-primary-muted flex items-center justify-center text-primary-dark font-extrabold text-3xl shadow-sm">
             {user?.firstName?.charAt(0) || 'S'}{user?.lastName?.charAt(0) || ''}
           </div>
           <div>
             <p className="text-2xl font-bold">{user?.firstName} {user?.lastName}</p>
-            <p className="text-emerald-700/70 font-medium mt-1 bg-gray-50 px-3 py-1 rounded-lg w-fit border border-gray-100">{user?.email}</p>
+            <p className="text-primary-hover/70 font-medium mt-1 bg-background px-3 py-1 rounded-lg w-fit border border-gray-100">{user?.email}</p>
           </div>
         </div>
 
@@ -161,7 +161,7 @@ export default function StudentProfilePage() {
               placeholder="e.g. Clinical Psychology"
               value={profile.fieldOfStudy}
               onChange={e => handleFieldChange('fieldOfStudy', e.target.value)}
-              className="w-full border-gray-200 bg-gray-50/50 rounded-2xl px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              className="w-full border-border bg-background/50 rounded-lg px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all"
             />
           </div>
           <div className="space-y-2">
@@ -171,37 +171,37 @@ export default function StudentProfilePage() {
               placeholder="e.g. 3rd Year, Semester 6"
               value={profile.currentYear}
               onChange={e => handleFieldChange('currentYear', e.target.value)}
-              className="w-full border-gray-200 bg-gray-50/50 rounded-2xl px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              className="w-full border-border bg-background/50 rounded-lg px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all"
             />
           </div>
           <div className="space-y-2">
-            <label className="block text-sm font-bold ml-1 flex items-center gap-2"><Phone className="w-4 h-4 text-emerald-600/50" /> Phone</label>
+            <label className="block text-sm font-bold ml-1 flex items-center gap-2"><Phone className="w-4 h-4 text-primary/50" /> Phone</label>
             <input
               type="tel"
               placeholder="+91 9876543210"
               value={profile.phone}
               onChange={e => handleFieldChange('phone', e.target.value)}
-              className="w-full border-gray-200 bg-gray-50/50 rounded-2xl px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              className="w-full border-border bg-background/50 rounded-lg px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all"
             />
           </div>
           <div className="space-y-2">
-            <label className="block text-sm font-bold ml-1 flex items-center gap-2"><MapPin className="w-4 h-4 text-emerald-600/50" /> Location</label>
+            <label className="block text-sm font-bold ml-1 flex items-center gap-2"><MapPin className="w-4 h-4 text-primary/50" /> Location</label>
             <input
               type="text"
               placeholder="e.g. Mumbai, Maharashtra"
               value={profile.location}
               onChange={e => handleFieldChange('location', e.target.value)}
-              className="w-full border-gray-200 bg-gray-50/50 rounded-2xl px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              className="w-full border-border bg-background/50 rounded-lg px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all"
             />
           </div>
           <div className="md:col-span-2 space-y-2">
-            <label className="block text-sm font-bold ml-1 flex items-center gap-2"><Globe className="w-4 h-4 text-emerald-600/50" /> LinkedIn / Portfolio URL</label>
+            <label className="block text-sm font-bold ml-1 flex items-center gap-2"><Globe className="w-4 h-4 text-primary/50" /> LinkedIn / Portfolio URL</label>
             <input
               type="url"
               placeholder="https://linkedin.com/in/yourprofile"
               value={profile.website}
               onChange={e => handleFieldChange('website', e.target.value)}
-              className="w-full border-gray-200 bg-gray-50/50 rounded-2xl px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              className="w-full border-border bg-background/50 rounded-lg px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all"
             />
           </div>
           <div className="md:col-span-2 space-y-2">
@@ -211,25 +211,25 @@ export default function StudentProfilePage() {
               placeholder="Tell professionals a little about yourself and your interests..."
               value={profile.bio}
               onChange={e => handleFieldChange('bio', e.target.value)}
-              className="w-full border-gray-200 bg-gray-50/50 rounded-2xl px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all resize-none"
+              className="w-full border-border bg-background/50 rounded-lg px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all resize-none"
             />
           </div>
         </div>
       </section>
 
       {/* Education Section */}
-      <section className="bg-white rounded-3xl border-0 p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 space-y-6">
+      <section className="bg-surface rounded-xl border-0 p-8 md:p-10 shadow-sm hover:shadow-md transition-all duration-300 space-y-6">
         <div className="flex items-center justify-between border-b border-gray-100 pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-emerald-50 rounded-xl">
-              <GraduationCap className="w-6 h-6 text-emerald-600" />
+            <div className="p-2.5 bg-primary-muted rounded-xl">
+              <GraduationCap className="w-6 h-6 text-primary" />
             </div>
             <h2 className="text-xl font-extrabold">Education</h2>
           </div>
           {!newEdu && (
             <button
               onClick={() => setNewEdu({ degree: '', institution: '', year: '', grade: '' })}
-              className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl px-4 py-2.5 transition-all shadow-sm"
+              className="inline-flex items-center gap-2 text-sm font-bold text-primary-hover bg-primary-muted hover:bg-primary-muted rounded-xl px-4 py-2.5 transition-all shadow-sm"
             >
               <Plus className="w-4 h-4" /> Add Education
             </button>
@@ -237,24 +237,24 @@ export default function StudentProfilePage() {
         </div>
 
         {profile.education.length === 0 && !newEdu && (
-          <div className="text-sm font-medium text-emerald-900/40 text-center py-10 bg-gray-50 rounded-2xl border border-gray-100 border-dashed">
+          <div className="text-sm font-medium text-primary-dark/40 text-center py-10 bg-background rounded-lg border border-gray-100 border-dashed">
             No education added yet. Click "Add Education" to get started.
           </div>
         )}
 
         <div className="space-y-4">
           {profile.education.map(edu => (
-            <div key={edu.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl border border-gray-100 bg-gray-50/50 hover:bg-white hover:shadow-md transition-all">
+            <div key={edu.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-lg border border-gray-100 bg-background/50 hover:bg-surface hover:shadow-md transition-all">
               <div>
                 <p className="text-lg font-bold">{edu.degree}</p>
-                <div className="flex flex-wrap gap-2 text-sm font-medium text-emerald-700/70 mt-1">
+                <div className="flex flex-wrap gap-2 text-sm font-medium text-primary-hover/70 mt-1">
                   <span>{edu.institution}</span>
                   <span className="opacity-50">•</span>
                   <span>{edu.year}</span>
                 </div>
-                {edu.grade && <p className="text-sm text-emerald-600 font-bold mt-2 bg-emerald-50 px-3 py-1 rounded-lg w-fit">Grade: {edu.grade}</p>}
+                {edu.grade && <p className="text-sm text-primary font-bold mt-2 bg-primary-muted px-3 py-1 rounded-lg w-fit">Grade: {edu.grade}</p>}
               </div>
-              <button onClick={() => removeEducation(edu.id)} className="p-3 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all shadow-sm">
+              <button onClick={() => removeEducation(edu.id)} className="p-3 bg-surface border border-gray-100 rounded-xl text-gray-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all shadow-sm">
                 <Trash2 className="w-5 h-5" />
               </button>
             </div>
@@ -263,55 +263,55 @@ export default function StudentProfilePage() {
 
         {/* Add Education Form */}
         {newEdu && (
-          <div className="p-6 md:p-8 rounded-2xl border border-emerald-200 bg-emerald-50/50 space-y-6 shadow-inner">
-            <p className="text-sm font-extrabold text-emerald-800 uppercase tracking-widest">New Education Entry</p>
+          <div className="p-6 md:p-8 rounded-lg border border-primary-muted bg-primary-muted/50 space-y-6 shadow-inner">
+            <p className="text-sm font-extrabold text-primary-dark uppercase tracking-widest">New Education Entry</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="block text-sm font-bold ml-1">Degree / Program *</label>
                 <input type="text" placeholder="e.g. B.Sc Psychology" value={newEdu.degree}
                   onChange={e => setNewEdu({ ...newEdu, degree: e.target.value })}
-                  className="w-full border-gray-200 bg-white rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm" />
+                  className="w-full border-border bg-surface rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-ring focus:border-primary shadow-sm" />
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-bold ml-1">Institution *</label>
                 <input type="text" placeholder="e.g. Delhi University" value={newEdu.institution}
                   onChange={e => setNewEdu({ ...newEdu, institution: e.target.value })}
-                  className="w-full border-gray-200 bg-white rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm" />
+                  className="w-full border-border bg-surface rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-ring focus:border-primary shadow-sm" />
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-bold ml-1">Year / Duration</label>
                 <input type="text" placeholder="e.g. 2022 – 2025" value={newEdu.year}
                   onChange={e => setNewEdu({ ...newEdu, year: e.target.value })}
-                  className="w-full border-gray-200 bg-white rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm" />
+                  className="w-full border-border bg-surface rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-ring focus:border-primary shadow-sm" />
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-bold ml-1">Grade / CGPA (optional)</label>
                 <input type="text" placeholder="e.g. 8.5 / 10" value={newEdu.grade}
                   onChange={e => setNewEdu({ ...newEdu, grade: e.target.value })}
-                  className="w-full border-gray-200 bg-white rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm" />
+                  className="w-full border-border bg-surface rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-ring focus:border-primary shadow-sm" />
               </div>
             </div>
             <div className="flex gap-4 pt-2">
-              <button onClick={addEducation} className="px-6 py-3 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-md">Save Entry</button>
-              <button onClick={() => setNewEdu(null)} className="px-6 py-3 bg-white border border-gray-200 rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition-all shadow-sm">Cancel</button>
+              <button onClick={addEducation} className="px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-hover transition-all shadow-md">Save Entry</button>
+              <button onClick={() => setNewEdu(null)} className="px-6 py-3 bg-surface border border-border rounded-xl font-bold text-muted-foreground hover:bg-background transition-all shadow-sm">Cancel</button>
             </div>
           </div>
         )}
       </section>
 
       {/* Certificates Section */}
-      <section className="bg-white rounded-3xl border-0 p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 space-y-6">
+      <section className="bg-surface rounded-xl border-0 p-8 md:p-10 shadow-sm hover:shadow-md transition-all duration-300 space-y-6">
         <div className="flex items-center justify-between border-b border-gray-100 pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-emerald-50 rounded-xl">
-              <Award className="w-6 h-6 text-emerald-600" />
+            <div className="p-2.5 bg-primary-muted rounded-xl">
+              <Award className="w-6 h-6 text-primary" />
             </div>
             <h2 className="text-xl font-extrabold">Certifications & Courses</h2>
           </div>
           {!newCert && (
             <button
               onClick={() => setNewCert({ name: '', issuer: '', year: '', credentialId: '' })}
-              className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl px-4 py-2.5 transition-all shadow-sm"
+              className="inline-flex items-center gap-2 text-sm font-bold text-primary-hover bg-primary-muted hover:bg-primary-muted rounded-xl px-4 py-2.5 transition-all shadow-sm"
             >
               <Plus className="w-4 h-4" /> Add Certificate
             </button>
@@ -319,24 +319,24 @@ export default function StudentProfilePage() {
         </div>
 
         {profile.certificates.length === 0 && !newCert && (
-          <div className="text-sm font-medium text-emerald-900/40 text-center py-10 bg-gray-50 rounded-2xl border border-gray-100 border-dashed">
+          <div className="text-sm font-medium text-primary-dark/40 text-center py-10 bg-background rounded-lg border border-gray-100 border-dashed">
             No certificates added yet. Add courses, workshops, or training programs.
           </div>
         )}
 
         <div className="space-y-4">
           {profile.certificates.map(cert => (
-            <div key={cert.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl border border-gray-100 bg-gray-50/50 hover:bg-white hover:shadow-md transition-all">
+            <div key={cert.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-lg border border-gray-100 bg-background/50 hover:bg-surface hover:shadow-md transition-all">
               <div>
                 <p className="text-lg font-bold">{cert.name}</p>
-                <div className="flex flex-wrap gap-2 text-sm font-medium text-emerald-700/70 mt-1">
+                <div className="flex flex-wrap gap-2 text-sm font-medium text-primary-hover/70 mt-1">
                   <span>{cert.issuer}</span>
                   <span className="opacity-50">•</span>
                   <span>{cert.year}</span>
                 </div>
-                {cert.credentialId && <p className="text-sm text-gray-500 font-mono font-bold mt-2 bg-gray-100 px-3 py-1 rounded-lg w-fit border border-gray-200">ID: {cert.credentialId}</p>}
+                {cert.credentialId && <p className="text-sm text-muted-foreground font-mono font-bold mt-2 bg-surface-hover px-3 py-1 rounded-lg w-fit border border-border">ID: {cert.credentialId}</p>}
               </div>
-              <button onClick={() => removeCertificate(cert.id)} className="p-3 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all shadow-sm">
+              <button onClick={() => removeCertificate(cert.id)} className="p-3 bg-surface border border-gray-100 rounded-xl text-gray-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all shadow-sm">
                 <Trash2 className="w-5 h-5" />
               </button>
             </div>
@@ -345,62 +345,62 @@ export default function StudentProfilePage() {
 
         {/* Add Certificate Form */}
         {newCert && (
-          <div className="p-6 md:p-8 rounded-2xl border border-emerald-200 bg-emerald-50/50 space-y-6 shadow-inner">
-            <p className="text-sm font-extrabold text-emerald-800 uppercase tracking-widest">New Certificate</p>
+          <div className="p-6 md:p-8 rounded-lg border border-primary-muted bg-primary-muted/50 space-y-6 shadow-inner">
+            <p className="text-sm font-extrabold text-primary-dark uppercase tracking-widest">New Certificate</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="block text-sm font-bold ml-1">Certificate Name *</label>
                 <input type="text" placeholder="e.g. CBT Foundations Course" value={newCert.name}
                   onChange={e => setNewCert({ ...newCert, name: e.target.value })}
-                  className="w-full border-gray-200 bg-white rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm" />
+                  className="w-full border-border bg-surface rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-ring focus:border-primary shadow-sm" />
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-bold ml-1">Issuing Organization *</label>
                 <input type="text" placeholder="e.g. Coursera / NIMHANS" value={newCert.issuer}
                   onChange={e => setNewCert({ ...newCert, issuer: e.target.value })}
-                  className="w-full border-gray-200 bg-white rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm" />
+                  className="w-full border-border bg-surface rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-ring focus:border-primary shadow-sm" />
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-bold ml-1">Year</label>
                 <input type="text" placeholder="e.g. 2024" value={newCert.year}
                   onChange={e => setNewCert({ ...newCert, year: e.target.value })}
-                  className="w-full border-gray-200 bg-white rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm" />
+                  className="w-full border-border bg-surface rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-ring focus:border-primary shadow-sm" />
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-bold ml-1">Credential ID (optional)</label>
                 <input type="text" placeholder="e.g. CERT-12345" value={newCert.credentialId}
                   onChange={e => setNewCert({ ...newCert, credentialId: e.target.value })}
-                  className="w-full border-gray-200 bg-white rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm" />
+                  className="w-full border-border bg-surface rounded-xl px-5 py-4 text-sm font-medium focus:ring-2 focus:ring-ring focus:border-primary shadow-sm" />
               </div>
             </div>
             <div className="flex gap-4 pt-2">
-              <button onClick={addCertificate} className="px-6 py-3 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-md">Save Entry</button>
-              <button onClick={() => setNewCert(null)} className="px-6 py-3 bg-white border border-gray-200 rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition-all shadow-sm">Cancel</button>
+              <button onClick={addCertificate} className="px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-hover transition-all shadow-md">Save Entry</button>
+              <button onClick={() => setNewCert(null)} className="px-6 py-3 bg-surface border border-border rounded-xl font-bold text-muted-foreground hover:bg-background transition-all shadow-sm">Cancel</button>
             </div>
           </div>
         )}
       </section>
 
       {/* Skills Section */}
-      <section className="bg-white rounded-3xl border-0 p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 space-y-6">
+      <section className="bg-surface rounded-xl border-0 p-8 md:p-10 shadow-sm hover:shadow-md transition-all duration-300 space-y-6">
         <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
-          <div className="p-2.5 bg-emerald-50 rounded-xl">
-            <BookOpen className="w-6 h-6 text-emerald-600" />
+          <div className="p-2.5 bg-primary-muted rounded-xl">
+            <BookOpen className="w-6 h-6 text-primary" />
           </div>
           <h2 className="text-xl font-extrabold">Skills & Competencies</h2>
         </div>
 
         <div className="flex flex-wrap gap-3 min-h-[50px]">
           {profile.skills.map(skill => (
-            <span key={skill} className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-900 border border-emerald-100 rounded-xl text-sm font-bold shadow-sm">
+            <span key={skill} className="inline-flex items-center gap-2 px-4 py-2 bg-primary-muted text-primary-dark border border-primary-muted rounded-xl text-sm font-bold shadow-sm">
               {skill}
-              <button onClick={() => removeSkill(skill)} className="p-1 bg-white rounded-lg text-emerald-600/50 hover:text-red-500 transition-colors shadow-sm border border-emerald-100">
+              <button onClick={() => removeSkill(skill)} className="p-1 bg-surface rounded-lg text-primary/50 hover:text-red-500 transition-colors shadow-sm border border-primary-muted">
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
             </span>
           ))}
           {profile.skills.length === 0 && (
-            <span className="text-sm font-medium text-emerald-900/40 py-2">No skills added yet.</span>
+            <span className="text-sm font-medium text-primary-dark/40 py-2">No skills added yet.</span>
           )}
         </div>
 
@@ -411,11 +411,11 @@ export default function StudentProfilePage() {
             value={newSkill}
             onChange={e => setNewSkill(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addSkill(); } }}
-            className="flex-1 border-gray-200 bg-gray-50/50 rounded-2xl px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+            className="flex-1 border-border bg-background/50 rounded-lg px-5 py-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all"
           />
           <button
             onClick={addSkill}
-            className="px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-md flex items-center justify-center"
+            className="px-8 py-4 bg-primary text-white rounded-lg font-bold hover:bg-primary-hover transition-all shadow-md flex items-center justify-center"
           >
             <Plus className="w-5 h-5 mr-2" /> Add Skill
           </button>

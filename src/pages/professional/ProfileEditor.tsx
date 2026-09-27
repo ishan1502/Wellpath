@@ -80,8 +80,8 @@ export default function ProfileEditor() {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Public Profile</h1>
-        <p className="text-gray-500">Manage how you appear to patients and students.</p>
+        <h1 className="text-2xl font-bold text-foreground tracking-tight">Public Profile</h1>
+        <p className="text-muted-foreground">Manage how you appear to patients and students.</p>
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -96,7 +96,7 @@ export default function ProfileEditor() {
               </div>
               <div>
                 <Button variant="outline" type="button" size="sm">Change Photo</Button>
-                <p className="text-xs text-gray-500 mt-2">JPG, GIF or PNG. Max size of 2MB.</p>
+                <p className="text-xs text-muted-foreground mt-2">JPG, GIF or PNG. Max size of 2MB.</p>
               </div>
             </div>
 
@@ -154,12 +154,12 @@ export default function ProfileEditor() {
                   type="checkbox"
                   checked={formData.acceptsInterns}
                   onChange={handleChange}
-                  className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                  className="h-4 w-4 text-primary focus:ring-primary border-border rounded"
                 />
               </div>
               <div className="text-sm">
                 <label htmlFor="acceptsInterns" className="font-medium text-gray-700">Open to Interns</label>
-                <p className="text-gray-500">Allow students to apply for internship opportunities under your supervision.</p>
+                <p className="text-muted-foreground">Allow students to apply for internship opportunities under your supervision.</p>
               </div>
             </div>
           </CardContent>

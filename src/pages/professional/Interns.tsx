@@ -39,40 +39,40 @@ export default function Interns() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-bold text-emerald-950 tracking-tight">Internship Requests</h1>
-        <p className="text-emerald-700/80 mt-1 font-medium">Manage students requesting to intern under your supervision.</p>
+        <h1 className="text-3xl font-bold text-foreground tracking-tight">Internship Requests</h1>
+        <p className="text-primary-hover/80 mt-1 font-medium">Manage students requesting to intern under your supervision.</p>
       </div>
 
-      <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+      <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
         <CardHeader className="pb-4 md:p-8">
-          <CardTitle className="text-xl font-bold text-emerald-950">Applications</CardTitle>
+          <CardTitle className="text-xl font-bold text-foreground">Applications</CardTitle>
         </CardHeader>
         <CardContent className="md:px-8 pb-8">
           {loading ? (
             <div className="space-y-4">
               {[1, 2].map(i => (
-                <div key={i} className="h-28 bg-emerald-50 animate-pulse rounded-2xl"></div>
+                <div key={i} className="h-28 bg-primary-muted animate-pulse rounded-lg"></div>
               ))}
             </div>
           ) : applications.length > 0 ? (
             <div className="space-y-5">
               {applications.map(app => (
-                <div key={app.id} className="bg-emerald-50/30 border border-emerald-100 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-start justify-between gap-5 shadow-sm hover:shadow-md transition-shadow">
+                <div key={app.id} className="bg-primary-muted/30 border border-primary-muted rounded-lg p-5 md:p-6 flex flex-col md:flex-row md:items-start justify-between gap-5 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex gap-5">
-                    <div className="h-14 w-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0 shadow-sm">
+                    <div className="h-14 w-14 rounded-lg bg-primary-muted flex items-center justify-center text-primary-hover shrink-0 shadow-sm">
                       <GraduationCap className="h-7 w-7" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-emerald-950">{app.studentName || 'Unknown Student'}</h3>
-                      <p className="text-xs text-emerald-700/80 font-semibold mt-1 uppercase tracking-wider">Applied on {format(parseISO(app.appliedAt), 'MMM d, yyyy')}</p>
+                      <h3 className="text-lg font-bold text-foreground">{app.studentName || 'Unknown Student'}</h3>
+                      <p className="text-xs text-primary-hover/80 font-semibold mt-1 uppercase tracking-wider">Applied on {format(parseISO(app.appliedAt), 'MMM d, yyyy')}</p>
                       
                       {app.motivationText && (
-                        <div className="mt-4 text-sm text-emerald-900 bg-white p-4 rounded-xl border border-emerald-100 font-medium italic shadow-sm">
+                        <div className="mt-4 text-sm text-primary-dark bg-surface p-4 rounded-xl border border-primary-muted font-medium italic shadow-sm">
                           "{app.motivationText}"
                         </div>
                       )}
                       
-                      <button className="mt-4 flex items-center text-xs text-emerald-600 font-bold hover:text-emerald-800 transition-colors">
+                      <button className="mt-4 flex items-center text-xs text-primary font-bold hover:text-primary-dark transition-colors">
                         <FileText className="h-4 w-4 mr-1.5" /> View Full Profile
                       </button>
                     </div>
@@ -83,7 +83,7 @@ export default function Interns() {
                       <>
                         <button 
                           onClick={() => handleStatusUpdate(app.id, 'accepted')}
-                          className="flex items-center justify-center w-full md:w-32 px-4 py-2.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl text-sm font-bold transition-all duration-300 shadow-sm"
+                          className="flex items-center justify-center w-full md:w-32 px-4 py-2.5 bg-primary text-white hover:bg-primary-hover rounded-xl text-sm font-bold transition-all duration-300 shadow-sm"
                         >
                           <Check className="h-4 w-4 mr-1.5" /> Accept
                         </button>
@@ -96,7 +96,7 @@ export default function Interns() {
                       </>
                     ) : (
                       <span className={`px-4 py-2 text-xs font-bold rounded-xl capitalize shadow-sm ${
-                        app.status === 'accepted' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-rose-100 text-rose-800 border border-rose-200'
+                        app.status === 'accepted' ? 'bg-primary-muted text-primary-dark border border-primary-muted' : 'bg-rose-100 text-rose-800 border border-rose-200'
                       }`}>
                         {app.status}
                       </span>
@@ -106,9 +106,9 @@ export default function Interns() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 bg-emerald-50 rounded-2xl">
-              <GraduationCap className="mx-auto h-12 w-12 text-emerald-200 mb-3" />
-              <p className="text-sm font-semibold text-emerald-700">No applications received yet.</p>
+            <div className="text-center py-12 bg-primary-muted rounded-lg">
+              <GraduationCap className="mx-auto h-12 w-12 text-primary-muted mb-3" />
+              <p className="text-sm font-semibold text-primary-hover">No applications received yet.</p>
             </div>
           )}
         </CardContent>

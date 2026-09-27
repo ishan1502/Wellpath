@@ -27,57 +27,57 @@ export default function Earnings() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-bold text-emerald-950 tracking-tight">Earnings</h1>
-        <p className="text-emerald-700/80 mt-1 font-medium">Track your revenue and payment history.</p>
+        <h1 className="text-3xl font-bold text-foreground tracking-tight">Earnings</h1>
+        <p className="text-primary-hover/80 mt-1 font-medium">Track your revenue and payment history.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+        <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
           <CardContent className="p-6 md:p-8">
             <div className="flex items-center space-x-5">
-              <div className="p-4 bg-emerald-100 text-emerald-700 rounded-2xl shadow-sm">
+              <div className="p-4 bg-primary-muted text-primary-hover rounded-lg shadow-sm">
                 <DollarSign className="h-7 w-7" />
               </div>
               <div>
-                <p className="text-sm font-bold text-emerald-800/70 uppercase tracking-wider">Weekly Earnings</p>
-                <h3 className="text-3xl font-bold text-emerald-950 mt-1">₹{totalWeekly}</h3>
+                <p className="text-sm font-bold text-primary-dark/70 uppercase tracking-wider">Weekly Earnings</p>
+                <h3 className="text-3xl font-bold text-foreground mt-1">₹{totalWeekly}</h3>
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+        <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
           <CardContent className="p-6 md:p-8">
             <div className="flex items-center space-x-5">
-              <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl shadow-sm border border-emerald-100">
+              <div className="p-4 bg-primary-muted text-primary rounded-lg shadow-sm border border-primary-muted">
                 <TrendingUp className="h-7 w-7" />
               </div>
               <div>
-                <p className="text-sm font-bold text-emerald-800/70 uppercase tracking-wider">Monthly Projected</p>
-                <h3 className="text-3xl font-bold text-emerald-950 mt-1">₹{(totalWeekly * 4.2).toFixed(0)}</h3>
+                <p className="text-sm font-bold text-primary-dark/70 uppercase tracking-wider">Monthly Projected</p>
+                <h3 className="text-3xl font-bold text-foreground mt-1">₹{(totalWeekly * 4.2).toFixed(0)}</h3>
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+        <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
           <CardContent className="p-6 md:p-8">
             <div className="flex items-center space-x-5">
-              <div className="p-4 bg-emerald-100 text-emerald-700 rounded-2xl shadow-sm">
+              <div className="p-4 bg-primary-muted text-primary-hover rounded-lg shadow-sm">
                 <CreditCard className="h-7 w-7" />
               </div>
               <div>
-                <p className="text-sm font-bold text-emerald-800/70 uppercase tracking-wider">Next Payout</p>
-                <h3 className="text-3xl font-bold text-emerald-950 mt-1">Sep 15</h3>
+                <p className="text-sm font-bold text-primary-dark/70 uppercase tracking-wider">Next Payout</p>
+                <h3 className="text-3xl font-bold text-foreground mt-1">Sep 15</h3>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border-0 bg-white">
+      <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border-0 bg-surface">
         <CardHeader className="pb-2 md:p-8">
-          <CardTitle className="text-xl font-bold text-emerald-950">Earnings Overview (This Week)</CardTitle>
+          <CardTitle className="text-xl font-bold text-foreground">Earnings Overview (This Week)</CardTitle>
         </CardHeader>
         <CardContent className="md:px-8 pb-8">
           <div className="h-80 w-full mt-4">

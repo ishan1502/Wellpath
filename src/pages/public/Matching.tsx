@@ -25,7 +25,7 @@ const QUESTIONS = [
   {
     title: 'Do you have any preferences for your professional?',
     subtitle: 'Your comfort is our top priority.',
-    icon: <Shield className="w-8 h-8 text-emerald-500 mb-4" />,
+    icon: <Shield className="w-8 h-8 text-primary mb-4" />,
     options: ['Female', 'Male', 'Non-binary', 'LGBTQ+ Affirming', 'Faith-based', 'No preference']
   }
 ];
@@ -80,15 +80,15 @@ export default function Matching() {
 
   if (isAnalyzing) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl max-w-md w-full text-center border border-gray-100">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="bg-surface p-8 md:p-12 rounded-xl shadow-md max-w-md w-full text-center border border-gray-100">
           <div className="relative w-24 h-24 mx-auto mb-8">
-            <div className="absolute inset-0 border-4 border-emerald-100 rounded-full"></div>
-            <div className="absolute inset-0 border-4 border-emerald-600 rounded-full border-t-transparent animate-spin"></div>
-            <Heart className="absolute inset-0 m-auto w-8 h-8 text-emerald-600 animate-pulse" />
+            <div className="absolute inset-0 border-4 border-primary-muted rounded-full"></div>
+            <div className="absolute inset-0 border-4 border-primary rounded-full border-t-transparent animate-spin"></div>
+            <Heart className="absolute inset-0 m-auto w-8 h-8 text-primary animate-pulse" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Finding your match</h2>
-          <p className="text-gray-500">We're analyzing your answers to connect you with the perfect professional...</p>
+          <h2 className="text-2xl font-bold text-foreground mb-2">Finding your match</h2>
+          <p className="text-muted-foreground">We're analyzing your answers to connect you with the perfect professional...</p>
         </div>
       </div>
     );
@@ -97,14 +97,14 @@ export default function Matching() {
   const currentQuestion = QUESTIONS[currentStep];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pt-12 pb-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background flex flex-col pt-12 pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto w-full flex-grow flex flex-col">
         {/* Progress */}
         <div className="mb-12">
           <div className="flex justify-between items-center mb-4">
             <button 
               onClick={handleBack}
-              className="p-2 hover:bg-gray-200 rounded-full transition-colors text-gray-500"
+              className="p-2 hover:bg-gray-200 rounded-full transition-colors text-muted-foreground"
               aria-label="Go back"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -116,18 +116,18 @@ export default function Matching() {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
             <div 
-              className="bg-emerald-600 h-full rounded-full transition-all duration-500 ease-out" 
+              className="bg-primary h-full rounded-full transition-all duration-500 ease-out" 
               style={{ width: `${((currentStep) / QUESTIONS.length) * 100}%` }}
             ></div>
           </div>
         </div>
 
         {/* Question Area */}
-        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100 flex-grow flex flex-col">
+        <div className="bg-surface rounded-xl p-8 md:p-12 shadow-sm border border-gray-100 flex-grow flex flex-col">
           <div className="text-center mb-10">
             <div className="flex justify-center">{currentQuestion.icon}</div>
-            <h1 className="text-3xl font-extrabold text-gray-900 mb-3">{currentQuestion.title}</h1>
-            <p className="text-gray-500">{currentQuestion.subtitle}</p>
+            <h1 className="text-3xl font-extrabold text-foreground mb-3">{currentQuestion.title}</h1>
+            <p className="text-muted-foreground">{currentQuestion.subtitle}</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-auto mb-8">
@@ -137,17 +137,17 @@ export default function Matching() {
                 <button
                   key={option}
                   onClick={() => handleSelect(option)}
-                  className={`relative p-5 text-left rounded-2xl border-2 transition-all duration-200 flex items-center justify-between group ${
+                  className={`relative p-5 text-left rounded-lg border-2 transition-all duration-200 flex items-center justify-between group ${
                     isSelected 
-                      ? 'border-emerald-600 bg-emerald-50 text-emerald-900' 
-                      : 'border-gray-100 bg-white hover:border-emerald-300 hover:bg-emerald-50/50 text-gray-700'
+                      ? 'border-primary bg-primary-muted text-primary-dark' 
+                      : 'border-gray-100 bg-surface hover:border-primary-muted-foreground hover:bg-primary-muted/50 text-gray-700'
                   }`}
                 >
-                  <span className={`font-semibold ${isSelected ? '' : 'group-hover:text-emerald-700'}`}>
+                  <span className={`font-semibold ${isSelected ? '' : 'group-hover:text-primary-hover'}`}>
                     {option}
                   </span>
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
-                    isSelected ? 'bg-emerald-600 text-white' : 'bg-gray-100 group-hover:bg-emerald-200'
+                    isSelected ? 'bg-primary text-white' : 'bg-surface-hover group-hover:bg-primary-muted'
                   }`}>
                     {isSelected && <Check className="w-4 h-4" />}
                   </div>
@@ -160,7 +160,7 @@ export default function Matching() {
             <Button 
               onClick={handleNext} 
               disabled={!answers[currentStep]}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-6 rounded-xl text-lg font-bold w-full sm:w-auto"
+              className="bg-primary hover:bg-primary-hover text-white px-8 py-6 rounded-xl text-lg font-bold w-full sm:w-auto"
             >
               {currentStep === QUESTIONS.length - 1 ? 'Find Matches' : 'Continue'} <ArrowRight className="w-5 h-5 ml-2" />
             </Button>

@@ -27,7 +27,7 @@ export function NotificationBell({
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 text-gray-500 hover:text-emerald-600 rounded-full hover:bg-emerald-50 relative focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors"
+        className="p-2 text-muted-foreground hover:text-primary rounded-full hover:bg-primary-muted relative focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors"
         aria-label="Notifications"
       >
         <Bell className="w-5 h-5" />
@@ -37,13 +37,13 @@ export function NotificationBell({
       </button>
 
       {isOpen && (
-        <div className={`absolute ${align === 'left' ? 'left-0' : 'right-0'} ${placement === 'top' ? 'bottom-full mb-2' : 'mt-2'} w-80 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden z-50`}>
-          <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-            <h3 className="font-semibold text-gray-800">Notifications</h3>
+        <div className={`absolute ${align === 'left' ? 'left-0' : 'right-0'} ${placement === 'top' ? 'bottom-full mb-2' : 'mt-2'} w-80 max-w-[calc(100vw-2rem)] bg-surface rounded-lg shadow-md border border-gray-100 overflow-hidden z-50`}>
+          <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-background">
+            <h3 className="font-semibold text-foreground">Notifications</h3>
             {unreadCount > 0 && (
               <button 
                 onClick={markAllAsRead}
-                className="text-xs text-emerald-600 hover:text-emerald-700 font-medium flex items-center"
+                className="text-xs text-primary hover:text-primary-hover font-medium flex items-center"
               >
                 <Check className="w-3 h-3 mr-1" />
                 Mark all as read
@@ -52,33 +52,33 @@ export function NotificationBell({
           </div>
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="p-4 text-center text-gray-500 text-sm">
+              <div className="p-4 text-center text-muted-foreground text-sm">
                 No notifications
               </div>
             ) : (
               notifications.map((notification) => (
                 <div 
                   key={notification.id} 
-                  className={`p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer ${notification.read ? 'opacity-70' : 'bg-emerald-50/30'}`}
+                  className={`p-4 border-b border-gray-50 hover:bg-background transition-colors cursor-pointer ${notification.read ? 'opacity-70' : 'bg-primary-muted/30'}`}
                   onClick={() => markAsRead(notification.id)}
                 >
                   <div className="flex justify-between items-start mb-1">
-                    <h4 className={`text-sm font-medium ${notification.read ? 'text-gray-700' : 'text-gray-900'}`}>
+                    <h4 className={`text-sm font-medium ${notification.read ? 'text-gray-700' : 'text-foreground'}`}>
                       {notification.title}
                     </h4>
                     <span className="text-xs text-gray-400 whitespace-nowrap ml-2">
                       {notification.time}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600 line-clamp-2">
+                  <p className="text-sm text-muted-foreground line-clamp-2">
                     {notification.message}
                   </p>
                 </div>
               ))
             )}
           </div>
-          <div className="p-3 border-t border-gray-100 text-center bg-gray-50">
-            <button className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
+          <div className="p-3 border-t border-gray-100 text-center bg-background">
+            <button className="text-sm text-primary hover:text-primary-hover font-medium">
               View all notifications
             </button>
           </div>

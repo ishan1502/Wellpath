@@ -53,91 +53,91 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-extrabold text-emerald-950 tracking-tight">System Overview</h1>
-        <p className="text-emerald-700/80 mt-1 font-medium">Platform metrics and pending actions.</p>
+        <h1 className="text-3xl font-extrabold text-foreground tracking-tight">System Overview</h1>
+        <p className="text-primary-hover/80 mt-1 font-medium">Platform metrics and pending actions.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="border-emerald-100 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group">
+        <Card className="border-primary-muted bg-surface rounded-xl shadow-sm hover:shadow-md transition-all duration-300 group">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-semibold text-emerald-600">Total Users</CardTitle>
-            <div className="p-3 bg-emerald-50 rounded-2xl group-hover:bg-emerald-100 transition-colors">
-              <Users className="h-5 w-5 text-emerald-600" />
+            <CardTitle className="text-sm font-semibold text-primary">Total Users</CardTitle>
+            <div className="p-3 bg-primary-muted rounded-lg group-hover:bg-primary-muted transition-colors">
+              <Users className="h-5 w-5 text-primary" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-extrabold text-emerald-950">{loading ? '-' : stats.users}</div>
-            <p className="text-sm font-medium text-emerald-600 mt-2 flex items-center">
+            <div className="text-4xl font-extrabold text-foreground">{loading ? '-' : stats.users}</div>
+            <p className="text-sm font-medium text-primary mt-2 flex items-center">
               Total registered users
             </p>
           </CardContent>
         </Card>
         
-        <Card className="border-emerald-100 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group">
+        <Card className="border-primary-muted bg-surface rounded-xl shadow-sm hover:shadow-md transition-all duration-300 group">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-semibold text-emerald-600">Active Professionals</CardTitle>
-            <div className="p-3 bg-emerald-50 rounded-2xl group-hover:bg-emerald-100 transition-colors">
-              <UserCheck className="h-5 w-5 text-emerald-600" />
+            <CardTitle className="text-sm font-semibold text-primary">Active Professionals</CardTitle>
+            <div className="p-3 bg-primary-muted rounded-lg group-hover:bg-primary-muted transition-colors">
+              <UserCheck className="h-5 w-5 text-primary" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-extrabold text-emerald-950">{loading ? '-' : stats.professionals}</div>
-            <p className="text-sm font-medium text-emerald-600 mt-2 flex items-center">
+            <div className="text-4xl font-extrabold text-foreground">{loading ? '-' : stats.professionals}</div>
+            <p className="text-sm font-medium text-primary mt-2 flex items-center">
               Registered providers
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-emerald-100 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group">
+        <Card className="border-primary-muted bg-surface rounded-xl shadow-sm hover:shadow-md transition-all duration-300 group">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-semibold text-emerald-600">Total Appointments</CardTitle>
-            <div className="p-3 bg-emerald-50 rounded-2xl group-hover:bg-emerald-100 transition-colors">
-              <Calendar className="h-5 w-5 text-emerald-600" />
+            <CardTitle className="text-sm font-semibold text-primary">Total Appointments</CardTitle>
+            <div className="p-3 bg-primary-muted rounded-lg group-hover:bg-primary-muted transition-colors">
+              <Calendar className="h-5 w-5 text-primary" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-extrabold text-emerald-950">{loading ? '-' : stats.appointments}</div>
-            <p className="text-sm font-medium text-emerald-600 mt-2">
+            <div className="text-4xl font-extrabold text-foreground">{loading ? '-' : stats.appointments}</div>
+            <p className="text-sm font-medium text-primary mt-2">
               Across the platform
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-emerald-100 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group">
+        <Card className="border-primary-muted bg-surface rounded-xl shadow-sm hover:shadow-md transition-all duration-300 group">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-semibold text-emerald-600">Platform Revenue</CardTitle>
-            <div className="p-3 bg-emerald-50 rounded-2xl group-hover:bg-emerald-100 transition-colors">
-              <DollarSign className="h-5 w-5 text-emerald-600" />
+            <CardTitle className="text-sm font-semibold text-primary">Platform Revenue</CardTitle>
+            <div className="p-3 bg-primary-muted rounded-lg group-hover:bg-primary-muted transition-colors">
+              <DollarSign className="h-5 w-5 text-primary" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-extrabold text-emerald-950">
+            <div className="text-4xl font-extrabold text-foreground">
               {loading ? '-' : `₹${(stats.revenue * 0.1).toLocaleString()}`}
             </div>
-            <p className="text-sm font-medium text-emerald-600 mt-2">10% platform fee estimated</p>
+            <p className="text-sm font-medium text-primary mt-2">10% platform fee estimated</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="border-emerald-100 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300">
+        <Card className="border-primary-muted bg-surface rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
           <CardHeader className="pb-4">
-            <CardTitle className="text-xl font-bold text-emerald-950">Pending Verifications</CardTitle>
+            <CardTitle className="text-xl font-bold text-foreground">Pending Verifications</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-10 bg-emerald-50/50 rounded-2xl border border-dashed border-emerald-200">
-              <p className="text-emerald-700 font-medium">No pending professional verifications.</p>
+            <div className="text-center py-10 bg-primary-muted/50 rounded-lg border border-dashed border-primary-muted">
+              <p className="text-primary-hover font-medium">No pending professional verifications.</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-emerald-100 bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300">
+        <Card className="border-primary-muted bg-surface rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
           <CardHeader className="pb-4">
-            <CardTitle className="text-xl font-bold text-emerald-950">Recent Support Tickets</CardTitle>
+            <CardTitle className="text-xl font-bold text-foreground">Recent Support Tickets</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-10 bg-emerald-50/50 rounded-2xl border border-dashed border-emerald-200">
-              <p className="text-emerald-700 font-medium">All caught up! No open support tickets.</p>
+            <div className="text-center py-10 bg-primary-muted/50 rounded-lg border border-dashed border-primary-muted">
+              <p className="text-primary-hover font-medium">All caught up! No open support tickets.</p>
             </div>
           </CardContent>
         </Card>

@@ -109,16 +109,16 @@ export function ChatBot() {
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
       {isOpen && (
-        <div className="bg-white rounded-xl shadow-2xl border border-gray-200 w-80 sm:w-96 mb-4 overflow-hidden flex flex-col transition-all duration-300 ease-in-out transform origin-bottom-right" style={{ height: '450px' }}>
+        <div className="bg-surface rounded-xl shadow-lg border border-border w-80 sm:w-96 mb-4 overflow-hidden flex flex-col transition-all duration-300 ease-in-out transform origin-bottom-right" style={{ height: '450px' }}>
           {/* Header */}
-          <div className="bg-emerald-600 text-white p-4 flex justify-between items-center shadow-md">
+          <div className="bg-primary text-white p-4 flex justify-between items-center shadow-md">
             <div className="flex items-center space-x-2">
               <Bot className="w-6 h-6" />
               <h3 className="font-semibold text-lg">Wellpath Assistant</h3>
             </div>
             <button 
               onClick={() => setIsOpen(false)}
-              className="text-emerald-100 hover:text-white transition-colors p-1 hover:bg-emerald-700 rounded-md"
+              className="text-primary-muted hover:text-white transition-colors p-1 hover:bg-primary-hover rounded-md"
               aria-label="Close chat"
             >
               <X className="w-5 h-5" />
@@ -126,21 +126,21 @@ export function ChatBot() {
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col space-y-4">
+          <div className="flex-1 p-4 overflow-y-auto bg-background flex flex-col space-y-4">
             {messages.map((msg) => (
               <div 
                 key={msg.id} 
                 className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div className={`flex max-w-[85%] ${msg.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                  <div className={`flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full ${msg.sender === 'user' ? 'bg-emerald-100 ml-2' : 'bg-white shadow-sm mr-2'}`}>
-                    {msg.sender === 'user' ? <User className="w-4 h-4 text-emerald-700" /> : <Bot className="w-4 h-4 text-emerald-600" />}
+                  <div className={`flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full ${msg.sender === 'user' ? 'bg-primary-muted ml-2' : 'bg-surface shadow-sm mr-2'}`}>
+                    {msg.sender === 'user' ? <User className="w-4 h-4 text-primary-hover" /> : <Bot className="w-4 h-4 text-primary" />}
                   </div>
                   <div 
-                    className={`p-3 rounded-2xl ${
+                    className={`p-3 rounded-lg ${
                       msg.sender === 'user' 
-                        ? 'bg-emerald-600 text-white rounded-tr-none' 
-                        : 'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-tl-none'
+                        ? 'bg-primary text-white rounded-tr-none' 
+                        : 'bg-surface text-foreground shadow-sm border border-gray-100 rounded-tl-none'
                     }`}
                   >
                     <div className="text-sm whitespace-pre-wrap flex flex-col space-y-2">
@@ -153,7 +153,7 @@ export function ChatBot() {
                             ul: ({node, ...props}) => <ul className="list-disc pl-4 mb-2" {...props} />,
                             ol: ({node, ...props}) => <ol className="list-decimal pl-4 mb-2" {...props} />,
                             li: ({node, ...props}) => <li className="mb-1" {...props} />,
-                            a: ({node, ...props}) => <a className="text-emerald-600 underline" {...props} />,
+                            a: ({node, ...props}) => <a className="text-primary underline" {...props} />,
                             strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
                           }}
                         >
@@ -161,7 +161,7 @@ export function ChatBot() {
                         </ReactMarkdown>
                       )}
                     </div>
-                    <span className={`text-[10px] block mt-1 ${msg.sender === 'user' ? 'text-emerald-200' : 'text-gray-400'}`}>
+                    <span className={`text-[10px] block mt-1 ${msg.sender === 'user' ? 'text-primary-muted' : 'text-gray-400'}`}>
                       {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
@@ -171,12 +171,12 @@ export function ChatBot() {
             {isTyping && (
               <div className="flex justify-start">
                 <div className="flex max-w-[85%] flex-row">
-                  <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-sm mr-2">
-                    <Bot className="w-4 h-4 text-emerald-600" />
+                  <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-surface shadow-sm mr-2">
+                    <Bot className="w-4 h-4 text-primary" />
                   </div>
-                  <div className="p-3 rounded-2xl bg-white text-gray-800 shadow-sm border border-gray-100 rounded-tl-none flex items-center space-x-2">
-                    <Loader2 className="w-4 h-4 animate-spin text-emerald-500" />
-                    <span className="text-sm text-gray-500">Thinking...</span>
+                  <div className="p-3 rounded-lg bg-surface text-foreground shadow-sm border border-gray-100 rounded-tl-none flex items-center space-x-2">
+                    <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                    <span className="text-sm text-muted-foreground">Thinking...</span>
                   </div>
                 </div>
               </div>
@@ -185,8 +185,8 @@ export function ChatBot() {
           </div>
 
           {/* Input Area */}
-          <div className="p-3 bg-white border-t border-gray-200">
-            <div className="flex items-center bg-gray-100 rounded-full pr-1 pl-4 py-1 border border-gray-200 focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 transition-all">
+          <div className="p-3 bg-surface border-t border-border">
+            <div className="flex items-center bg-surface-hover rounded-full pr-1 pl-4 py-1 border border-border focus-within:ring-2 focus-within:ring-ring focus-within:border-primary transition-all">
               <input
                 type="text"
                 value={inputText}
@@ -201,7 +201,7 @@ export function ChatBot() {
                 disabled={!inputText.trim() || isTyping}
                 className={`p-2 rounded-full flex items-center justify-center transition-colors ${
                   inputText.trim() && !isTyping
-                    ? 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm' 
+                    ? 'bg-primary text-white hover:bg-primary-hover shadow-sm' 
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
                 aria-label="Send message"
@@ -216,7 +216,7 @@ export function ChatBot() {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`${isOpen ? 'scale-0 opacity-0 hidden' : 'scale-100 opacity-100'} transition-all duration-300 bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-full shadow-xl hover:shadow-2xl flex items-center justify-center group focus:outline-none focus:ring-4 focus:ring-emerald-500/50`}
+        className={`${isOpen ? 'scale-0 opacity-0 hidden' : 'scale-100 opacity-100'} transition-all duration-300 bg-primary hover:bg-primary-hover text-white p-4 rounded-full shadow-md hover:shadow-lg flex items-center justify-center group focus:outline-none focus:ring-4 focus:ring-ring/50`}
         aria-label="Open chat assistant"
       >
         <MessageCircle className="w-7 h-7 group-hover:scale-110 transition-transform" />

@@ -77,25 +77,25 @@ export default function Analytics() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-emerald-950 tracking-tight flex items-center gap-3">
-            <TrendingUp className="h-8 w-8 text-emerald-600" />
+          <h1 className="text-3xl font-extrabold text-foreground tracking-tight flex items-center gap-3">
+            <TrendingUp className="h-8 w-8 text-primary" />
             Platform Analytics & Insights
           </h1>
-          <p className="text-emerald-700 font-medium text-sm mt-1">
+          <p className="text-primary-hover font-medium text-sm mt-1">
             Real-time telemetry on platform growth, consultation volumes, provider retention, and financial metrics.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <div className="inline-flex rounded-xl border border-emerald-100 bg-white p-1 text-sm font-bold text-emerald-700 shadow-sm">
+          <div className="inline-flex rounded-xl border border-primary-muted bg-surface p-1 text-sm font-bold text-primary-hover shadow-sm">
             {(['30d', '90d', 'ytd', 'all'] as const).map((range) => (
               <button
                 key={range}
                 onClick={() => setTimeRange(range)}
                 className={`px-4 py-2 rounded-lg transition-all uppercase tracking-wider text-xs ${
                   timeRange === range
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-emerald-600 hover:text-emerald-900 hover:bg-emerald-50'
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-primary hover:text-primary-dark hover:bg-primary-muted'
                 }`}
               >
                 {range === '30d' ? '30 Days' : range === '90d' ? '90 Days' : range === 'ytd' ? 'YTD' : 'All Time'}
@@ -105,9 +105,9 @@ export default function Analytics() {
 
           <button
             onClick={() => alert('Exporting Analytics Report as PDF...')}
-            className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-emerald-100 rounded-xl text-sm font-bold text-emerald-700 bg-white hover:bg-emerald-50 shadow-sm transition-all hover:shadow"
+            className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-primary-muted rounded-xl text-sm font-bold text-primary-hover bg-surface hover:bg-primary-muted shadow-sm transition-all hover:shadow"
           >
-            <Download className="h-4 w-4 text-emerald-600" />
+            <Download className="h-4 w-4 text-primary" />
             Export Report
           </button>
         </div>
@@ -116,85 +116,85 @@ export default function Analytics() {
       {/* Top Level Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Metric 1 */}
-        <div className="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
-          <div className="flex items-center justify-between text-emerald-500 mb-4">
+        <div className="bg-surface p-6 rounded-xl border border-primary-muted shadow-sm hover:shadow-md transition-all duration-300 group">
+          <div className="flex items-center justify-between text-primary mb-4">
             <span className="text-xs font-bold uppercase tracking-widest">Gross Booking Volume (GMV)</span>
-            <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 group-hover:scale-110 transition-transform">
+            <div className="p-2.5 rounded-xl bg-primary-muted text-primary group-hover:scale-110 transition-transform">
               <DollarSign className="h-5 w-5" />
             </div>
           </div>
-          <div className="text-3xl font-extrabold text-emerald-950">₹40,60,000</div>
-          <div className="flex items-center gap-1.5 text-sm text-emerald-600 mt-2 font-bold">
+          <div className="text-3xl font-extrabold text-foreground">₹40,60,000</div>
+          <div className="flex items-center gap-1.5 text-sm text-primary mt-2 font-bold">
             <ArrowUpRight className="h-4 w-4" />
             <span>+18.4%</span>
-            <span className="text-emerald-400 font-medium">vs previous</span>
+            <span className="text-primary-muted-foreground font-medium">vs previous</span>
           </div>
         </div>
 
         {/* Metric 2 */}
-        <div className="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
-          <div className="flex items-center justify-between text-emerald-500 mb-4">
+        <div className="bg-surface p-6 rounded-xl border border-primary-muted shadow-sm hover:shadow-md transition-all duration-300 group">
+          <div className="flex items-center justify-between text-primary mb-4">
             <span className="text-xs font-bold uppercase tracking-widest">Platform Take (10%)</span>
             <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform">
               <Activity className="h-5 w-5" />
             </div>
           </div>
-          <div className="text-3xl font-extrabold text-emerald-950">₹4,06,000</div>
-          <div className="flex items-center gap-1.5 text-sm text-emerald-600 mt-2 font-bold">
+          <div className="text-3xl font-extrabold text-foreground">₹4,06,000</div>
+          <div className="flex items-center gap-1.5 text-sm text-primary mt-2 font-bold">
             <ArrowUpRight className="h-4 w-4" />
             <span>+18.4%</span>
-            <span className="text-emerald-400 font-medium">net commission</span>
+            <span className="text-primary-muted-foreground font-medium">net commission</span>
           </div>
         </div>
 
         {/* Metric 3 */}
-        <div className="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
-          <div className="flex items-center justify-between text-emerald-500 mb-4">
+        <div className="bg-surface p-6 rounded-xl border border-primary-muted shadow-sm hover:shadow-md transition-all duration-300 group">
+          <div className="flex items-center justify-between text-primary mb-4">
             <span className="text-xs font-bold uppercase tracking-widest">Completed Sessions</span>
             <div className="p-2.5 rounded-xl bg-purple-50 text-purple-600 group-hover:scale-110 transition-transform">
               <Calendar className="h-5 w-5" />
             </div>
           </div>
-          <div className="text-3xl font-extrabold text-emerald-950">3,105</div>
-          <div className="flex items-center gap-1.5 text-sm text-emerald-600 mt-2 font-bold">
+          <div className="text-3xl font-extrabold text-foreground">3,105</div>
+          <div className="flex items-center gap-1.5 text-sm text-primary mt-2 font-bold">
             <ArrowUpRight className="h-4 w-4" />
             <span>+14.8%</span>
-            <span className="text-emerald-400 font-medium">98.2% completion</span>
+            <span className="text-primary-muted-foreground font-medium">98.2% completion</span>
           </div>
         </div>
 
         {/* Metric 4 */}
-        <div className="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
-          <div className="flex items-center justify-between text-emerald-500 mb-4">
+        <div className="bg-surface p-6 rounded-xl border border-primary-muted shadow-sm hover:shadow-md transition-all duration-300 group">
+          <div className="flex items-center justify-between text-primary mb-4">
             <span className="text-xs font-bold uppercase tracking-widest">Active Verified Therapists</span>
             <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600 group-hover:scale-110 transition-transform">
               <ShieldCheck className="h-5 w-5" />
             </div>
           </div>
-          <div className="text-3xl font-extrabold text-emerald-950">184</div>
-          <div className="flex items-center gap-1.5 text-sm text-emerald-600 mt-2 font-bold">
+          <div className="text-3xl font-extrabold text-foreground">184</div>
+          <div className="flex items-center gap-1.5 text-sm text-primary mt-2 font-bold">
             <ArrowUpRight className="h-4 w-4" />
             <span>+12 new</span>
-            <span className="text-emerald-400 font-medium">in queue</span>
+            <span className="text-primary-muted-foreground font-medium">in queue</span>
           </div>
         </div>
       </div>
 
       {/* Primary Chart: Revenue and GMV Trend */}
-      <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6">
+      <div className="bg-surface p-8 rounded-xl border border-primary-muted shadow-sm space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-xl font-extrabold text-emerald-950">Gross Booking Value & Platform Revenue Trend</h2>
-            <p className="text-sm font-medium text-emerald-600 mt-1">Monthly breakdown of gross patient bookings vs platform commission</p>
+            <h2 className="text-xl font-extrabold text-foreground">Gross Booking Value & Platform Revenue Trend</h2>
+            <p className="text-sm font-medium text-primary mt-1">Monthly breakdown of gross patient bookings vs platform commission</p>
           </div>
           <div className="flex items-center gap-6 text-sm font-bold">
             <div className="flex items-center gap-2">
-              <span className="h-4 w-4 rounded-full bg-emerald-500 shadow-sm" />
-              <span className="text-emerald-900">Gross Value (₹)</span>
+              <span className="h-4 w-4 rounded-full bg-primary shadow-sm" />
+              <span className="text-primary-dark">Gross Value (₹)</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="h-4 w-4 rounded-full bg-blue-500 shadow-sm" />
-              <span className="text-emerald-900">Platform Revenue (₹)</span>
+              <span className="text-primary-dark">Platform Revenue (₹)</span>
             </div>
           </div>
         </div>
@@ -235,14 +235,14 @@ export default function Analytics() {
       {/* Secondary Charts: User Growth & Specializations */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* User Acquisition Bar Chart */}
-        <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6">
+        <div className="bg-surface p-8 rounded-xl border border-primary-muted shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-xl font-extrabold text-emerald-950">New User Sign-ups by Role</h3>
-              <p className="text-sm font-medium text-emerald-600 mt-1">Monthly new registered accounts</p>
+              <h3 className="text-xl font-extrabold text-foreground">New User Sign-ups by Role</h3>
+              <p className="text-sm font-medium text-primary mt-1">Monthly new registered accounts</p>
             </div>
-            <div className="bg-emerald-50 p-3 rounded-2xl">
-              <Users className="h-6 w-6 text-emerald-600" />
+            <div className="bg-primary-muted p-3 rounded-lg">
+              <Users className="h-6 w-6 text-primary" />
             </div>
           </div>
 
@@ -263,14 +263,14 @@ export default function Analytics() {
         </div>
 
         {/* Specialization Breakdown */}
-        <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6">
+        <div className="bg-surface p-8 rounded-xl border border-primary-muted shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-xl font-extrabold text-emerald-950">Consultations by Clinical Domain</h3>
-              <p className="text-sm font-medium text-emerald-600 mt-1">Percentage distribution across primary concerns</p>
+              <h3 className="text-xl font-extrabold text-foreground">Consultations by Clinical Domain</h3>
+              <p className="text-sm font-medium text-primary mt-1">Percentage distribution across primary concerns</p>
             </div>
-            <div className="bg-emerald-50 p-3 rounded-2xl">
-              <Award className="h-6 w-6 text-emerald-600" />
+            <div className="bg-primary-muted p-3 rounded-lg">
+              <Award className="h-6 w-6 text-primary" />
             </div>
           </div>
 
@@ -297,19 +297,19 @@ export default function Analytics() {
                 </PieChart>
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-sm font-bold text-emerald-500 uppercase tracking-widest">Total</span>
-                <span className="text-3xl font-extrabold text-emerald-950">100%</span>
+                <span className="text-sm font-bold text-primary uppercase tracking-widest">Total</span>
+                <span className="text-3xl font-extrabold text-foreground">100%</span>
               </div>
             </div>
 
-            <div className="flex-1 space-y-4 w-full bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
+            <div className="flex-1 space-y-4 w-full bg-primary-muted/50 p-6 rounded-lg border border-primary-muted">
               {SPECIALIZATION_DATA.map((spec) => (
                 <div key={spec.name} className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-3">
                     <span className="h-4 w-4 rounded-full shadow-sm" style={{ backgroundColor: spec.color }} />
-                    <span className="font-bold text-emerald-900">{spec.name}</span>
+                    <span className="font-bold text-primary-dark">{spec.name}</span>
                   </div>
-                  <span className="font-extrabold text-emerald-950">{spec.value}%</span>
+                  <span className="font-extrabold text-foreground">{spec.value}%</span>
                 </div>
               ))}
             </div>
@@ -320,59 +320,59 @@ export default function Analytics() {
       {/* Operational Highlights & City Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Operational Highlights Card */}
-        <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6">
-          <h3 className="text-xl font-extrabold text-emerald-950 flex items-center gap-3">
-            <div className="bg-emerald-100 p-2 rounded-xl text-emerald-700">
+        <div className="bg-surface p-8 rounded-xl border border-primary-muted shadow-sm space-y-6">
+          <h3 className="text-xl font-extrabold text-foreground flex items-center gap-3">
+            <div className="bg-primary-muted p-2 rounded-xl text-primary-hover">
               <Clock className="h-6 w-6" />
             </div>
             Clinical Quality & Operations
           </h3>
 
           <div className="space-y-5 text-sm">
-            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
-              <span className="text-emerald-700 font-bold">Average Session Fee:</span>
-              <span className="font-extrabold text-emerald-950">₹1,520 / 50 min</span>
+            <div className="flex justify-between items-center py-3 border-b border-primary-muted">
+              <span className="text-primary-hover font-bold">Average Session Fee:</span>
+              <span className="font-extrabold text-foreground">₹1,520 / 50 min</span>
             </div>
 
-            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
-              <span className="text-emerald-700 font-bold">Patient Repeat Rate (30d):</span>
-              <span className="font-extrabold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">74.6%</span>
+            <div className="flex justify-between items-center py-3 border-b border-primary-muted">
+              <span className="text-primary-hover font-bold">Patient Repeat Rate (30d):</span>
+              <span className="font-extrabold text-primary bg-primary-muted px-2 py-1 rounded-lg">74.6%</span>
             </div>
 
-            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
-              <span className="text-emerald-700 font-bold">Average Booking Lead Time:</span>
-              <span className="font-extrabold text-emerald-950">26 hours</span>
+            <div className="flex justify-between items-center py-3 border-b border-primary-muted">
+              <span className="text-primary-hover font-bold">Average Booking Lead Time:</span>
+              <span className="font-extrabold text-foreground">26 hours</span>
             </div>
 
-            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
-              <span className="text-emerald-700 font-bold">Dispute / Refund Rate:</span>
-              <span className="font-extrabold text-emerald-950">0.28%</span>
+            <div className="flex justify-between items-center py-3 border-b border-primary-muted">
+              <span className="text-primary-hover font-bold">Dispute / Refund Rate:</span>
+              <span className="font-extrabold text-foreground">0.28%</span>
             </div>
 
-            <div className="flex justify-between items-center py-3 border-b border-emerald-50">
-              <span className="text-emerald-700 font-bold">Overall Patient CSAT:</span>
+            <div className="flex justify-between items-center py-3 border-b border-primary-muted">
+              <span className="text-primary-hover font-bold">Overall Patient CSAT:</span>
               <span className="font-extrabold text-amber-500 bg-amber-50 px-2 py-1 rounded-lg flex items-center gap-1">★ 4.88 / 5.0</span>
             </div>
           </div>
         </div>
 
         {/* Top Geographic Hubs */}
-        <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm space-y-6 lg:col-span-2">
+        <div className="bg-surface p-8 rounded-xl border border-primary-muted shadow-sm space-y-6 lg:col-span-2">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-xl font-extrabold text-emerald-950 flex items-center gap-3">
-                <div className="bg-emerald-100 p-2 rounded-xl text-emerald-700">
+              <h3 className="text-xl font-extrabold text-foreground flex items-center gap-3">
+                <div className="bg-primary-muted p-2 rounded-xl text-primary-hover">
                   <MapPin className="h-6 w-6" />
                 </div>
                 Top Geographic Service Hubs
               </h3>
-              <p className="text-sm font-medium text-emerald-600 mt-2">Highest volume consultation regions and in-person care</p>
+              <p className="text-sm font-medium text-primary mt-2">Highest volume consultation regions and in-person care</p>
             </div>
           </div>
 
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-emerald-100 text-sm text-left">
-              <thead className="bg-emerald-50/80 text-emerald-700 uppercase font-bold tracking-wider text-xs">
+              <thead className="bg-primary-muted/80 text-primary-hover uppercase font-bold tracking-wider text-xs">
                 <tr>
                   <th className="px-6 py-4">Metropolitan Area</th>
                   <th className="px-6 py-4">Sessions Completed</th>
@@ -381,22 +381,22 @@ export default function Analytics() {
                   <th className="px-6 py-4 text-right">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-emerald-50 bg-white">
+              <tbody className="divide-y divide-emerald-50 bg-surface">
                 {CITY_METRICS.map((item) => (
-                  <tr key={item.city} className="hover:bg-emerald-50/50 transition-colors">
-                    <td className="px-6 py-4 font-extrabold text-emerald-950">{item.city}</td>
-                    <td className="px-6 py-4 text-emerald-700 font-bold">{item.sessions.toLocaleString()}</td>
+                  <tr key={item.city} className="hover:bg-primary-muted/50 transition-colors">
+                    <td className="px-6 py-4 font-extrabold text-foreground">{item.city}</td>
+                    <td className="px-6 py-4 text-primary-hover font-bold">{item.sessions.toLocaleString()}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-20 bg-emerald-100 rounded-full h-2.5 overflow-hidden shadow-inner">
-                          <div className="bg-emerald-500 h-2.5 rounded-full" style={{ width: item.share }} />
+                        <div className="w-20 bg-primary-muted rounded-full h-2.5 overflow-hidden shadow-inner">
+                          <div className="bg-primary h-2.5 rounded-full" style={{ width: item.share }} />
                         </div>
-                        <span className="font-bold text-emerald-900">{item.share}</span>
+                        <span className="font-bold text-primary-dark">{item.share}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-emerald-600 font-extrabold">{item.growth}</td>
+                    <td className="px-6 py-4 text-primary font-extrabold">{item.growth}</td>
                     <td className="px-6 py-4 text-right">
-                      <span className="px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 text-xs font-bold shadow-sm">
+                      <span className="px-3 py-1 rounded-xl bg-primary-muted text-primary-dark text-xs font-bold shadow-sm">
                         Active Hub
                       </span>
                     </td>

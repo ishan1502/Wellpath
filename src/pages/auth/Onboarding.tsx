@@ -102,16 +102,16 @@ export default function Onboarding() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gray-50">
-      <Card className="w-full max-w-lg border-0 shadow-xl rounded-3xl bg-white">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-background">
+      <Card className="w-full max-w-lg border-0 shadow-md rounded-xl bg-surface">
         <CardHeader className="text-center pt-8">
-          <CardTitle className="text-3xl font-bold text-emerald-900">Complete Your Profile</CardTitle>
-          <p className="text-emerald-700/70 mt-2">Just a few more details to get you started as a {user.role}.</p>
+          <CardTitle className="text-3xl font-bold text-primary-dark">Complete Your Profile</CardTitle>
+          <p className="text-primary-hover/70 mt-2">Just a few more details to get you started as a {user.role}.</p>
         </CardHeader>
         <CardContent className="p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-sm font-semibold">
+              <div className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm font-semibold">
                 {error}
               </div>
             )}
@@ -119,19 +119,19 @@ export default function Onboarding() {
             {user.role === 'patient' && (
               <>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Age</label>
+                  <label className="text-sm font-bold text-primary-dark">Age</label>
                   <Input type="number" required value={age} onChange={e => setAge(e.target.value)} placeholder="e.g. 30" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Emergency Contact Name</label>
+                  <label className="text-sm font-bold text-primary-dark">Emergency Contact Name</label>
                   <Input required value={emergencyContactName} onChange={e => setEmergencyContactName(e.target.value)} placeholder="Full Name" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Emergency Contact Phone</label>
+                  <label className="text-sm font-bold text-primary-dark">Emergency Contact Phone</label>
                   <Input required value={emergencyContactPhone} onChange={e => setEmergencyContactPhone(e.target.value)} placeholder="Phone Number" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Clinical Focus Areas (comma separated)</label>
+                  <label className="text-sm font-bold text-primary-dark">Clinical Focus Areas (comma separated)</label>
                   <Input required value={clinicalFocusAreas} onChange={e => setClinicalFocusAreas(e.target.value)} placeholder="e.g. Anxiety, Depression" className="rounded-xl" />
                 </div>
               </>
@@ -140,15 +140,15 @@ export default function Onboarding() {
             {user.role === 'student' && (
               <>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">University</label>
+                  <label className="text-sm font-bold text-primary-dark">University</label>
                   <Input required value={university} onChange={e => setUniversity(e.target.value)} placeholder="University Name" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Degree</label>
+                  <label className="text-sm font-bold text-primary-dark">Degree</label>
                   <Input required value={degree} onChange={e => setDegree(e.target.value)} placeholder="e.g. BSc Psychology" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Graduation Year</label>
+                  <label className="text-sm font-bold text-primary-dark">Graduation Year</label>
                   <Input type="number" required value={graduationYear} onChange={e => setGraduationYear(e.target.value)} placeholder="e.g. 2025" className="rounded-xl" />
                 </div>
               </>
@@ -157,26 +157,26 @@ export default function Onboarding() {
             {user.role === 'professional' && (
               <>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Title</label>
+                  <label className="text-sm font-bold text-primary-dark">Title</label>
                   <Input required value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Clinical Psychologist" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Specializations (comma separated)</label>
+                  <label className="text-sm font-bold text-primary-dark">Specializations (comma separated)</label>
                   <Input required value={specializations} onChange={e => setSpecializations(e.target.value)} placeholder="e.g. CBT, EMDR" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Hourly Rate ($)</label>
+                  <label className="text-sm font-bold text-primary-dark">Hourly Rate ($)</label>
                   <Input type="number" required value={hourlyRate} onChange={e => setHourlyRate(e.target.value)} placeholder="e.g. 150" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Verification Document</label>
+                  <label className="text-sm font-bold text-primary-dark">Verification Document</label>
                   <Input type="file" required onChange={e => setVerificationDoc(e.target.files?.[0] || null)} className="rounded-xl pt-2" />
-                  <p className="text-xs text-gray-500">Please upload your license or certification.</p>
+                  <p className="text-xs text-muted-foreground">Please upload your license or certification.</p>
                 </div>
               </>
             )}
 
-            <Button type="submit" disabled={isLoading} className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-6 shadow-sm">
+            <Button type="submit" disabled={isLoading} className="w-full rounded-xl bg-primary hover:bg-primary-hover text-white font-semibold py-6 shadow-sm">
               {isLoading ? 'Saving...' : 'Complete Profile'}
             </Button>
           </form>

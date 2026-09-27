@@ -45,17 +45,17 @@ export default function AdminLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex font-sans">
+    <div className="min-h-screen bg-background flex font-sans">
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex w-72 flex-col bg-emerald-900 text-emerald-50 sticky top-0 h-screen shadow-xl rounded-r-3xl">
+      <aside className="hidden md:flex w-72 flex-col bg-primary-dark text-primary-muted sticky top-0 h-screen shadow-md rounded-r-3xl">
         <div className="p-8 pb-4">
           <Link to="/admin" className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <div className="w-8 h-8 bg-emerald-500 rounded-xl flex items-center justify-center shadow-sm">
+            <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center shadow-sm">
               <span className="text-white text-xl">W</span>
             </div>
             WellPath
           </Link>
-          <p className="text-xs text-emerald-300 mt-2 uppercase tracking-[0.2em] font-semibold">Admin Portal</p>
+          <p className="text-xs text-primary-muted-foreground mt-2 uppercase tracking-[0.2em] font-semibold">Admin Portal</p>
         </div>
         
         <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto custom-scrollbar">
@@ -65,35 +65,35 @@ export default function AdminLayout() {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`flex items-center px-4 py-3 text-sm font-medium rounded-2xl transition-all duration-300 ${
+                className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
                   isActive
-                    ? 'bg-emerald-800 text-white shadow-sm'
-                    : 'text-emerald-100 hover:bg-emerald-800/50 hover:text-white'
+                    ? 'bg-primary-dark text-white shadow-sm'
+                    : 'text-primary-muted hover:bg-primary-dark/50 hover:text-white'
                 }`}
               >
-                <item.icon className={`mr-4 h-5 w-5 ${isActive ? 'text-emerald-300' : 'text-emerald-400'}`} />
+                <item.icon className={`mr-4 h-5 w-5 ${isActive ? 'text-primary-muted-foreground' : 'text-primary-muted-foreground'}`} />
                 {item.name}
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-6 m-4 mt-0 bg-emerald-950 rounded-3xl border border-emerald-800 shadow-sm">
+        <div className="p-6 m-4 mt-0 bg-primary-dark rounded-xl border border-primary-dark shadow-sm">
           <div className="flex items-center gap-4 mb-5">
-            <div className="h-10 w-10 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-bold shadow-sm">
+            <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center text-white font-bold shadow-sm">
               {user?.firstName?.charAt(0) || 'A'}
             </div>
             <div className="overflow-hidden">
               <p className="text-sm font-semibold text-white truncate">{user?.firstName} {user?.lastName}</p>
-              <p className="text-xs text-emerald-400 capitalize truncate">{user?.role || 'Admin'}</p>
+              <p className="text-xs text-primary-muted-foreground capitalize truncate">{user?.role || 'Admin'}</p>
             </div>
           </div>
           
           <button 
             onClick={handleLogout}
-            className="flex w-full items-center px-4 py-2.5 text-sm font-medium text-emerald-200 hover:text-white hover:bg-emerald-900 rounded-2xl transition-all duration-300"
+            className="flex w-full items-center px-4 py-2.5 text-sm font-medium text-primary-muted hover:text-white hover:bg-primary-dark rounded-lg transition-all duration-300"
           >
-            <LogOut className="mr-3 h-5 w-5 text-emerald-400" />
+            <LogOut className="mr-3 h-5 w-5 text-primary-muted-foreground" />
             Log Out
           </button>
         </div>
@@ -102,14 +102,14 @@ export default function AdminLayout() {
       {/* Mobile Sidebar Overlay */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-50 flex">
-          <div className="fixed inset-0 bg-emerald-950/60 backdrop-blur-sm transition-opacity" onClick={() => setMobileMenuOpen(false)}></div>
-          <aside className="relative flex w-72 flex-col bg-emerald-900 text-emerald-50 h-full shadow-2xl rounded-r-3xl">
+          <div className="fixed inset-0 bg-primary-dark/60 backdrop-blur-sm transition-opacity" onClick={() => setMobileMenuOpen(false)}></div>
+          <aside className="relative flex w-72 flex-col bg-primary-dark text-primary-muted h-full shadow-lg rounded-r-3xl">
             <div className="p-6 pb-2 flex justify-between items-center">
               <div>
                 <Link to="/admin" className="text-2xl font-extrabold text-white tracking-tight">WellPath</Link>
-                <p className="text-[10px] text-emerald-300 mt-1 uppercase tracking-widest font-bold">Admin Portal</p>
+                <p className="text-[10px] text-primary-muted-foreground mt-1 uppercase tracking-widest font-bold">Admin Portal</p>
               </div>
-              <button onClick={() => setMobileMenuOpen(false)} className="text-emerald-200 hover:text-white bg-emerald-800 p-2 rounded-xl">
+              <button onClick={() => setMobileMenuOpen(false)} className="text-primary-muted hover:text-white bg-primary-dark p-2 rounded-xl">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -121,24 +121,24 @@ export default function AdminLayout() {
                     key={item.name}
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center px-4 py-3 text-sm font-medium rounded-2xl transition-all duration-300 ${
+                    className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
                       isActive
-                        ? 'bg-emerald-800 text-white shadow-sm'
-                        : 'text-emerald-100 hover:bg-emerald-800/50 hover:text-white'
+                        ? 'bg-primary-dark text-white shadow-sm'
+                        : 'text-primary-muted hover:bg-primary-dark/50 hover:text-white'
                     }`}
                   >
-                    <item.icon className={`mr-4 h-5 w-5 ${isActive ? 'text-emerald-300' : 'text-emerald-400'}`} />
+                    <item.icon className={`mr-4 h-5 w-5 ${isActive ? 'text-primary-muted-foreground' : 'text-primary-muted-foreground'}`} />
                     {item.name}
                   </Link>
                 );
               })}
             </nav>
-            <div className="p-5 m-4 bg-emerald-950 rounded-3xl border border-emerald-800">
+            <div className="p-5 m-4 bg-primary-dark rounded-xl border border-primary-dark">
                <button 
                 onClick={handleLogout}
-                className="flex w-full items-center px-4 py-2 text-sm font-medium text-emerald-200 hover:text-white transition-all duration-300"
+                className="flex w-full items-center px-4 py-2 text-sm font-medium text-primary-muted hover:text-white transition-all duration-300"
               >
-                <LogOut className="mr-3 h-5 w-5 text-emerald-400" />
+                <LogOut className="mr-3 h-5 w-5 text-primary-muted-foreground" />
                 Log Out
               </button>
             </div>
@@ -147,17 +147,17 @@ export default function AdminLayout() {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50">
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden bg-background">
         {/* Header */}
-        <header className="bg-white/80 backdrop-blur-md border-b border-emerald-100/50 p-4 lg:px-8 flex items-center justify-between sticky top-0 z-10 shadow-sm rounded-b-3xl mx-2 md:mx-6 mt-2">
+        <header className="bg-surface/80 backdrop-blur-md border-b border-primary-muted/50 p-4 lg:px-8 flex items-center justify-between sticky top-0 z-10 shadow-sm rounded-b-3xl mx-2 md:mx-6 mt-2">
           <div className="flex items-center">
             <button 
-              className="md:hidden mr-4 p-2 bg-emerald-50 text-emerald-700 rounded-xl hover:bg-emerald-100 transition-colors"
+              className="md:hidden mr-4 p-2 bg-primary-muted text-primary-hover rounded-xl hover:bg-primary-muted transition-colors"
               onClick={() => setMobileMenuOpen(true)}
             >
               <Menu className="h-6 w-6" />
             </button>
-            <h1 className="text-2xl font-bold text-emerald-950">
+            <h1 className="text-2xl font-bold text-foreground">
               {navItems.find(item => 
                 location.pathname === item.path || 
                 (location.pathname.startsWith(item.path) && item.path !== '/admin')
@@ -169,23 +169,23 @@ export default function AdminLayout() {
           <div className="hidden md:flex flex-1 max-w-lg mx-8">
             <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-emerald-400" />
+                <Search className="h-5 w-5 text-primary-muted-foreground" />
               </div>
               <input
                 type="text"
                 placeholder="Search users, professionals, or appointments..."
-                className="block w-full pl-11 pr-4 py-2.5 border border-emerald-100 rounded-2xl leading-5 bg-emerald-50/50 placeholder-emerald-400 text-emerald-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 sm:text-sm transition-all duration-300 shadow-sm hover:shadow-md"
+                className="block w-full pl-11 pr-4 py-2.5 border border-primary-muted rounded-lg leading-5 bg-primary-muted/50 placeholder-emerald-400 text-primary-dark focus:outline-none focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:border-primary sm:text-sm transition-all duration-300 shadow-sm hover:shadow-md"
               />
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center px-4 py-2 bg-emerald-50 rounded-2xl shadow-sm border border-emerald-100">
+            <div className="hidden sm:flex items-center px-4 py-2 bg-primary-muted rounded-lg shadow-sm border border-primary-muted">
               <span className="relative flex h-3 w-3 mr-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
               </span>
-              <span className="text-sm font-medium text-emerald-800">System Online</span>
+              <span className="text-sm font-medium text-primary-dark">System Online</span>
             </div>
           </div>
         </header>

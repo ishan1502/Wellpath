@@ -75,17 +75,17 @@ const PostEvent = () => {
   if (isSubmitted) {
     return (
       <div className="max-w-3xl mx-auto mt-10 animate-fade-in">
-        <div className="bg-white p-10 rounded-3xl border-0 shadow-sm text-center hover:shadow-xl transition-all duration-300">
-          <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-            <CheckCircle className="w-10 h-10 text-emerald-600" />
+        <div className="bg-surface p-10 rounded-xl border-0 shadow-sm text-center hover:shadow-md transition-all duration-300">
+          <div className="w-20 h-20 bg-primary-muted rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+            <CheckCircle className="w-10 h-10 text-primary" />
           </div>
-          <h2 className="text-3xl font-bold text-emerald-950 mb-3">Event Submitted!</h2>
-          <p className="text-emerald-700/80 mb-8 font-medium max-w-md mx-auto">
+          <h2 className="text-3xl font-bold text-foreground mb-3">Event Submitted!</h2>
+          <p className="text-primary-hover/80 mb-8 font-medium max-w-md mx-auto">
             Your event has been submitted and is pending admin approval. It will be visible to users once approved.
           </p>
           <button 
             onClick={() => setIsSubmitted(false)}
-            className="px-8 py-3 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md active:scale-95"
+            className="px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary-hover transition-all duration-300 shadow-sm hover:shadow-md active:scale-95"
           >
             Post Another Event
           </button>
@@ -97,17 +97,17 @@ const PostEvent = () => {
   return (
     <div className="max-w-3xl mx-auto animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-emerald-950 tracking-tight">Host an Event</h1>
-        <p className="text-emerald-700/80 mt-2 font-medium">Organize a webinar or workshop for the Wellpath community.</p>
+        <h1 className="text-3xl font-bold text-foreground tracking-tight">Host an Event</h1>
+        <p className="text-primary-hover/80 mt-2 font-medium">Organize a webinar or workshop for the Wellpath community.</p>
       </div>
 
-      <div className="bg-white rounded-3xl border-0 shadow-sm p-6 md:p-10 hover:shadow-xl transition-all duration-300">
+      <div className="bg-surface rounded-xl border-0 shadow-sm p-6 md:p-10 hover:shadow-md transition-all duration-300">
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-2">
-            <label className="block text-sm font-bold text-emerald-900">Event Title</label>
+            <label className="block text-sm font-bold text-primary-dark">Event Title</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <FileText className="h-5 w-5 text-emerald-600" />
+                <FileText className="h-5 w-5 text-primary" />
               </div>
               <input
                 type="text"
@@ -116,13 +116,13 @@ const PostEvent = () => {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="e.g. Navigating Workplace Stress"
-                className="pl-12 w-full h-12 bg-emerald-50/50 border-0 rounded-2xl text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm placeholder:text-emerald-600/50"
+                className="pl-12 w-full h-12 bg-primary-muted/50 border-0 rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring shadow-sm placeholder:text-primary/50"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-bold text-emerald-900">Description</label>
+            <label className="block text-sm font-bold text-primary-dark">Description</label>
             <textarea
               name="description"
               required
@@ -130,16 +130,16 @@ const PostEvent = () => {
               value={formData.description}
               onChange={handleChange}
               placeholder="What will attendees learn? Who is this for?"
-              className="w-full p-4 bg-emerald-50/50 border-0 rounded-2xl text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm placeholder:text-emerald-600/50"
+              className="w-full p-4 bg-primary-muted/50 border-0 rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring shadow-sm placeholder:text-primary/50"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
-              <label className="block text-sm font-bold text-emerald-900">Date</label>
+              <label className="block text-sm font-bold text-primary-dark">Date</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Calendar className="h-5 w-5 text-emerald-600" />
+                  <Calendar className="h-5 w-5 text-primary" />
                 </div>
                 <input
                   type="date"
@@ -147,16 +147,16 @@ const PostEvent = () => {
                   required
                   value={formData.date}
                   onChange={handleChange}
-                  className="pl-12 w-full h-12 bg-emerald-50/50 border-0 rounded-2xl text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
+                  className="pl-12 w-full h-12 bg-primary-muted/50 border-0 rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring shadow-sm"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-bold text-emerald-900">Time</label>
+              <label className="block text-sm font-bold text-primary-dark">Time</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Clock className="h-5 w-5 text-emerald-600" />
+                  <Clock className="h-5 w-5 text-primary" />
                 </div>
                 <input
                   type="time"
@@ -164,7 +164,7 @@ const PostEvent = () => {
                   required
                   value={formData.time}
                   onChange={handleChange}
-                  className="pl-12 w-full h-12 bg-emerald-50/50 border-0 rounded-2xl text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
+                  className="pl-12 w-full h-12 bg-primary-muted/50 border-0 rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring shadow-sm"
                 />
               </div>
             </div>
@@ -172,16 +172,16 @@ const PostEvent = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
-              <label className="block text-sm font-bold text-emerald-900">Platform/Location</label>
+              <label className="block text-sm font-bold text-primary-dark">Platform/Location</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Video className="h-5 w-5 text-emerald-600" />
+                  <Video className="h-5 w-5 text-primary" />
                 </div>
                 <select
                   name="platform"
                   value={formData.platform}
                   onChange={handleChange}
-                  className="pl-12 w-full h-12 bg-emerald-50/50 border-0 rounded-2xl text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm appearance-none"
+                  className="pl-12 w-full h-12 bg-primary-muted/50 border-0 rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring shadow-sm appearance-none"
                 >
                   <option value="Zoom">Zoom</option>
                   <option value="Google Meet">Google Meet</option>
@@ -191,10 +191,10 @@ const PostEvent = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-bold text-emerald-900">Max Attendees</label>
+              <label className="block text-sm font-bold text-primary-dark">Max Attendees</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Users className="h-5 w-5 text-emerald-600" />
+                  <Users className="h-5 w-5 text-primary" />
                 </div>
                 <input
                   type="number"
@@ -204,16 +204,16 @@ const PostEvent = () => {
                   value={formData.maxAttendees}
                   onChange={handleChange}
                   placeholder="e.g. 50"
-                  className="pl-12 w-full h-12 bg-emerald-50/50 border-0 rounded-2xl text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm placeholder:text-emerald-600/50"
+                  className="pl-12 w-full h-12 bg-primary-muted/50 border-0 rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring shadow-sm placeholder:text-primary/50"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-bold text-emerald-900">Registration Fee <span className="font-medium text-emerald-600/70">(₹)</span></label>
+              <label className="block text-sm font-bold text-primary-dark">Registration Fee <span className="font-medium text-primary/70">(₹)</span></label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <DollarSign className="h-5 w-5 text-emerald-600" />
+                  <DollarSign className="h-5 w-5 text-primary" />
                 </div>
                 <input
                   type="number"
@@ -223,18 +223,18 @@ const PostEvent = () => {
                   value={formData.fee}
                   onChange={handleChange}
                   placeholder="0 for free"
-                  className="pl-12 w-full h-12 bg-emerald-50/50 border-0 rounded-2xl text-emerald-950 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm placeholder:text-emerald-600/50"
+                  className="pl-12 w-full h-12 bg-primary-muted/50 border-0 rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring shadow-sm placeholder:text-primary/50"
                 />
               </div>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-emerald-100 flex flex-col items-end gap-4">
+          <div className="pt-8 border-t border-primary-muted flex flex-col items-end gap-4">
             {error && <p className="text-red-500 font-medium text-sm">{error}</p>}
             <button
               type="submit"
               disabled={loading}
-              className="px-8 py-3 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary-hover transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <CalendarPlus className="w-5 h-5 mr-2" />}
               {loading ? 'Publishing...' : 'Publish Event'}

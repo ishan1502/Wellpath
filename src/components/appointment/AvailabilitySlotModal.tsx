@@ -44,12 +44,12 @@ export default function AvailabilitySlotModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl w-full max-w-md shadow-xl">
+      <div className="bg-surface rounded-lg w-full max-w-md shadow-md">
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900">
+          <h2 className="text-xl font-bold text-foreground">
             Availability for {format(date, 'MMM d, yyyy')}
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
+          <button onClick={onClose} className="text-gray-400 hover:text-muted-foreground transition-colors">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -60,7 +60,7 @@ export default function AvailabilitySlotModal({
               type="time"
               value={newSlot}
               onChange={(e) => setNewSlot(e.target.value)}
-              className="flex-1 rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary py-2 px-3 border"
+              className="flex-1 rounded-lg border-border shadow-sm focus:border-primary focus:ring-primary py-2 px-3 border"
             />
             <button
               onClick={handleAddSlot}
@@ -74,11 +74,11 @@ export default function AvailabilitySlotModal({
           <div>
             <h3 className="text-sm font-medium text-gray-700 mb-3">Current Slots</h3>
             {slots.length === 0 ? (
-              <p className="text-sm text-gray-500 italic">No availability set for this day.</p>
+              <p className="text-sm text-muted-foreground italic">No availability set for this day.</p>
             ) : (
               <div className="flex flex-wrap gap-2">
                 {slots.map(slot => (
-                  <div key={slot} className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-800">
+                  <div key={slot} className="flex items-center gap-2 bg-background border border-border rounded-lg px-3 py-1.5 text-sm text-foreground">
                     {slot}
                     <button onClick={() => handleRemoveSlot(slot)} className="text-gray-400 hover:text-red-500 transition-colors">
                       <Trash2 className="w-4 h-4" />
@@ -92,7 +92,7 @@ export default function AvailabilitySlotModal({
           <div className="pt-4 border-t border-gray-100 flex justify-end gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 font-medium hover:bg-gray-100 rounded-lg transition-colors"
+              className="px-4 py-2 text-muted-foreground font-medium hover:bg-surface-hover rounded-lg transition-colors"
             >
               Cancel
             </button>

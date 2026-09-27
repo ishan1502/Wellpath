@@ -54,18 +54,18 @@ export function CrisisSupportModal({ isOpen, onClose }: CrisisSupportModalProps)
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-xl w-full overflow-hidden border border-red-100 animate-in zoom-in-95 duration-200">
+      <div className="bg-surface rounded-lg shadow-lg max-w-xl w-full overflow-hidden border border-red-100 animate-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="bg-gradient-to-r from-red-600 to-rose-600 text-white p-6 relative">
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
+            className="absolute top-4 right-4 text-white/80 hover:text-white p-1 rounded-full hover:bg-surface/10 transition-colors"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-white/15 rounded-xl">
+            <div className="p-2.5 bg-surface/15 rounded-xl">
               <AlertCircle className="w-6 h-6" />
             </div>
             <div>
@@ -83,18 +83,18 @@ export function CrisisSupportModal({ isOpen, onClose }: CrisisSupportModalProps)
               className={`p-4 rounded-xl border transition-all ${
                 item.featured 
                   ? 'bg-red-50/50 border-red-200 hover:border-red-300' 
-                  : 'bg-gray-50 border-gray-200 hover:border-gray-300'
+                  : 'bg-background border-border hover:border-border'
               } flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3`}
             >
               <div>
                 <div className="flex items-center gap-2">
-                  <h4 className="font-semibold text-gray-900 text-sm">{item.name}</h4>
+                  <h4 className="font-semibold text-foreground text-sm">{item.name}</h4>
                   {item.featured && (
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Toll Free</span>
                   )}
                 </div>
-                <p className="text-xs text-gray-500 mt-0.5">{item.hours}</p>
-                <p className="text-xs text-gray-600 mt-1">{item.desc}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{item.hours}</p>
+                <p className="text-xs text-muted-foreground mt-1">{item.desc}</p>
               </div>
 
               <a
@@ -109,7 +109,7 @@ export function CrisisSupportModal({ isOpen, onClose }: CrisisSupportModalProps)
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+        <div className="p-4 bg-background border-t border-gray-100 flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <Heart className="w-4 h-4 text-red-500" />
             <span>WellPath Crisis Hotline Directory</span>

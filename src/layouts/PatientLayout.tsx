@@ -28,11 +28,11 @@ export default function PatientLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex font-sans text-emerald-900">
+    <div className="min-h-screen bg-background flex font-sans text-primary-dark">
       {/* Desktop Sidebar (Floating Premium Style) */}
-      <aside className="hidden md:flex w-72 flex-col bg-white m-4 rounded-3xl shadow-sm h-[calc(100vh-2rem)] sticky top-4 overflow-hidden border border-gray-100">
+      <aside className="hidden md:flex w-72 flex-col bg-surface m-4 rounded-xl shadow-sm h-[calc(100vh-2rem)] sticky top-4 overflow-hidden border border-gray-100">
         <div className="p-8 pb-4">
-          <Link to="/patient/dashboard" className="text-3xl font-bold text-emerald-900 tracking-tight">WellPath</Link>
+          <Link to="/patient/dashboard" className="text-3xl font-bold text-primary-dark tracking-tight">WellPath</Link>
         </div>
         
         <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
@@ -42,10 +42,10 @@ export default function PatientLayout() {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`flex items-center px-4 py-3.5 text-sm font-semibold rounded-2xl transition-all duration-300 ${
+                className={`flex items-center px-4 py-3.5 text-sm font-semibold rounded-lg transition-all duration-300 ${
                   isActive
-                    ? 'bg-emerald-900 text-white shadow-sm'
-                    : 'text-gray-500 hover:bg-emerald-50 hover:text-emerald-900'
+                    ? 'bg-primary-dark text-white shadow-sm'
+                    : 'text-muted-foreground hover:bg-primary-muted hover:text-primary-dark'
                 }`}
               >
                 <item.icon className="mr-4 h-5 w-5" />
@@ -58,28 +58,28 @@ export default function PatientLayout() {
         <div className="px-4 py-4 mt-auto">
           <button 
             onClick={() => setIsCrisisModalOpen(true)}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-red-50 text-red-700 hover:bg-red-100 hover:shadow-xl font-bold rounded-2xl text-sm transition-all duration-300 border border-red-100"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-red-50 text-red-700 hover:bg-red-100 hover:shadow-md font-bold rounded-lg text-sm transition-all duration-300 border border-red-100"
           >
             <ShieldAlert className="w-5 h-5" />
             Crisis Support
           </button>
         </div>
 
-        <div className="p-4 border-t border-gray-100 bg-gray-50/50">
+        <div className="p-4 border-t border-gray-100 bg-background/50">
           <div className="flex items-center gap-3 mb-4 px-2">
-            <div className="h-12 w-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-900 font-bold text-lg shadow-sm">
+            <div className="h-12 w-12 rounded-lg bg-primary-muted flex items-center justify-center text-primary-dark font-bold text-lg shadow-sm">
               {user?.firstName?.charAt(0) || 'U'}
             </div>
             <div className="flex-1 overflow-hidden">
-              <p className="text-sm font-bold text-emerald-900 truncate">{user?.firstName} {user?.lastName}</p>
-              <p className="text-xs text-emerald-600 font-medium capitalize truncate">{user?.role}</p>
+              <p className="text-sm font-bold text-primary-dark truncate">{user?.firstName} {user?.lastName}</p>
+              <p className="text-xs text-primary font-medium capitalize truncate">{user?.role}</p>
             </div>
             <NotificationBell placement="top" align="left" />
           </div>
 
           <button
             onClick={handleLogout}
-            className="flex w-full items-center px-4 py-3 text-sm font-semibold text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all duration-300"
+            className="flex w-full items-center px-4 py-3 text-sm font-semibold text-muted-foreground hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300"
           >
             <LogOut className="mr-4 h-5 w-5" />
             Log Out
@@ -90,11 +90,11 @@ export default function PatientLayout() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Mobile Header */}
-        <header className="md:hidden bg-white border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-          <Link to="/patient/dashboard" className="text-2xl font-bold text-emerald-900">WellPath</Link>
+        <header className="md:hidden bg-surface border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+          <Link to="/patient/dashboard" className="text-2xl font-bold text-primary-dark">WellPath</Link>
           <div className="flex items-center gap-4">
             <NotificationBell />
-            <div className="h-9 w-9 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-900 font-bold text-sm shadow-sm">
+            <div className="h-9 w-9 rounded-xl bg-primary-muted flex items-center justify-center text-primary-dark font-bold text-sm shadow-sm">
               {user?.firstName?.charAt(0) || 'U'}
             </div>
           </div>
@@ -108,11 +108,11 @@ export default function PatientLayout() {
         {/* Mobile Bottom Navigation Menu Overlay */}
         {isMobileMenuOpen && (
           <div className="md:hidden fixed inset-0 z-40 flex flex-col justify-end">
-            <div className="fixed inset-0 bg-emerald-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
-            <div className="relative bg-white rounded-t-3xl p-6 shadow-xl pb-24 border-t border-gray-100">
+            <div className="fixed inset-0 bg-primary-dark/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
+            <div className="relative bg-surface rounded-t-3xl p-6 shadow-md pb-24 border-t border-gray-100">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="font-bold text-emerald-900 text-lg">More Options</h3>
-                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-50 rounded-full text-gray-500 hover:text-emerald-900 transition-colors">
+                <h3 className="font-bold text-primary-dark text-lg">More Options</h3>
+                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-background rounded-full text-muted-foreground hover:text-primary-dark transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -122,9 +122,9 @@ export default function PatientLayout() {
                     key={item.name}
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex flex-col items-center p-4 rounded-2xl border border-gray-100 bg-gray-50 text-emerald-900 active:bg-emerald-50 transition-colors"
+                    className="flex flex-col items-center p-4 rounded-lg border border-gray-100 bg-background text-primary-dark active:bg-primary-muted transition-colors"
                   >
-                    <item.icon className="h-6 w-6 mb-2 text-emerald-600" />
+                    <item.icon className="h-6 w-6 mb-2 text-primary" />
                     <span className="text-sm font-semibold">{item.name}</span>
                   </Link>
                 ))}
@@ -133,14 +133,14 @@ export default function PatientLayout() {
                     setIsMobileMenuOpen(false);
                     setIsCrisisModalOpen(true);
                   }}
-                  className="flex flex-col items-center p-4 rounded-2xl border border-red-100 bg-red-50 text-red-700 active:bg-red-100 transition-colors"
+                  className="flex flex-col items-center p-4 rounded-lg border border-red-100 bg-red-50 text-red-700 active:bg-red-100 transition-colors"
                 >
                   <ShieldAlert className="h-6 w-6 mb-2" />
                   <span className="text-sm font-semibold text-center">Crisis Support</span>
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="flex flex-col items-center p-4 rounded-2xl border border-gray-100 bg-gray-50 text-gray-500 active:bg-gray-100 transition-colors col-span-2"
+                  className="flex flex-col items-center p-4 rounded-lg border border-gray-100 bg-background text-muted-foreground active:bg-surface-hover transition-colors col-span-2"
                 >
                   <LogOut className="h-6 w-6 mb-2" />
                   <span className="text-sm font-semibold text-center">Log Out</span>
@@ -156,15 +156,15 @@ export default function PatientLayout() {
         />
 
         {/* Mobile Bottom Navigation */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around p-2 pb-safe z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] rounded-t-3xl">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-gray-100 flex justify-around p-2 pb-safe z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] rounded-t-3xl">
           {[navItems[0], navItems[1], navItems[2], navItems[3]].map((item) => {
             const isActive = location.pathname.startsWith(item.path) || (item.path === '/patient/find-professional' && location.pathname.includes('/find-professional'));
             return (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`flex flex-col items-center p-3 rounded-2xl transition-all duration-300 ${
-                  isActive ? 'text-emerald-900 bg-emerald-50' : 'text-gray-400 hover:text-emerald-600'
+                className={`flex flex-col items-center p-3 rounded-lg transition-all duration-300 ${
+                  isActive ? 'text-primary-dark bg-primary-muted' : 'text-gray-400 hover:text-primary'
                 }`}
               >
                 <item.icon className="h-6 w-6 mb-1" />
@@ -174,8 +174,8 @@ export default function PatientLayout() {
           })}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`flex flex-col items-center p-3 rounded-2xl transition-all duration-300 ${
-              isMobileMenuOpen ? 'text-emerald-900 bg-emerald-50' : 'text-gray-400 hover:text-emerald-600'
+            className={`flex flex-col items-center p-3 rounded-lg transition-all duration-300 ${
+              isMobileMenuOpen ? 'text-primary-dark bg-primary-muted' : 'text-gray-400 hover:text-primary'
             }`}
           >
             <Menu className="h-6 w-6 mb-1" />

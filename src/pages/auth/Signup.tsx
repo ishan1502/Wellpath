@@ -82,63 +82,63 @@ export default function Signup() {
 
   return (
     <div className="flex-1 flex w-full">
-      <div className="hidden lg:flex lg:w-1/2 bg-emerald-900 text-white flex-col justify-between p-12 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-primary-dark text-white flex-col justify-between p-12 relative overflow-hidden">
         {/* Background Decorative Elements */}
         <div className="absolute top-0 right-0 w-full h-full overflow-hidden z-0">
-          <div className="absolute top-[10%] -right-[20%] w-[70%] h-[70%] rounded-full bg-emerald-800/30 blur-3xl"></div>
-          <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-emerald-800/40 blur-3xl"></div>
+          <div className="absolute top-[10%] -right-[20%] w-[70%] h-[70%] rounded-full bg-primary-dark/30 blur-3xl"></div>
+          <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-primary-dark/40 blur-3xl"></div>
         </div>
 
         <div className="relative z-10 mt-12">
-          <h1 className="text-5xl font-bold mb-6 leading-tight">Join Our Community of<br/><span className="text-emerald-400">Care</span></h1>
-          <p className="text-emerald-100/80 text-xl max-w-md leading-relaxed">
+          <h1 className="text-5xl font-bold mb-6 leading-tight">Join Our Community of<br/><span className="text-primary-muted-foreground">Care</span></h1>
+          <p className="text-primary-muted/80 text-xl max-w-md leading-relaxed">
             Create an account to access tailored professional support, resources, and a path to better mental wellness.
           </p>
         </div>
         
-        <div className="relative z-10 bg-emerald-800/40 backdrop-blur-md p-8 rounded-3xl border border-emerald-700/50 shadow-xl mb-12">
+        <div className="relative z-10 bg-primary-dark/40 backdrop-blur-md p-8 rounded-xl border border-primary-hover/50 shadow-md mb-12">
           <div className="flex gap-4 items-center">
-             <div className="w-16 h-16 rounded-2xl bg-emerald-700 flex items-center justify-center">
-                <svg className="w-8 h-8 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <div className="w-16 h-16 rounded-lg bg-primary-hover flex items-center justify-center">
+                <svg className="w-8 h-8 text-primary-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
              </div>
              <div>
                 <h3 className="text-xl font-bold text-white mb-1">10,000+ Members</h3>
-                <p className="text-emerald-200 text-sm">Patients, professionals, and students growing together.</p>
+                <p className="text-primary-muted text-sm">Patients, professionals, and students growing together.</p>
              </div>
           </div>
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-gray-50 overflow-y-auto">
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-background overflow-y-auto">
         <div className="w-full max-w-xl py-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-emerald-900 mb-2">Create your account</h2>
-            <p className="text-emerald-700/70">Join our mental health platform today.</p>
+            <h2 className="text-3xl font-bold text-primary-dark mb-2">Create your account</h2>
+            <p className="text-primary-hover/70">Join our mental health platform today.</p>
           </div>
 
-          <Card className="border-0 shadow-sm rounded-3xl bg-white sm:shadow-xl transition-all duration-300">
+          <Card className="border-0 shadow-sm rounded-xl bg-surface sm:shadow-md transition-all duration-300">
             <CardContent className="p-8 space-y-6">
               <form id="signup-form" onSubmit={handleSubmit} className="space-y-6">
                 {error && (
-                  <div className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-sm font-semibold">
+                  <div className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm font-semibold">
                     {error}
                   </div>
                 )}
 
                 {/* Role Selection */}
                 <div className="space-y-3">
-                  <label className="text-sm font-bold text-emerald-900">I want to join as a:</label>
+                  <label className="text-sm font-bold text-primary-dark">I want to join as a:</label>
                   <div className="grid grid-cols-3 gap-3">
                     {(['patient', 'professional', 'student'] as const).map((r) => (
                       <label
                         key={r}
                         className={`
-                          cursor-pointer flex flex-col items-center justify-center rounded-2xl border-2 p-4 text-sm font-bold transition-all duration-300
+                          cursor-pointer flex flex-col items-center justify-center rounded-lg border-2 p-4 text-sm font-bold transition-all duration-300
                           ${formData.role === r 
-                            ? 'border-emerald-600 bg-emerald-50 text-emerald-800 shadow-sm' 
-                            : 'border-gray-100 hover:border-emerald-200 hover:bg-emerald-50/50 text-gray-500 hover:text-emerald-700'
+                            ? 'border-primary bg-primary-muted text-primary-dark shadow-sm' 
+                            : 'border-gray-100 hover:border-primary-muted hover:bg-primary-muted/50 text-muted-foreground hover:text-primary-hover'
                           }
                         `}
                       >
@@ -158,31 +158,31 @@ export default function Signup() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-emerald-900">First Name</label>
+                    <label className="text-sm font-bold text-primary-dark">First Name</label>
                     <Input
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleChange}
                       required
                       placeholder="John"
-                      className="rounded-xl border-gray-200 focus:border-emerald-500 focus:ring-emerald-500/20"
+                      className="rounded-xl border-border focus:border-primary focus:ring-ring/20"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-emerald-900">Last Name</label>
+                    <label className="text-sm font-bold text-primary-dark">Last Name</label>
                     <Input
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
                       required
                       placeholder="Doe"
-                      className="rounded-xl border-gray-200 focus:border-emerald-500 focus:ring-emerald-500/20"
+                      className="rounded-xl border-border focus:border-primary focus:ring-ring/20"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Email</label>
+                  <label className="text-sm font-bold text-primary-dark">Email</label>
                   <Input
                     type="email"
                     name="email"
@@ -190,12 +190,12 @@ export default function Signup() {
                     onChange={handleChange}
                     required
                     placeholder="name@example.com"
-                    className="rounded-xl border-gray-200 focus:border-emerald-500 focus:ring-emerald-500/20"
+                    className="rounded-xl border-border focus:border-primary focus:ring-ring/20"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Password</label>
+                  <label className="text-sm font-bold text-primary-dark">Password</label>
                   <Input
                     type="password"
                     name="password"
@@ -203,29 +203,29 @@ export default function Signup() {
                     onChange={handleChange}
                     required
                     minLength={6}
-                    className="rounded-xl border-gray-200 focus:border-emerald-500 focus:ring-emerald-500/20"
+                    className="rounded-xl border-border focus:border-primary focus:ring-ring/20"
                   />
-                  <p className="text-xs text-gray-500 font-medium">Must be at least 6 characters.</p>
+                  <p className="text-xs text-muted-foreground font-medium">Must be at least 6 characters.</p>
                 </div>
               </form>
 
-              <Button type="submit" form="signup-form" className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-6 shadow-sm hover:shadow-md transition-all duration-300" disabled={isLoading}>
+              <Button type="submit" form="signup-form" className="w-full rounded-xl bg-primary hover:bg-primary-hover text-white font-semibold py-6 shadow-sm hover:shadow-md transition-all duration-300" disabled={isLoading}>
                 {isLoading ? 'Creating account...' : 'Create Account'}
               </Button>
 
               <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200"></div>
+                  <div className="w-full border-t border-border"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-400 font-medium">Or continue with</span>
+                  <span className="px-4 bg-surface text-gray-400 font-medium">Or continue with</span>
                 </div>
               </div>
 
               <Button 
                 type="button" 
                 variant="outline" 
-                className="w-full rounded-xl py-6 flex items-center justify-center gap-3 border-gray-200 hover:bg-gray-50 hover:text-emerald-900 font-semibold transition-all duration-300" 
+                className="w-full rounded-xl py-6 flex items-center justify-center gap-3 border-border hover:bg-background hover:text-primary-dark font-semibold transition-all duration-300" 
                 onClick={handleGoogleSignup} 
                 disabled={isLoading}
               >
@@ -238,9 +238,9 @@ export default function Signup() {
                 Sign up with Google
               </Button>
 
-              <div className="text-center text-sm text-gray-500 pt-2">
+              <div className="text-center text-sm text-muted-foreground pt-2">
                 <span>Already have an account?</span>{' '}
-                <Link to="/login" className="text-emerald-600 hover:text-emerald-800 font-bold hover:underline transition-colors">Log in</Link>
+                <Link to="/login" className="text-primary hover:text-primary-dark font-bold hover:underline transition-colors">Log in</Link>
               </div>
             </CardContent>
           </Card>
