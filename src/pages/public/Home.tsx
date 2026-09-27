@@ -101,6 +101,12 @@ const Home = () => {
                   Get Matched <ChevronRight className="w-4 h-4" />
                 </button>
               </form>
+              <div className="mt-4 pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <span className="text-sm text-gray-500 font-medium">Prefer to browse?</span>
+                <button type="button" onClick={() => navigate('/find-professional')} className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm flex items-center gap-1 transition-colors">
+                  Find a Professional <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
           
