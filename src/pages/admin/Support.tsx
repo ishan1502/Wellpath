@@ -281,14 +281,15 @@ export default function Support() {
   }, [tickets, searchQuery, statusFilter, priorityFilter, categoryFilter]);
 
   const handleUpdateStatus = (id: string, newStatus: SupportTicket['status']) => {
-    setTickets(prev => prev.map(t => {
-      if (t.id === id) {
-        const updated = { ...t, status: newStatus, updatedAt: new Date().toISOString() };
-        if (selectedTicket?.id === id) setSelectedTicket(updated);
-        return updated;
-      }
-      return t;
-    }));
+    const updatedTime = new Date().toISOString();
+    
+    setTickets(prev => prev.map(t => 
+      t.id === id ? { ...t, status: newStatus, updatedAt: updatedTime } : t
+    ));
+    
+    if (selectedTicket?.id === id) {
+      setSelectedTicket(prev => prev ? { ...prev, status: newStatus, updatedAt: updatedTime } : prev);
+    }
   };
 
   const handleAddReply = (e: React.FormEvent) => {
@@ -303,19 +304,20 @@ export default function Support() {
       text: replyText.trim()
     };
 
-    setTickets(prev => prev.map(t => {
-      if (t.id === selectedTicket.id) {
-        const updated = {
-          ...t,
-          status: 'Waiting on User' as const,
-          updatedAt: new Date().toISOString(),
-          replies: [...t.replies, newReply]
-        };
-        setSelectedTicket(updated);
-        return updated;
-      }
-      return t;
-    }));
+    const updatedTime = new Date().toISOString();
+
+    setTickets(prev => prev.map(t => 
+      t.id === selectedTicket.id 
+        ? { ...t, status: 'Waiting on User' as const, updatedAt: updatedTime, replies: [...t.replies, newReply] } 
+        : t
+    ));
+
+    setSelectedTicket(prev => prev ? { 
+      ...prev, 
+      status: 'Waiting on User' as const, 
+      updatedAt: updatedTime, 
+      replies: [...prev.replies, newReply] 
+    } : prev);
 
     setReplyText('');
   };

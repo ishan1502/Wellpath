@@ -67,7 +67,7 @@ export default function AdminLayout() {
                 to={item.path}
                 className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
                   isActive
-                    ? 'bg-primary-dark text-white shadow-sm'
+                    ? 'bg-primary text-white shadow-sm'
                     : 'text-primary-muted hover:bg-primary-dark/50 hover:text-white'
                 }`}
               >
@@ -123,7 +123,7 @@ export default function AdminLayout() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
                       isActive
-                        ? 'bg-primary-dark text-white shadow-sm'
+                        ? 'bg-primary text-white shadow-sm'
                         : 'text-primary-muted hover:bg-primary-dark/50 hover:text-white'
                     }`}
                   >

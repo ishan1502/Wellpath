@@ -50,32 +50,32 @@ export default function FindInternship() {
   const wordCount = countWords(motivationText);
   const isWordCountValid = wordCount >= MIN_WORDS && wordCount <= MAX_WORDS;
 
-  const handleApply = () => {
+  const handleApply = async () => {
     if (!selectedProfessional || !user || !isWordCountValid) return;
 
-    const profileSummary = useProfileAsResume && studentProfile
-      ? `\n\n--- Profile Summary ---\nField of Study: ${studentProfile.fieldOfStudy || 'N/A'}\nCurrent Year: ${studentProfile.currentYear || 'N/A'}\nSkills: ${(studentProfile.skills || []).join(', ') || 'N/A'}\nEducation: ${(studentProfile.education || []).map((e: any) => `${e.degree} at ${e.institution} (${e.year})`).join('; ') || 'N/A'}\nCertificates: ${(studentProfile.certificates || []).map((c: any) => c.name).join(', ') || 'N/A'}`
-      : '';
+    try {
+      // Lazy-import to avoid modifying file top-level imports significantly if studentService isn't there
+      const { studentService } = await import('../../services/studentService');
+      
+      const profileSummary = useProfileAsResume && studentProfile
+        ? `\n\n--- Profile Summary ---\nField of Study: ${studentProfile.fieldOfStudy || 'N/A'}\nCurrent Year: ${studentProfile.currentYear || 'N/A'}\nSkills: ${(studentProfile.skills || []).join(', ') || 'N/A'}\nEducation: ${(studentProfile.education || []).map((e: any) => `${e.degree} at ${e.institution} (${e.year})`).join('; ') || 'N/A'}\nCertificates: ${(studentProfile.certificates || []).map((c: any) => c.name).join(', ') || 'N/A'}`
+        : '';
 
-    const newApp = {
-      id: Math.random().toString(36).substring(2),
-      studentId: user.id,
-      professionalId: selectedProfessional.id,
-      professionalName: `Dr. ${selectedProfessional.firstName} ${selectedProfessional.lastName}`,
-      status: 'pending',
-      motivationText: motivationText + profileSummary,
-      appliedAt: new Date().toISOString(),
-      location: selectedProfessional.location || 'Remote',
-      useProfileAsResume,
-    };
+      await studentService.applyForInternship({
+        studentId: user.id,
+        professionalId: selectedProfessional.id,
+        motivationText: motivationText + profileSummary,
+        useProfileResume: useProfileAsResume
+      });
 
-    const existingApps = JSON.parse(localStorage.getItem('wellpath_internship_applications') || '[]');
-    localStorage.setItem('wellpath_internship_applications', JSON.stringify([...existingApps, newApp]));
-
-    setSelectedProfessional(null);
-    setMotivationText('');
-    setUseProfileAsResume(false);
-    alert('Application submitted successfully!');
+      setSelectedProfessional(null);
+      setMotivationText('');
+      setUseProfileAsResume(false);
+      alert('Application submitted successfully!');
+    } catch (err) {
+      console.error('Failed to submit application', err);
+      alert('Failed to submit application. Please try again later.');
+    }
   };
 
   const closeModal = () => {

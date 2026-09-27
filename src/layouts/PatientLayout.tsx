@@ -44,7 +44,7 @@ export default function PatientLayout() {
                 to={item.path}
                 className={`flex items-center px-4 py-3.5 text-sm font-semibold rounded-lg transition-all duration-300 ${
                   isActive
-                    ? 'bg-primary-dark text-white shadow-sm'
+                    ? 'bg-primary text-white shadow-sm'
                     : 'text-muted-foreground hover:bg-primary-muted hover:text-primary-dark'
                 }`}
               >

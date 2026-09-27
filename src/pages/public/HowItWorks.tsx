@@ -130,7 +130,7 @@ const HowItWorks = () => {
             Clear, Compassionate & Transparent
           </span>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight max-w-3xl mx-auto leading-tight">
-            How <span className="text-primary-muted-foreground">WellPath</span> Works
+            How <span className="text-primary-muted">WellPath</span> Works
           </h1>
           <p className="mt-8 text-lg sm:text-xl text-primary-muted/90 max-w-2xl mx-auto leading-relaxed">
             A seamless journey towards mental wellbeing and professional growth. Whether you are looking for therapy or clinical mentorship, here is how we guide you every step of the way.

@@ -64,7 +64,7 @@ const Home = () => {
       {/* Interactive Hero Section - BetterHelp/Talkspace inspired */}
       <section className="relative bg-primary-dark pt-20 pb-28 lg:pt-32 lg:pb-40 overflow-hidden text-white">
         <div className="absolute inset-0 z-0 opacity-20">
-          <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=2000" alt="Therapy Session" className="w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000" alt="Calming Nature" className="w-full h-full object-cover" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-emerald-900 via-emerald-900/90 to-emerald-900/40 z-0"></div>
         
@@ -152,17 +152,17 @@ const Home = () => {
               <span className="text-primary font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Explore Therapy <ChevronRight className="w-4 h-4" /></span>
             </Link>
 
-            {/* Psychiatry */}
-            <Link to="/find-professional?type=psychiatry" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group">
+            {/* Internships */}
+            <Link to="/student/find-internship" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group">
               <div className="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform">
-                <Activity className="w-7 h-7" />
+                <Users className="w-7 h-7" />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">Psychiatry</h3>
-              <p className="text-muted-foreground text-sm mb-4 flex-grow">Expert medical doctors available for psychiatric evaluations and medication management.</p>
-              <span className="text-blue-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">See Psychiatrists <ChevronRight className="w-4 h-4" /></span>
+              <h3 className="text-xl font-bold text-foreground mb-3">Internships</h3>
+              <p className="text-muted-foreground text-sm mb-4 flex-grow">Find opportunities to shadow verified professionals and gain practical clinical experience.</p>
+              <span className="text-blue-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Find Internships <ChevronRight className="w-4 h-4" /></span>
             </Link>
 
-            {/* Courses - New section! */}
+            {/* Courses */}
             <Link to="/courses" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group">
               <div className="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform">
                 <BookOpen className="w-7 h-7" />
@@ -172,14 +172,14 @@ const Home = () => {
               <span className="text-purple-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Browse Courses <ChevronRight className="w-4 h-4" /></span>
             </Link>
 
-            {/* Support Groups */}
+            {/* Events & Webinars */}
             <Link to="/events" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group">
               <div className="w-14 h-14 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 mb-6 group-hover:scale-110 transition-transform">
-                <Users className="w-7 h-7" />
+                <Activity className="w-7 h-7" />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">Group Sessions</h3>
-              <p className="text-muted-foreground text-sm mb-4 flex-grow">Join live, anonymous group webinars and support groups led by mental health experts.</p>
-              <span className="text-orange-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">View Events <ChevronRight className="w-4 h-4" /></span>
+              <h3 className="text-xl font-bold text-foreground mb-3">Events & Webinars</h3>
+              <p className="text-muted-foreground text-sm mb-4 flex-grow">Explore live group sessions, interactive webinars, and engaging mental health events.</p>
+              <span className="text-orange-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Explore Events <ChevronRight className="w-4 h-4" /></span>
             </Link>
           </div>
         </div>

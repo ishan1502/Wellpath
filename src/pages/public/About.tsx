@@ -78,11 +78,11 @@ const About = () => {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-dark/80 border border-primary-hover text-primary-muted font-medium mb-8">
-            <Sparkles className="w-4 h-4 text-primary-muted-foreground" />
+            <Sparkles className="w-4 h-4 text-primary-muted" />
             <span>Our Mission</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 max-w-4xl mx-auto leading-tight">
-            Making world-class mental healthcare <span className="text-primary-muted-foreground">accessible to all.</span>
+            Making world-class mental healthcare <span className="text-primary-muted">accessible to all.</span>
           </h1>
           <p className="text-xl text-primary-muted max-w-2xl mx-auto leading-relaxed">
             We're building a future where getting the right mental health support is as simple, normal, and effective as visiting a primary care doctor.
@@ -135,7 +135,7 @@ const About = () => {
               <div className="relative">
                 <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=1000" alt="Therapy session" className="rounded-xl shadow-lg" />
                 <div className="absolute -bottom-8 -right-8 bg-primary-dark text-white p-8 rounded-xl hidden md:block max-w-xs shadow-md">
-                  <Target className="w-10 h-10 text-primary-muted-foreground mb-4" />
+                  <Target className="w-10 h-10 text-primary-muted mb-4" />
                   <p className="font-bold text-lg leading-snug">"Therapy isn't just about surviving; it's about giving you the tools to thrive."</p>
                 </div>
               </div>

@@ -108,7 +108,7 @@ const ForProfessionals = () => {
               <span>For Mental Health Professionals</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
-              Focus on <span className="text-primary-muted-foreground">providing care.</span><br/>We'll handle the rest.
+              Focus on <span className="text-primary-muted">providing care.</span><br/>We'll handle the rest.
             </h1>
             <p className="text-xl text-primary-muted/90 mb-10 leading-relaxed">
               Join thousands of top-tier therapists and psychiatrists running their successful private practices on WellPath's all-in-one platform.
@@ -199,7 +199,7 @@ const ForProfessionals = () => {
                 >
                   {faq.question}
                   <span className={`transform transition-transform duration-300 ${expandedFaq === idx ? 'rotate-180' : ''}`}>
-                    <ChevronDown className="w-5 h-5 text-primary-muted-foreground" />
+                    <ChevronDown className="w-5 h-5 text-primary-muted" />
                   </span>
                 </button>
                 <div 

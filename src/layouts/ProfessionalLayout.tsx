@@ -61,7 +61,7 @@ export default function ProfessionalLayout() {
             onClick={() => setIsMobileMenuOpen(false)}
             className={`flex items-center px-4 py-3 mb-1 text-sm font-medium rounded-lg transition-all duration-300 ${
               isActive
-                ? 'bg-primary-dark text-white shadow-sm'
+                ? 'bg-primary text-white shadow-sm'
                 : 'text-primary-muted hover:bg-primary-dark/50 hover:text-white'
             }`}
           >

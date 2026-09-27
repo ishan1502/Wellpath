@@ -6,9 +6,28 @@ import { useAuth } from '@/hooks/useAuth';
 export default function Dashboard() {
   const { user } = useAuth();
   
-  // Parse applications from localStorage (or use service)
-  const applicationsStr = localStorage.getItem('wellpath_internship_applications') || '[]';
-  const applications = JSON.parse(applicationsStr);
+  const [applications, setApplications] = React.useState<any[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchApps = async () => {
+      if (!user) return;
+      try {
+        const { studentService } = await import('../../services/studentService');
+        const apps = await studentService.getApplicationsByStudent(user.id);
+        setApplications(apps);
+      } catch (err) {
+        console.error('Failed to load apps', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchApps();
+  }, [user]);
+
+  if (isLoading) {
+    return <div className="p-8 text-center text-primary-hover font-bold">Loading dashboard...</div>;
+  }
 
   return (
     <div className="space-y-8 animate-fade-in font-sans text-primary-dark">

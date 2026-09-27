@@ -8,7 +8,8 @@ const QUESTIONS = [
     title: 'What brought you here today?',
     subtitle: 'This helps us find the best fit for your specific needs.',
     icon: <Heart className="w-8 h-8 text-rose-500 mb-4" />,
-    options: ['Anxiety', 'Stress', 'Depression', 'Relationship Issues', 'Work/Burnout', 'Trauma/Grief', 'Self-Esteem', 'Something else']
+    options: ['Anxiety', 'Stress', 'Depression', 'Relationship Issues', 'Work/Burnout', 'Trauma/Grief', 'Self-Esteem', 'Something else'],
+    isMultiSelect: true
   },
   {
     title: 'How long have you been feeling this way?',
@@ -35,7 +36,7 @@ export default function Matching() {
   const initialConcern = searchParams.get('concern');
   
   const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const navigate = useNavigate();
 
@@ -44,17 +45,31 @@ export default function Matching() {
       // Map initial concern from URL to first question if it matches roughly
       const mapped = QUESTIONS[0].options.find(opt => opt.toLowerCase().includes(initialConcern.toLowerCase()));
       if (mapped) {
-        setAnswers(prev => ({ ...prev, 0: mapped }));
+        setAnswers(prev => ({ ...prev, 0: [mapped] }));
       }
     }
   }, [initialConcern]);
 
   const handleSelect = (option: string) => {
-    setAnswers({ ...answers, [currentStep]: option });
-    // Auto advance after short delay
-    setTimeout(() => {
-      handleNext();
-    }, 400);
+    const isMultiSelect = QUESTIONS[currentStep].isMultiSelect;
+    
+    if (isMultiSelect) {
+      setAnswers(prev => {
+        const currentAnswers = Array.isArray(prev[currentStep]) ? (prev[currentStep] as string[]) : [];
+        if (currentAnswers.includes(option)) {
+          return { ...prev, [currentStep]: currentAnswers.filter(a => a !== option) };
+        } else {
+          return { ...prev, [currentStep]: [...currentAnswers, option] };
+        }
+      });
+      // No auto-advance for multi-select
+    } else {
+      setAnswers({ ...answers, [currentStep]: option });
+      // Auto advance after short delay
+      setTimeout(() => {
+        handleNext();
+      }, 400);
+    }
   };
 
   const handleNext = () => {
@@ -132,7 +147,11 @@ export default function Matching() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-auto mb-8">
             {currentQuestion.options.map((option) => {
-              const isSelected = answers[currentStep] === option;
+              const currentAnswer = answers[currentStep];
+              const isSelected = Array.isArray(currentAnswer) 
+                ? currentAnswer.includes(option) 
+                : currentAnswer === option;
+              
               return (
                 <button
                   key={option}
@@ -159,7 +178,7 @@ export default function Matching() {
           <div className="flex justify-end pt-6 border-t border-gray-100 mt-auto">
             <Button 
               onClick={handleNext} 
-              disabled={!answers[currentStep]}
+              disabled={!answers[currentStep] || (Array.isArray(answers[currentStep]) && (answers[currentStep] as string[]).length === 0)}
               className="bg-primary hover:bg-primary-hover text-white px-8 py-6 rounded-xl text-lg font-bold w-full sm:w-auto"
             >
               {currentStep === QUESTIONS.length - 1 ? 'Find Matches' : 'Continue'} <ArrowRight className="w-5 h-5 ml-2" />

@@ -1,44 +1,49 @@
-import { User, InternshipApplication } from '../types';
+import { supabase } from '../lib/supabase';
+import { InternshipApplication } from '../types';
 
-const MOCK_APPLICATIONS: (InternshipApplication & { studentName?: string })[] = [
-  {
-    id: '1',
-    studentId: 'stud1',
-    professionalId: 'prof1',
-    status: 'pending',
-    appliedAt: '2026-09-10T10:00:00Z',
-    motivationText: 'I am highly interested in learning from your practice...',
-    studentName: 'Alice Johnson',
-  },
-  {
-    id: '2',
-    studentId: 'stud2',
-    professionalId: 'prof1',
-    status: 'accepted',
-    appliedAt: '2026-09-01T10:00:00Z',
-    motivationText: 'I have a strong background in psychology...',
-    studentName: 'Bob Smith',
+export const getInternshipApplications = async (professionalId: string): Promise<any[]> => {
+  const { data, error } = await supabase
+    .from('internship_applications')
+    .select('*, student:users!internship_applications_student_id_fkey(*)')
+    .eq('professional_id', professionalId)
+    .order('created_at', { ascending: false });
+
+  if (error || !data) {
+    console.error('Error fetching applications', error);
+    return [];
   }
-];
 
-export const getInternshipApplications = async (professionalId: string): Promise<(InternshipApplication & { studentName?: string })[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(MOCK_APPLICATIONS.filter(app => app.professionalId === professionalId || professionalId === 'all'));
-    }, 500);
-  });
+  return data.map(app => ({
+    id: app.id,
+    studentId: app.student_id,
+    professionalId: app.professional_id,
+    status: app.status,
+    appliedAt: app.created_at,
+    motivationText: app.motivation_text,
+    studentName: app.student ? `${app.student.first_name} ${app.student.last_name}` : 'Unknown Student',
+  }));
 };
 
-export const updateInternshipApplicationStatus = async (applicationId: string, status: 'accepted' | 'rejected'): Promise<(InternshipApplication & { studentName?: string }) | null> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const appIndex = MOCK_APPLICATIONS.findIndex(app => app.id === applicationId);
-      if (appIndex > -1) {
-        MOCK_APPLICATIONS[appIndex] = { ...MOCK_APPLICATIONS[appIndex], status };
-        resolve(MOCK_APPLICATIONS[appIndex]);
-      } else {
-        resolve(null);
-      }
-    }, 500);
-  });
+export const updateInternshipApplicationStatus = async (applicationId: string, status: 'accepted' | 'rejected'): Promise<any | null> => {
+  const { data, error } = await supabase
+    .from('internship_applications')
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq('id', applicationId)
+    .select('*, student:users!internship_applications_student_id_fkey(*)')
+    .single();
+
+  if (error || !data) {
+    console.error('Error updating application', error);
+    return null;
+  }
+
+  return {
+    id: data.id,
+    studentId: data.student_id,
+    professionalId: data.professional_id,
+    status: data.status,
+    appliedAt: data.created_at,
+    motivationText: data.motivation_text,
+    studentName: data.student ? `${data.student.first_name} ${data.student.last_name}` : 'Unknown Student',
+  };
 };

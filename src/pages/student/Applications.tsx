@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { useAuth } from '@/hooks/useAuth';
 
 interface ApplicationItem {
   id: string;
@@ -27,37 +28,44 @@ interface ApplicationItem {
 const DEFAULT_APPLICATIONS: ApplicationItem[] = [];
 
 export default function Applications() {
-  const [applications, setApplications] = useState<ApplicationItem[]>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('wellpath_internship_applications');
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            const existingIds = new Set(parsed.map((a: any) => a.id));
-            const nonDuplicates = DEFAULT_APPLICATIONS.filter(d => !existingIds.has(d.id));
-            return [...parsed, ...nonDuplicates];
-          }
-        } catch (e) {
-          console.error('Failed to parse internship applications', e);
-        }
+  const { user } = useAuth();
+  const [applications, setApplications] = useState<ApplicationItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    const fetchApps = async () => {
+      if (!user) return;
+      try {
+        const { studentService } = await import('../../services/studentService');
+        const apps = await studentService.getApplicationsByStudent(user.id);
+        setApplications(apps);
+      } catch (err) {
+        console.error('Failed to load applications', err);
+      } finally {
+        setIsLoading(false);
       }
-      localStorage.setItem('wellpath_internship_applications', JSON.stringify(DEFAULT_APPLICATIONS));
-    }
-    return DEFAULT_APPLICATIONS;
-  });
+    };
+    fetchApps();
+  }, [user]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'accepted' | 'rejected'>('all');
   const [selectedApp, setSelectedApp] = useState<ApplicationItem | null>(null);
 
-  const handleWithdraw = (id: string) => {
+  const handleWithdraw = async (id: string) => {
     if (confirm('Are you sure you want to withdraw this application? This action cannot be undone.')) {
-      const updated = applications.filter(a => a.id !== id);
-      setApplications(updated);
-      localStorage.setItem('wellpath_internship_applications', JSON.stringify(updated));
-      if (selectedApp?.id === id) {
-        setSelectedApp(null);
+      try {
+        const { studentService } = await import('../../services/studentService');
+        await studentService.withdrawApplication(id);
+        const updated = applications.filter(a => a.id !== id);
+        setApplications(updated);
+        
+        if (selectedApp?.id === id) {
+          setSelectedApp(null);
+        }
+      } catch (err) {
+        console.error('Failed to withdraw application', err);
+        alert('Failed to withdraw application');
       }
     }
   };

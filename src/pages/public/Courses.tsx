@@ -134,7 +134,7 @@ const Courses = () => {
             Master Mental Health Practice
           </h1>
           <p className="text-xl md:text-2xl text-primary-muted max-w-3xl mx-auto mb-10">
-            Learn from world-renowned experts. Earn CPD credits. Transform your practice with evidence-based approaches.
+            Learn from world-renowned experts. Transform your practice with evidence-based approaches.
           </p>
           <div className="max-w-xl mx-auto relative">
             <div className="flex items-center bg-surface rounded-full p-1 pl-4 shadow-lg">

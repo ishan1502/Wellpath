@@ -104,7 +104,7 @@ export default function Analytics() {
           </div>
 
           <button
-            onClick={() => alert('Exporting Analytics Report as PDF...')}
+            onClick={() => window.print()}
             className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-primary-muted rounded-xl text-sm font-bold text-primary-hover bg-surface hover:bg-primary-muted shadow-sm transition-all hover:shadow"
           >
             <Download className="h-4 w-4 text-primary" />

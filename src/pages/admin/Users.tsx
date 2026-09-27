@@ -18,6 +18,16 @@ export default function Users() {
     setLoading(false);
   };
 
+  const handleToggleStatus = async (id: string, currentStatus: string | undefined) => {
+    const newStatus = currentStatus === 'deactivated' ? 'active' : 'deactivated';
+    try {
+      await adminService.updateUserStatus(id, newStatus);
+      setUsers(users.map(u => u.id === id ? { ...u, status: newStatus } : u));
+    } catch (err) {
+      alert('Failed to update user status');
+    }
+  };
+
   if (loading) return <div className="p-8 text-center text-primary font-medium">Loading users...</div>;
 
   return (
@@ -71,13 +81,18 @@ export default function Users() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary">
                     <div className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-primary"></span>
-                      Active
+                      <span className={`h-2 w-2 rounded-full ${user.status === 'deactivated' ? 'bg-red-500' : 'bg-primary'}`}></span>
+                      <span className="capitalize">{user.status || 'Active'}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold">
                     <button className="text-primary hover:text-primary-dark mr-4 transition-colors">Edit</button>
-                    <button className="text-red-500 hover:text-red-700 transition-colors">Deactivate</button>
+                    <button 
+                      onClick={() => handleToggleStatus(user.id, user.status)}
+                      className={`${user.status === 'deactivated' ? 'text-amber-500 hover:text-amber-700' : 'text-red-500 hover:text-red-700'} transition-colors`}
+                    >
+                      {user.status === 'deactivated' ? 'Activate' : 'Deactivate'}
+                    </button>
                   </td>
                 </tr>
               ))}

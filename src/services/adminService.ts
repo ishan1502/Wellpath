@@ -98,11 +98,26 @@ export const adminService = {
         lastName: u.last_name,
         role: u.role,
         avatarUrl: u.avatar_url,
-        createdAt: u.created_at
+        createdAt: u.created_at,
+        status: u.status || 'active'
       })) as User[];
     } catch (err) {
       console.error('Error fetching users for admin:', err);
       return [];
+    }
+  },
+
+  updateUserStatus: async (id: string, status: 'active' | 'deactivated'): Promise<void> => {
+    try {
+      const { error } = await supabase
+        .from('users')
+        .update({ status })
+        .eq('id', id);
+
+      if (error) throw error;
+    } catch (err) {
+      console.error('Error updating user status:', err);
+      throw err;
     }
   },
 

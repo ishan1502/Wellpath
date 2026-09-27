@@ -40,7 +40,7 @@ export default function StudentLayout() {
                 to={item.path}
                 className={`flex items-center px-4 py-3.5 text-sm font-semibold rounded-lg transition-all duration-300 ${
                   isActive
-                    ? 'bg-primary-dark text-white shadow-sm'
+                    ? 'bg-primary text-white shadow-sm'
                     : 'text-muted-foreground hover:bg-primary-muted hover:text-primary-dark'
                 }`}
               >
@@ -58,7 +58,7 @@ export default function StudentLayout() {
             </div>
             <div className="flex-1 overflow-hidden">
               <p className="text-sm font-bold text-primary-dark truncate">{user?.firstName} {user?.lastName}</p>
-              <p className="text-xs text-primary font-medium capitalize truncate">Medical Student</p>
+              <p className="text-xs text-primary font-medium capitalize truncate">Student</p>
             </div>
             <NotificationBell placement="top" align="left" />
           </div>

@@ -8,6 +8,7 @@ export interface User {
   role: Role;
   avatarUrl?: string;
   needsOnboarding?: boolean;
+  status?: 'active' | 'deactivated';
 }
 
 export type VerificationStatus = 'pending' | 'approved' | 'rejected';
