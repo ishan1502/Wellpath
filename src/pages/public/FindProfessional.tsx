@@ -72,7 +72,7 @@ const FindProfessional = () => {
         </div>
         <div className="max-w-7xl mx-auto relative z-10 text-center">
           <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
-            Find Your <span className="text-primary-muted-foreground">Perfect Match</span>
+            Find Your <span className="text-primary-muted">Perfect Match</span>
           </h1>
           <p className="text-xl text-primary-muted max-w-2xl mx-auto mb-10">
             {matched 

@@ -75,7 +75,7 @@ const Home = () => {
               <span>Ranked #1 Mental Health Platform 2026</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              You deserve to be <span className="text-primary-muted-foreground">happy.</span>
+              You deserve to be <span className="text-primary-muted">happy.</span>
             </h1>
             <p className="text-lg md:text-xl text-primary-muted mb-10 leading-relaxed max-w-2xl">
               Take the first step towards better mental health. Connect with licensed therapists, psychiatrists, and wellness courses designed for your unique journey.
@@ -311,7 +311,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <Shield className="w-16 h-16 text-primary-muted-foreground mb-6" />
+              <Shield className="w-16 h-16 text-primary-muted mb-6" />
               <h2 className="text-3xl lg:text-4xl font-bold mb-6">Safe, secure, and completely confidential</h2>
               <p className="text-primary-muted text-lg mb-8 leading-relaxed">
                 Your privacy is non-negotiable. We employ state-of-the-art security measures to ensure that your conversations, personal data, and payment information are protected at all times.
@@ -319,11 +319,11 @@ const Home = () => {
               <ul className="space-y-4">
 
                 <li className="flex items-center gap-3 text-primary-muted">
-                  <CheckCircle2 className="w-6 h-6 text-primary-muted-foreground flex-shrink-0" />
+                  <CheckCircle2 className="w-6 h-6 text-primary-muted flex-shrink-0" />
                   <span>End-to-end 256-bit encryption</span>
                 </li>
                 <li className="flex items-center gap-3 text-primary-muted">
-                  <CheckCircle2 className="w-6 h-6 text-primary-muted-foreground flex-shrink-0" />
+                  <CheckCircle2 className="w-6 h-6 text-primary-muted flex-shrink-0" />
                   <span>Strict privacy protocols</span>
                 </li>
               </ul>

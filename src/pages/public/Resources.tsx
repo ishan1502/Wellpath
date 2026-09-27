@@ -264,7 +264,7 @@ const Resources = () => {
 
           {/* Search Bar */}
           <div className="mt-12 max-w-2xl relative">
-            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-primary-muted-foreground">
+            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-primary-muted">
               <Search className="w-5 h-5" />
             </div>
             <input
@@ -277,7 +277,7 @@ const Resources = () => {
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery('')}
-                className="absolute inset-y-0 right-0 pr-5 flex items-center text-primary-muted-foreground hover:text-white transition-colors"
+                className="absolute inset-y-0 right-0 pr-5 flex items-center text-primary-muted hover:text-white transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -309,7 +309,7 @@ const Resources = () => {
         {selectedCategory === 'All Topics' && !searchQuery && featuredArticle && (
           <div className="mb-20">
             <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-primary-muted mb-6 drop-shadow-md">
-              <Sparkles className="w-4 h-4 text-primary-muted-foreground" />
+              <Sparkles className="w-4 h-4 text-primary-muted" />
               <span>Featured Spotlight</span>
             </div>
 
