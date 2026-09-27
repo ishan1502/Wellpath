@@ -555,7 +555,7 @@ const Resources = () => {
               Join thousands of readers who receive our bi-weekly digests on modern psychology, stress mitigation, and emotional resilience.
             </p>
             <form 
-              onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to WELLPath insights!'); }}
+              onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to WellPath insights!'); }}
               className="flex flex-col sm:flex-row justify-center max-w-lg mx-auto gap-4"
             >
               <input

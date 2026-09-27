@@ -24,7 +24,7 @@ const About = () => {
     {
       icon: ShieldCheck,
       title: 'Clinical Integrity First',
-      description: 'Every clinician on WELLPath is manually verified with rigorous credential checks. We hold zero tolerance for unverified coaching or non-evidence-based claims.'
+      description: 'Every clinician on WellPath is manually verified with rigorous credential checks. We hold zero tolerance for unverified coaching or non-evidence-based claims.'
     },
     {
       icon: Heart,
@@ -144,7 +144,7 @@ const About = () => {
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
                 <p>
-                  WELLPath began with a simple but painful realization: finding the right therapist was often harder than the struggles that led people to seek one in the first place.
+                  WellPath began with a simple but painful realization: finding the right therapist was often harder than the struggles that led people to seek one in the first place.
                 </p>
                 <p>
                   Between endless waitlists, confusing insurance networks, and trial-and-error matching, the system was broken. We decided to fix it by building a platform that prioritizes clinical quality and patient-provider fit above all else.

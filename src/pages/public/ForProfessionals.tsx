@@ -80,7 +80,7 @@ const ForProfessionals = () => {
     },
     {
       question: 'Do I have to commit to a minimum number of hours?',
-      answer: 'No. You are completely in control of your schedule. You can open as little as 2 hours a week or run a full-time practice of 40 hours a week on WELLPath.'
+      answer: 'No. You are completely in control of your schedule. You can open as little as 2 hours a week or run a full-time practice of 40 hours a week on WellPath.'
     },
     {
       question: 'How are clients matched to me?',
@@ -111,7 +111,7 @@ const ForProfessionals = () => {
               Focus on <span className="text-emerald-300">healing.</span><br/>We'll handle the rest.
             </h1>
             <p className="text-xl text-emerald-100/90 mb-10 leading-relaxed">
-              Join thousands of top-tier therapists and psychiatrists running their successful private practices on WELLPath's all-in-one platform.
+              Join thousands of top-tier therapists and psychiatrists running their successful private practices on WellPath's all-in-one platform.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -187,7 +187,7 @@ const ForProfessionals = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-emerald-100/80">Everything you need to know about joining WELLPath.</p>
+            <p className="text-emerald-100/80">Everything you need to know about joining WellPath.</p>
           </div>
           
           <div className="space-y-4">

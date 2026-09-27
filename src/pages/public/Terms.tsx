@@ -29,7 +29,7 @@ export default function Terms() {
             <div>
               <strong className="font-extrabold block text-lg mb-2">Emergency Medical Notice</strong>
               <span className="text-red-800/80 font-medium leading-relaxed block">
-                WELLPath is not an emergency response service. If you or someone you know is experiencing acute crisis, thoughts of self-harm, or a medical emergency, please call <strong className="text-red-900 font-extrabold">911</strong> (US), <strong className="text-red-900 font-extrabold">112</strong> / <strong className="text-red-900 font-extrabold">14416 (Tele-MANAS)</strong> (India), or proceed to the nearest emergency room immediately.
+                WellPath is not an emergency response service. If you or someone you know is experiencing acute crisis, thoughts of self-harm, or a medical emergency, please call <strong className="text-red-900 font-extrabold">911</strong> (US), <strong className="text-red-900 font-extrabold">112</strong> / <strong className="text-red-900 font-extrabold">14416 (Tele-MANAS)</strong> (India), or proceed to the nearest emergency room immediately.
               </span>
             </div>
           </div>
@@ -42,7 +42,7 @@ export default function Terms() {
               1. Acceptance of Terms
             </h2>
             <p className="text-emerald-800/80 leading-relaxed font-medium pl-12">
-              By creating an account, browsing the WELLPath directory, or booking clinical sessions, you agree to comply with and be bound by these Terms of Service. If you do not agree to these terms, you must discontinue platform use immediately.
+              By creating an account, browsing the WellPath directory, or booking clinical sessions, you agree to comply with and be bound by these Terms of Service. If you do not agree to these terms, you must discontinue platform use immediately.
             </p>
           </section>
 
@@ -56,7 +56,7 @@ export default function Terms() {
               2. Healthcare Provider Relationship
             </h2>
             <p className="text-emerald-800/80 leading-relaxed font-medium pl-12">
-              WELLPath provides a technology platform connecting independent licensed therapists, counselors, and psychiatrists with patients and students. Therapists on WELLPath are independent contractors and are not employees of WELLPath. Clinical discretion and therapeutic decisions remain solely the responsibility of the treating healthcare professional.
+              WellPath provides a technology platform connecting independent licensed therapists, counselors, and psychiatrists with patients and students. Therapists on WellPath are independent contractors and are not employees of WellPath. Clinical discretion and therapeutic decisions remain solely the responsibility of the treating healthcare professional.
             </p>
           </section>
 

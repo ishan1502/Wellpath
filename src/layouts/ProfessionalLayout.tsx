@@ -87,7 +87,7 @@ export default function ProfessionalLayout() {
       <aside className={`fixed md:sticky top-0 z-50 h-screen w-72 bg-emerald-900 flex flex-col transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         <div className="p-6 pb-4 flex justify-between items-center">
           <div>
-            <Link to="/professional/dashboard" className="text-2xl font-bold text-white">WELLPath</Link>
+            <Link to="/professional/dashboard" className="text-2xl font-bold text-white">WellPath</Link>
             <p className="text-xs text-emerald-300 mt-1 uppercase tracking-wider font-semibold">For Professionals</p>
           </div>
           <button className="md:hidden text-white" onClick={() => setIsMobileMenuOpen(false)}>
@@ -130,7 +130,7 @@ export default function ProfessionalLayout() {
               <Menu className="h-6 w-6" />
             </button>
             <div>
-              <Link to="/professional/dashboard" className="text-xl font-bold text-emerald-900">WELLPath</Link>
+              <Link to="/professional/dashboard" className="text-xl font-bold text-emerald-900">WellPath</Link>
               <span className="text-[10px] ml-2 text-emerald-600 uppercase font-bold">Pro</span>
             </div>
           </div>

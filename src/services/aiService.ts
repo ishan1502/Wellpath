@@ -7,7 +7,7 @@ if (apiKey) {
   genAI = new GoogleGenerativeAI(apiKey);
 }
 
-const SYSTEM_PROMPT = `You are the AI assistant for WELLPath, a comprehensive mental health platform.
+const SYSTEM_PROMPT = `You are the AI assistant for WellPath, a comprehensive mental health platform.
 Your primary role is to guide users, answer questions about the platform, and provide support.
 
 KEY PLATFORM KNOWLEDGE:

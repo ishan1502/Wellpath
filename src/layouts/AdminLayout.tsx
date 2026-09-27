@@ -53,7 +53,7 @@ export default function AdminLayout() {
             <div className="w-8 h-8 bg-emerald-500 rounded-xl flex items-center justify-center shadow-sm">
               <span className="text-white text-xl">W</span>
             </div>
-            WELLPath
+            WellPath
           </Link>
           <p className="text-xs text-emerald-300 mt-2 uppercase tracking-[0.2em] font-semibold">Admin Portal</p>
         </div>
@@ -106,7 +106,7 @@ export default function AdminLayout() {
           <aside className="relative flex w-72 flex-col bg-emerald-900 text-emerald-50 h-full shadow-2xl rounded-r-3xl">
             <div className="p-6 pb-2 flex justify-between items-center">
               <div>
-                <Link to="/admin" className="text-2xl font-extrabold text-white tracking-tight">WELLPath</Link>
+                <Link to="/admin" className="text-2xl font-extrabold text-white tracking-tight">WellPath</Link>
                 <p className="text-[10px] text-emerald-300 mt-1 uppercase tracking-widest font-bold">Admin Portal</p>
               </div>
               <button onClick={() => setMobileMenuOpen(false)} className="text-emerald-200 hover:text-white bg-emerald-800 p-2 rounded-xl">

@@ -32,7 +32,7 @@ export default function PatientLayout() {
       {/* Desktop Sidebar (Floating Premium Style) */}
       <aside className="hidden md:flex w-72 flex-col bg-white m-4 rounded-3xl shadow-sm h-[calc(100vh-2rem)] sticky top-4 overflow-hidden border border-gray-100">
         <div className="p-8 pb-4">
-          <Link to="/patient/dashboard" className="text-3xl font-bold text-emerald-900 tracking-tight">WELLPath</Link>
+          <Link to="/patient/dashboard" className="text-3xl font-bold text-emerald-900 tracking-tight">WellPath</Link>
         </div>
         
         <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
@@ -91,7 +91,7 @@ export default function PatientLayout() {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Mobile Header */}
         <header className="md:hidden bg-white border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-          <Link to="/patient/dashboard" className="text-2xl font-bold text-emerald-900">WELLPath</Link>
+          <Link to="/patient/dashboard" className="text-2xl font-bold text-emerald-900">WellPath</Link>
           <div className="flex items-center gap-4">
             <NotificationBell />
             <div className="h-9 w-9 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-900 font-bold text-sm shadow-sm">

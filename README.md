@@ -1,6 +1,6 @@
-# WELLPath — Mental Health Platform
+# WellPath — Mental Health Platform
 
-WELLPath is a comprehensive mental health platform connecting patients with verified mental health professionals, supporting students seeking clinical internships, and providing professionals with a full practice management suite.
+WellPath is a comprehensive mental health platform connecting patients with verified mental health professionals, supporting students seeking clinical internships, and providing professionals with a full practice management suite.
 
 ## 🌐 Live Site
 

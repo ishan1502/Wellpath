@@ -408,7 +408,7 @@ export default function Profile() {
             <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100 flex items-center gap-4">
               <Lock className="w-6 h-6 text-emerald-600/60 shrink-0" />
               <p className="text-xs font-bold text-emerald-900/60 leading-relaxed">
-                All communications and clinical data on WELLPath are encrypted end-to-end adhering to healthcare data protection standards.
+                All communications and clinical data on WellPath are encrypted end-to-end adhering to healthcare data protection standards.
               </p>
             </div>
           </div>

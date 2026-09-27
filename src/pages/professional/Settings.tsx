@@ -255,7 +255,7 @@ export default function Settings() {
                 <label className="text-sm font-semibold text-emerald-900">Telehealth Video Call Platform</label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {[
-                    { id: 'wellpath_builtin', label: 'WELLPath Video', desc: 'Encrypted & HIPAA compliant' },
+                    { id: 'wellpath_builtin', label: 'WellPath Video', desc: 'Encrypted & HIPAA compliant' },
                     { id: 'google_meet', label: 'Google Meet', desc: 'Auto-generates Meet links' },
                     { id: 'zoom', label: 'Zoom Healthcare', desc: 'Requires Zoom account' }
                   ].map(provider => (
@@ -408,7 +408,7 @@ export default function Settings() {
                     </div>
                     <div>
                       <p className="font-bold text-emerald-950">iPhone 15 Pro (iOS 18)</p>
-                      <p className="text-emerald-700/80 text-[11px] font-medium mt-0.5">WELLPath Practitioner App • Last active 3 hours ago</p>
+                      <p className="text-emerald-700/80 text-[11px] font-medium mt-0.5">WellPath Practitioner App • Last active 3 hours ago</p>
                     </div>
                   </div>
                   <button type="button" className="text-rose-600 hover:text-rose-700 font-bold px-3 py-1 bg-rose-50 rounded-xl hover:bg-rose-100 transition-colors">
@@ -502,7 +502,7 @@ export default function Settings() {
               <div className="text-sm text-emerald-950 space-y-1">
                 <p className="font-bold">Automated TDS & Invoicing</p>
                 <p className="text-emerald-700 font-medium">
-                  WELLPath platform fee (12%) is deducted automatically. Quarterly GST tax reports and Form 16A TDS certificates are available under your Earnings tab.
+                  WellPath platform fee (12%) is deducted automatically. Quarterly GST tax reports and Form 16A TDS certificates are available under your Earnings tab.
                 </p>
               </div>
             </div>

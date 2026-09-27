@@ -112,7 +112,7 @@ export function CrisisSupportModal({ isOpen, onClose }: CrisisSupportModalProps)
         <div className="p-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
           <div className="flex items-center gap-1.5">
             <Heart className="w-4 h-4 text-red-500" />
-            <span>WELLPath Crisis Hotline Directory</span>
+            <span>WellPath Crisis Hotline Directory</span>
           </div>
           <button 
             onClick={onClose}

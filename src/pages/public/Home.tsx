@@ -224,7 +224,7 @@ const Home = () => {
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
             <div className="max-w-2xl">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet our experts</h2>
-              <p className="text-gray-600">Every professional on WELLPath is rigorously vetted, fully licensed, and highly experienced.</p>
+              <p className="text-gray-600">Every professional on WellPath is rigorously vetted, fully licensed, and highly experienced.</p>
             </div>
             <Link to="/find-professional" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 hover:border-emerald-500 rounded-xl text-gray-700 font-semibold transition-colors flex-shrink-0">
               View all <ChevronRight className="w-4 h-4" />

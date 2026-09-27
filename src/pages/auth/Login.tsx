@@ -95,7 +95,7 @@ export default function Login() {
         </div>
 
         <div className="relative z-10">
-          <h1 className="text-5xl font-bold mb-6 leading-tight">Welcome Back to<br/><span className="text-emerald-400">WELLPath</span></h1>
+          <h1 className="text-5xl font-bold mb-6 leading-tight">Welcome Back to<br/><span className="text-emerald-400">WellPath</span></h1>
           <p className="text-emerald-100/80 text-xl max-w-md leading-relaxed">
             Continue your journey to mental wellness. Professional support tailored specifically to you.
           </p>
@@ -208,7 +208,7 @@ export default function Login() {
               </Button>
 
               <div className="text-center text-sm text-gray-500 pt-4">
-                <span>New to WELLPath?</span>{' '}
+                <span>New to WellPath?</span>{' '}
                 <Link to="/signup" className="text-emerald-600 hover:text-emerald-800 font-bold hover:underline transition-colors">Join here</Link>
               </div>
             </CardContent>

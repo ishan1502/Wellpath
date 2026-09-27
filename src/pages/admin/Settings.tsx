@@ -50,7 +50,7 @@ interface PlatformConfig {
 }
 
 const DEFAULT_SETTINGS: PlatformConfig = {
-  platformName: 'WELLPath Mental Health Portal',
+  platformName: 'WellPath Mental Health Portal',
   supportEmail: 'support@wellpath.care',
   crisisHotline: '+91 91529 87821 (KIRAN) / 14416 (Tele-MANAS)',
   defaultCurrency: 'INR (₹)',

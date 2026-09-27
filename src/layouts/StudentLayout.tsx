@@ -27,7 +27,7 @@ export default function StudentLayout() {
       {/* Desktop Sidebar (Floating Premium Style) */}
       <aside className="hidden md:flex w-72 flex-col bg-white m-4 rounded-3xl shadow-sm h-[calc(100vh-2rem)] sticky top-4 overflow-hidden border border-gray-100">
         <div className="p-8 pb-4">
-          <Link to="/student/dashboard" className="text-3xl font-bold text-emerald-900 tracking-tight">WELLPath</Link>
+          <Link to="/student/dashboard" className="text-3xl font-bold text-emerald-900 tracking-tight">WellPath</Link>
           <p className="text-xs text-emerald-600 mt-2 uppercase tracking-widest font-bold bg-emerald-50 inline-block px-3 py-1 rounded-full">Student Portal</p>
         </div>
         
@@ -78,7 +78,7 @@ export default function StudentLayout() {
         {/* Mobile Header */}
         <header className="md:hidden bg-white border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
           <div>
-            <Link to="/student/dashboard" className="text-2xl font-bold text-emerald-900 tracking-tight">WELLPath</Link>
+            <Link to="/student/dashboard" className="text-2xl font-bold text-emerald-900 tracking-tight">WellPath</Link>
             <span className="text-[10px] ml-2 text-emerald-600 uppercase font-bold bg-emerald-50 px-2 py-0.5 rounded-full">Student</span>
           </div>
           <div className="flex items-center gap-4">

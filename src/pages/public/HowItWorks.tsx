@@ -99,19 +99,19 @@ const HowItWorks = () => {
     },
     {
       question: 'Is my personal data and therapy strictly confidential?',
-      answer: 'Yes, absolutely. WELLPath is built with strict privacy standards and HIPAA compliance principles. Your video sessions are end-to-end encrypted and never recorded. Notes and medical records are accessible only between you and your licensed clinician.'
+      answer: 'Yes, absolutely. WellPath is built with strict privacy standards and HIPAA compliance principles. Your video sessions are end-to-end encrypted and never recorded. Notes and medical records are accessible only between you and your licensed clinician.'
     },
     {
       question: 'What if I want to change therapists after the first session?',
       answer: 'Finding the right therapeutic fit is crucial for progress. If you feel your current therapist is not the right match, you are free to book your next session with another provider at any time without any awkwardness or cancellation penalties.'
     },
     {
-      question: 'Are all therapists on WELLPath licensed and verified?',
-      answer: 'Every mental health professional on WELLPath undergoes manual credential verification. Our administration team inspects their government-issued identification, postgraduate psychology or psychiatric degrees, and recognized licensing board registrations before their profile goes live.'
+      question: 'Are all therapists on WellPath licensed and verified?',
+      answer: 'Every mental health professional on WellPath undergoes manual credential verification. Our administration team inspects their government-issued identification, postgraduate psychology or psychiatric degrees, and recognized licensing board registrations before their profile goes live.'
     },
     {
       question: 'What should I do if I am experiencing a psychiatric crisis?',
-      answer: 'WELLPath is designed for scheduled outpatient therapy and does not provide immediate emergency medical intervention. If you or someone you know is in immediate danger or experiencing severe crisis, please call Tele-MANAS (14416 / 1800 891 4416) or reach out to your nearest hospital emergency room immediately.'
+      answer: 'WellPath is designed for scheduled outpatient therapy and does not provide immediate emergency medical intervention. If you or someone you know is in immediate danger or experiencing severe crisis, please call Tele-MANAS (14416 / 1800 891 4416) or reach out to your nearest hospital emergency room immediately.'
     }
   ];
 
@@ -130,7 +130,7 @@ const HowItWorks = () => {
             Clear, Compassionate & Transparent
           </span>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight max-w-3xl mx-auto leading-tight">
-            How <span className="text-emerald-400">WELLPath</span> Works
+            How <span className="text-emerald-400">WellPath</span> Works
           </h1>
           <p className="mt-8 text-lg sm:text-xl text-emerald-100/90 max-w-2xl mx-auto leading-relaxed">
             A seamless journey towards mental wellbeing and professional growth. Whether you are looking for therapy or clinical mentorship, here is how we guide you every step of the way.

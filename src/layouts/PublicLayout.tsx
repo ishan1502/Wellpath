@@ -25,7 +25,7 @@ const PublicLayout = () => {
               <div className="bg-emerald-100 p-2 rounded-2xl">
                 <HeartPulse className="w-8 h-8 text-emerald-600" />
               </div>
-              <span className="font-bold text-2xl tracking-tight text-emerald-900">WELLPath</span>
+              <span className="font-bold text-2xl tracking-tight text-emerald-900">WellPath</span>
             </Link>
             
             <nav className="hidden md:flex space-x-8 items-center">
@@ -134,7 +134,7 @@ const PublicLayout = () => {
                 <div className="bg-emerald-100 p-2 rounded-2xl">
                   <HeartPulse className="w-6 h-6 text-emerald-600" />
                 </div>
-                <span className="font-bold text-xl text-emerald-900">WELLPath</span>
+                <span className="font-bold text-xl text-emerald-900">WellPath</span>
               </Link>
               <p className="text-emerald-700/80 text-sm leading-relaxed">
                 Your journey to mental wellness begins here. Professional support tailored to you.
@@ -166,7 +166,7 @@ const PublicLayout = () => {
             </div>
           </div>
           <div className="border-t border-emerald-100 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-emerald-700/60">
-            <p>&copy; {new Date().getFullYear()} WELLPath. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} WellPath. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -30,7 +30,7 @@ export default function Privacy() {
               1. Our Commitment to Your Privacy
             </h2>
             <p className="text-emerald-800/80 leading-relaxed font-medium pl-12">
-              At WELLPath, your privacy and confidential clinical care are our utmost priority. We adhere to rigorous 
+              At WellPath, your privacy and confidential clinical care are our utmost priority. We adhere to rigorous 
               health information privacy standards, including end-to-end encryption for teletherapy sessions and stringent access controls 
               for health records.
             </p>
