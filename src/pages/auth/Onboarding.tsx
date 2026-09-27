@@ -14,7 +14,8 @@ export default function Onboarding() {
 
   // Patient states
   const [age, setAge] = useState('');
-  const [emergencyContact, setEmergencyContact] = useState('');
+  const [emergencyContactName, setEmergencyContactName] = useState('');
+  const [emergencyContactPhone, setEmergencyContactPhone] = useState('');
   const [clinicalFocusAreas, setClinicalFocusAreas] = useState('');
 
   // Student states
@@ -23,6 +24,7 @@ export default function Onboarding() {
   const [graduationYear, setGraduationYear] = useState('');
 
   // Professional states
+  const [title, setTitle] = useState('');
   const [specializations, setSpecializations] = useState('');
   const [hourlyRate, setHourlyRate] = useState('');
   const [verificationDoc, setVerificationDoc] = useState<File | null>(null);
@@ -39,8 +41,9 @@ export default function Onboarding() {
         const { error: pError } = await supabase.from('patients').insert([{
           id: user.id,
           age: parseInt(age),
-          emergency_contact: emergencyContact,
-          clinical_focus_areas: clinicalFocusAreas.split(',').map(s => s.trim())
+          emergency_contact_name: emergencyContactName,
+          emergency_contact_phone: emergencyContactPhone,
+          clinical_focus: clinicalFocusAreas.split(',').map(s => s.trim())
         }]);
         if (pError) throw pError;
       } 
@@ -74,8 +77,9 @@ export default function Onboarding() {
 
         const { error: proError } = await supabase.from('professionals').insert([{
           id: user.id,
-          specializations: specializations.split(',').map(s => s.trim()),
-          session_fee: parseFloat(hourlyRate),
+          title: title,
+          specialty: specializations,
+          hourly_rate: parseFloat(hourlyRate),
           verification_doc_url: publicUrl,
           verification_status: 'pending'
         }]);
@@ -119,8 +123,12 @@ export default function Onboarding() {
                   <Input type="number" required value={age} onChange={e => setAge(e.target.value)} placeholder="e.g. 30" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-emerald-900">Emergency Contact</label>
-                  <Input required value={emergencyContact} onChange={e => setEmergencyContact(e.target.value)} placeholder="Name & Phone" className="rounded-xl" />
+                  <label className="text-sm font-bold text-emerald-900">Emergency Contact Name</label>
+                  <Input required value={emergencyContactName} onChange={e => setEmergencyContactName(e.target.value)} placeholder="Full Name" className="rounded-xl" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-emerald-900">Emergency Contact Phone</label>
+                  <Input required value={emergencyContactPhone} onChange={e => setEmergencyContactPhone(e.target.value)} placeholder="Phone Number" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-emerald-900">Clinical Focus Areas (comma separated)</label>
@@ -148,6 +156,10 @@ export default function Onboarding() {
 
             {user.role === 'professional' && (
               <>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-emerald-900">Title</label>
+                  <Input required value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Clinical Psychologist" className="rounded-xl" />
+                </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-emerald-900">Specializations (comma separated)</label>
                   <Input required value={specializations} onChange={e => setSpecializations(e.target.value)} placeholder="e.g. CBT, EMDR" className="rounded-xl" />
