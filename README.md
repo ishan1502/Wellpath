@@ -1,38 +1,99 @@
-# React + TypeScript + Vite
+# WELLPath — Mental Health Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+WELLPath is a comprehensive mental health platform connecting patients with verified mental health professionals, supporting students seeking clinical internships, and providing professionals with a full practice management suite.
 
-Currently, two official plugins are available:
+## 🌐 Live Site
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+[wellpath-amber.vercel.app](https://wellpath-amber.vercel.app)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the Oxlint configuration
+### For Patients
+- Browse and book appointments with verified therapists
+- Real-time messaging with professionals
+- Appointment tracking and history
+- Save favourite professionals
+- Crisis support access
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+### For Professionals
+- Full profile and availability management
+- Client caseload and session notes
+- Post jobs and events (pending admin approval)
+- Earnings and analytics dashboard
+- Real-time messaging with patients
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+### For Students
+- Browse internship listings from verified professionals
+- Apply with motivation letters
+- Track application status
+- Build professional profiles
+
+### For Admins
+- Professional verification queue (approve/reject credentials)
+- Job and event approval queues
+- User management and analytics
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React 19, TypeScript, Vite, TailwindCSS v4
+- **Backend:** Supabase (PostgreSQL, Auth, Storage, Realtime)
+- **Deployment:** Vercel
+
+---
+
+## 🚀 Running Locally
+
+```bash
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Fill in your VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
+
+# Start dev server
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+---
 
-<!-- Linked to Vercel via ishan1502 -->
+## 🧪 Test Accounts
 
-<!-- Vercel auto-deploy test 2 -->
+| Role         | Email                       | Password     |
+|--------------|-----------------------------|--------------|
+| Admin        | admin@wellpath.com          | password123  |
+| Professional | professional@wellpath.com   | password123  |
+| Patient      | patient@wellpath.com        | password123  |
+| Student      | student@wellpath.com        | password123  |
 
-<!-- Env variables added -->
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── assets/          # Static images
+├── components/
+│   ├── appointment/ # Booking and availability modals
+│   ├── chatbot/     # AI assistant component
+│   ├── shared/      # Crisis support, notifications, modals
+│   └── ui/          # Core UI components (Button, Card, Input…)
+├── contexts/        # Auth context
+├── hooks/           # Custom React hooks
+├── layouts/         # Role-based layout shells
+├── lib/             # Supabase client
+├── pages/
+│   ├── admin/       # Admin dashboard pages
+│   ├── auth/        # Login, Signup, Onboarding
+│   ├── patient/     # Patient dashboard pages
+│   ├── professional/# Professional dashboard pages
+│   ├── public/      # Public-facing pages
+│   └── student/     # Student dashboard pages
+├── services/        # Supabase API service functions
+├── types/           # TypeScript interfaces
+└── utils/           # Helper utilities
+```

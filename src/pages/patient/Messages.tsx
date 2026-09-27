@@ -29,7 +29,7 @@ const Messages = () => {
     };
   }, [user, activeConv]);
 
-  const loadConversations = async () => {
+  async function loadConversations() {
     if (!user) return;
     try {
       const data = await messageService.getConversations(user.id, 'patient');

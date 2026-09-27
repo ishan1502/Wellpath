@@ -1,7 +1,50 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, Shield, Clock, Video, Star, User, Users, Smile, Heart, CheckCircle2, ChevronRight, BookOpen, Activity } from 'lucide-react';
-import { mockProfessionals } from '../../data/mockData';
+const mockProfessionals = [
+  {
+    id: 'p1',
+    firstName: 'Sarah',
+    lastName: 'Jenkins',
+    type: 'Clinical Psychologist',
+    rating: 4.9,
+    reviewCount: 124,
+    sessionFee: 150,
+    about: 'Specializing in cognitive behavioral therapy for anxiety and depression.',
+    specializations: ['Anxiety', 'Depression', 'CBT'],
+    imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400&h=400',
+    isOnlineAvailable: true,
+    isInPersonAvailable: false
+  },
+  {
+    id: 'p2',
+    firstName: 'Marcus',
+    lastName: 'Vance',
+    type: 'Psychiatrist',
+    rating: 4.8,
+    reviewCount: 89,
+    sessionFee: 200,
+    about: 'Adult psychiatry with a focus on holistic mood stabilization.',
+    specializations: ['Bipolar Disorder', 'ADHD', 'Medication Management'],
+    imageUrl: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=400&h=400',
+    isOnlineAvailable: true,
+    isInPersonAvailable: true
+  },
+  {
+    id: 'p3',
+    firstName: 'Elena',
+    lastName: 'Rostova',
+    type: 'Marriage & Family Therapist',
+    rating: 5.0,
+    reviewCount: 201,
+    sessionFee: 130,
+    about: 'Helping couples and families navigate difficult transitions.',
+    specializations: ['Couples Therapy', 'Family Counseling', 'Divorce'],
+    imageUrl: 'https://images.unsplash.com/photo-1594824436998-d70cb6bd16d6?auto=format&fit=crop&q=80&w=400&h=400',
+    isOnlineAvailable: true,
+    isInPersonAvailable: true
+  }
+];
 
 const Home = () => {
   const navigate = useNavigate();

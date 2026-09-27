@@ -7,7 +7,6 @@ import { Calendar, Clock, Video, MapPin, AlertCircle, RefreshCw, X, MessageCircl
 import { generateGoogleCalendarLink } from '../../utils/googleCalendar';
 import { generateSessionLink } from '../../utils/sessionLinks';
 import { generateWhatsAppLink } from '../../utils/whatsapp';
-import { mockProfessionals } from '../../data/mockData';
 import { useNavigate } from 'react-router-dom';
 
 const toGCalDate = (d: Date) =>
@@ -63,14 +62,14 @@ const Appointments = () => {
     });
   };
 
-  const getProfessionalName = (professionalId: string) => {
-    const prof = mockProfessionals.find(p => p.id === professionalId);
-    return prof ? `Dr. ${prof.firstName} ${prof.lastName}` : professionalId;
+  const getProfessionalName = (professionalId: string): string => {
+    // Professional name will be resolved from Supabase in a future join query
+    return professionalId;
   };
 
-  const getProfessionalPhone = (professionalId: string) => {
-    const prof = mockProfessionals.find(p => p.id === professionalId);
-    return prof?.phone || '919800000000';
+  const getProfessionalPhone = (_professionalId: string): string => {
+    // Phone will be fetched from professionals table in a future join query
+    return '919800000000';
   };
 
   const filteredAppointments = getFilteredAppointments();

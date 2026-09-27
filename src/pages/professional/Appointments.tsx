@@ -8,7 +8,7 @@ import { format, parseISO } from 'date-fns';
 import { generateGoogleCalendarLink } from '@/utils/googleCalendar';
 import { generateSessionLink } from '@/utils/sessionLinks';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
-import { mockUsers } from '@/data/mockData';
+
 
 const toGCalDate = (d: Date) =>
   d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
@@ -35,9 +35,9 @@ export default function Appointments() {
     fetchAppointments();
   }, [user]);
 
-  const getPatientName = (patientId: string) => {
-    const patient = mockUsers.find(u => u.id === patientId);
-    return patient ? `${patient.firstName} ${patient.lastName}` : `Patient #${patientId}`;
+  const getPatientName = (patientId: string): string => {
+    // Patient name will be resolved from Supabase users table in a future join query
+    return `Patient ${patientId.slice(0, 8)}`;
   };
 
   return (

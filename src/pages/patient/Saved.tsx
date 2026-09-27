@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { mockProfessionals } from '../../data/mockData';
 import { Star, MapPin, Video, Heart, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

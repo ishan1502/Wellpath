@@ -52,7 +52,7 @@ const JobBoard = () => {
     showToast(`Application submitted for "${jobTitle}". You'll hear back soon!`);
   };
 
-  const allJobs = mockJobPostings.length > 0 ? mockJobPostings : defaultJobs;
+
   const filteredJobs = allJobs.filter((job) => job.type === activeTab);
 
   return (
