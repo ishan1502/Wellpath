@@ -34,6 +34,7 @@ const PublicLayout = () => {
                   Services <ChevronDown className="w-4 h-4" />
                 </button>
                 <div className="absolute top-full left-0 hidden group-hover:block w-56 bg-white border border-gray-100 shadow-xl rounded-2xl py-3 z-50 transition-all duration-300">
+                  <Link to="/find-professional" className="block px-5 py-2.5 text-sm text-emerald-800 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Find a Professional</Link>
                   <Link to="/courses" className="block px-5 py-2.5 text-sm text-emerald-800 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Courses</Link>
                   <Link to="/jobs" className="block px-5 py-2.5 text-sm text-emerald-800 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Jobs & Internships</Link>
                   <Link to="/events" className="block px-5 py-2.5 text-sm text-emerald-800 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Events & Webinars</Link>
