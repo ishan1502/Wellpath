@@ -108,7 +108,7 @@ const ForProfessionals = () => {
               <span>For Mental Health Professionals</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
-              Focus on <span className="text-emerald-300">healing.</span><br/>We'll handle the rest.
+              Focus on <span className="text-emerald-300">providing care.</span><br/>We'll handle the rest.
             </h1>
             <p className="text-xl text-emerald-100/90 mb-10 leading-relaxed">
               Join thousands of top-tier therapists and psychiatrists running their successful private practices on WellPath's all-in-one platform.
