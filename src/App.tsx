@@ -135,11 +135,22 @@ const Terms = React.lazy(() => import('./pages/public/Terms').catch(() => ({ def
 // Chatbot
 const ChatBot = React.lazy(() => import('./components/chatbot/ChatBot').catch(() => ({ default: () => <></> })));
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 function App() {
 
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
           <Routes>
             {/* Public & Auth Routes */}
