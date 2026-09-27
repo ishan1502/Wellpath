@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase';
+import { useEffect } from 'react';
 import { 
   Settings as SettingsIcon, 
   Clock, 

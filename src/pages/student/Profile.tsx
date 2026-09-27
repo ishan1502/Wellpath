@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase';
 import { 
   User, GraduationCap, Award, Briefcase, Plus, Trash2, 
   Save, Edit3, CheckCircle2, BookOpen, Globe, Phone, MapPin
@@ -62,11 +63,15 @@ export default function StudentProfilePage() {
   const [newCert, setNewCert] = useState<Omit<Certificate, 'id'> | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem(PROFILE_KEY);
-    if (stored) {
-      try { setProfile(JSON.parse(stored)); } catch {}
+    async function load() {
+      if (!user) return;
+      const { data } = await supabase.from('students').select('metadata').eq('id', user.id).single();
+      if (data?.metadata) {
+        setProfile((prev: any) => ({ ...prev, ...data.metadata }));
+      }
     }
-  }, []);
+    load();
+  }, [user]);
 
   const saveProfile = (updated: StudentProfile) => {
     setProfile(updated);

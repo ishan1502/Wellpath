@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Settings as SettingsIcon, 
   Save, 
@@ -82,10 +82,18 @@ const DEFAULT_SETTINGS: PlatformConfig = {
 };
 
 export default function Settings() {
-  const [config, setConfig] = useState<PlatformConfig>(() => {
-    const saved = localStorage.getItem('wellpath_platform_settings');
-    return saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
-  });
+  const [config, setConfig] = useState<PlatformConfig>(DEFAULT_SETTINGS as any);
+
+  useEffect(() => {
+    async function load() {
+      if (!user) return;
+      const { data } = await supabase.from('users').select('metadata').eq('id', user.id).single();
+      if (data?.metadata?.platform_settings) {
+        setConfig(data.metadata.platform_settings);
+      }
+    }
+    load();
+  }, [user]);
 
   const [activeTab, setActiveTab] = useState<'general' | 'payouts' | 'verification' | 'security' | 'notifications'>('general');
   const [isSaving, setIsSaving] = useState(false);
@@ -105,15 +113,21 @@ export default function Settings() {
     }));
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
-    setTimeout(() => {
-      localStorage.setItem('wellpath_platform_settings', JSON.stringify(config));
-      setIsSaving(false);
+    try {
+      if (user) {
+        await supabase.from('users').update({ metadata: { platform_settings: config } }).eq('id', user.id);
+      }
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 4000);
-    }, 600);
+    } catch (err) {
+      console.error(err);
+      alert('Error saving settings');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleReset = () => {

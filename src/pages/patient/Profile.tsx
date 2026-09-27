@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase';
+import { useEffect } from 'react';
 import { 
   User, Mail, Phone, MapPin, Calendar, Heart, Shield, Bell, Save, 
   CheckCircle2, Camera, AlertCircle, Sparkles, Lock
@@ -15,36 +17,44 @@ export default function Profile() {
   const [saving, setSaving] = useState(false);
 
   // Form states
-  const [formData, setFormData] = useState({
-    firstName: user?.firstName || 'Alex',
-    lastName: user?.lastName || 'Sharma',
-    email: user?.email || 'patient@wellpath.demo',
-    phone: '+91 98765 43210',
-    dob: '1996-04-15',
+  const [formData, setFormData] = useState<any>({
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    email: user?.email || '',
+    phone: '',
+    dob: '',
     gender: 'Prefer not to say',
-    occupation: 'Software Engineer',
-    city: 'Mumbai',
-    state: 'Maharashtra',
+    occupation: '',
+    city: '',
+    state: '',
     preferredLanguage: 'English',
-    secondaryLanguage: 'Hindi',
-    // Therapy preferences
-    selectedConcerns: ['Anxiety & Panic', 'Workplace Stress', 'Sleep Issues'],
+    secondaryLanguage: '',
+    selectedConcerns: [],
     preferredFormat: 'online',
     preferredGender: 'No preference',
-    previousTherapy: 'Yes, 1-2 years ago',
-    goalsSummary: 'Looking to develop healthier boundaries at work and manage recurring sleep-onset anxiety through CBT techniques.',
-    // Emergency Contact
-    emergencyName: 'Pooja Sharma',
-    emergencyRelation: 'Spouse',
-    emergencyPhone: '+91 98765 12345',
-    emergencyEmail: 'pooja.sharma@example.com',
-    // Privacy & Notifications
+    previousTherapy: 'No, this is my first time',
+    goalsSummary: '',
+    emergencyName: '',
+    emergencyRelation: 'Spouse / Partner',
+    emergencyPhone: '',
+    emergencyEmail: '',
     emailReminders: true,
     smsReminders: true,
     whatsappUpdates: false,
     shareHistoryWithTherapist: true,
     anonymousReviews: true
   });
+
+  useEffect(() => {
+    async function load() {
+      if (!user) return;
+      const { data } = await supabase.from('patients').select('metadata').eq('id', user.id).single();
+      if (data?.metadata) {
+        setFormData((prev: any) => ({ ...prev, ...data.metadata }));
+      }
+    }
+    load();
+  }, [user]);
 
   const availableConcerns = [
     'Anxiety & Panic', 'Workplace Stress', 'Depression & Mood', 'Sleep Issues',
@@ -73,15 +83,29 @@ export default function Profile() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     setSaveSuccess(false);
-    setTimeout(() => {
-      setSaving(false);
+    try {
+      if (user) {
+        await supabase.from('users').update({
+          first_name: formData.firstName,
+          last_name: formData.lastName
+        }).eq('id', user.id);
+        
+        await supabase.from('patients').update({
+          metadata: formData
+        }).eq('id', user.id);
+      }
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 4000);
-    }, 600);
+    } catch (err) {
+      console.error(err);
+      alert('Error saving profile');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (

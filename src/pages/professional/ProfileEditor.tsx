@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase';
+import { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -8,16 +10,34 @@ import { Save, User as UserIcon } from 'lucide-react';
 export default function ProfileEditor() {
   const { user } = useAuth();
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
     email: user?.email || '',
-    title: 'Clinical Psychologist',
-    about: 'I am a dedicated professional with over 10 years of experience helping patients overcome anxiety and depression through evidence-based therapies.',
-    approach: 'Cognitive Behavioral Therapy (CBT), Mindfulness',
-    acceptsInterns: true,
-    fee: 1500,
+    title: '',
+    about: '',
+    approach: '',
+    acceptsInterns: false,
+    fee: 0,
   });
+
+  useEffect(() => {
+    async function load() {
+      if (!user) return;
+      const { data } = await supabase.from('professionals').select('title, bio, hourly_rate, accepts_interns, metadata').eq('id', user.id).single();
+      if (data) {
+        setFormData((prev: any) => ({
+          ...prev,
+          title: data.title || '',
+          about: data.bio || '',
+          fee: data.hourly_rate || 0,
+          acceptsInterns: data.accepts_interns || false,
+          ...(data.metadata || {})
+        }));
+      }
+    }
+    load();
+  }, [user]);
 
   const [saving, setSaving] = useState(false);
 
@@ -31,14 +51,31 @@ export default function ProfileEditor() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    // Simulate API call
-    setTimeout(() => {
-      setSaving(false);
+    try {
+      if (user) {
+        await supabase.from('users').update({
+          first_name: formData.firstName,
+          last_name: formData.lastName
+        }).eq('id', user.id);
+        
+        await supabase.from('professionals').update({
+          title: formData.title,
+          bio: formData.about,
+          hourly_rate: formData.fee,
+          
+          metadata: formData
+        }).eq('id', user.id);
+      }
       alert('Profile updated successfully!');
-    }, 1000);
+    } catch (err) {
+      console.error(err);
+      alert('Error updating profile');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
