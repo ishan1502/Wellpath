@@ -124,19 +124,19 @@ export default function PatientDashboard() {
         </div>
 
         {/* Quick Actions / Status */}
-        <div className="space-y-8 flex flex-col justify-between">
-          <Card className="border-0 shadow-sm hover:shadow-xl transition-all duration-300 rounded-3xl bg-white overflow-hidden h-full flex flex-col">
+        <div className="flex flex-col gap-8">
+          <Card className="border-0 shadow-sm hover:shadow-xl transition-all duration-300 rounded-3xl bg-white overflow-hidden flex flex-col">
             <CardHeader className="pb-4 border-b border-gray-50 bg-gray-50/50">
               <CardTitle className="text-lg font-bold text-emerald-900">Explore matching</CardTitle>
               <CardDescription className="text-emerald-700/70 font-medium mt-1">Not sure who to choose?</CardDescription>
             </CardHeader>
-            <CardContent className="pt-6 flex-grow flex flex-col justify-center">
+            <CardContent className="pt-6 flex flex-col justify-center">
               <p className="text-sm text-emerald-900/80 mb-6 font-medium leading-relaxed">Take our matching quiz to find professionals tailored exactly to your needs and preferences.</p>
               <Button variant="outline" className="w-full rounded-2xl border-emerald-200 text-emerald-900 hover:bg-emerald-50 hover:border-emerald-300 font-bold py-6 h-auto transition-all duration-300" onClick={() => navigate('/patient/matching')}>Take the Quiz</Button>
             </CardContent>
           </Card>
           
-          <Card className="border-0 shadow-sm hover:shadow-xl transition-all duration-300 rounded-3xl bg-white overflow-hidden h-full flex flex-col">
+          <Card className="border-0 shadow-sm hover:shadow-xl transition-all duration-300 rounded-3xl bg-white overflow-hidden flex flex-col">
             <CardHeader className="pb-4 border-b border-gray-50 bg-gray-50/50">
               <CardTitle className="text-lg font-bold flex justify-between items-center text-emerald-900">
                 Saved Professionals
