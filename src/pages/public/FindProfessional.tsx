@@ -116,7 +116,7 @@ const FindProfessional = () => {
             <h3 className="font-semibold text-foreground mb-4">Professional Type</h3>
             <div className="space-y-3">
               {TYPES.map(type => (
-                <label key={type} className="flex items-center gap-3 cursor-pointer group">
+                <label key={type} className="flex items-center gap-3 cursor-pointer group" onClick={() => toggleType(type)}>
                   <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${selectedTypes.includes(type) ? 'bg-primary border-primary' : 'border-border group-hover:border-primary'}`}>
                     {selectedTypes.includes(type) && <CheckCircle className="w-3.5 h-3.5 text-white" />}
                   </div>
@@ -130,7 +130,7 @@ const FindProfessional = () => {
             <h3 className="font-semibold text-foreground mb-4">Specialization</h3>
             <div className="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
               {SPECIALIZATIONS.map(spec => (
-                <label key={spec} className="flex items-center gap-3 cursor-pointer group">
+                <label key={spec} className="flex items-center gap-3 cursor-pointer group" onClick={() => toggleSpec(spec)}>
                   <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${selectedSpecs.includes(spec) ? 'bg-primary border-primary' : 'border-border group-hover:border-primary'}`}>
                     {selectedSpecs.includes(spec) && <CheckCircle className="w-3.5 h-3.5 text-white" />}
                   </div>
