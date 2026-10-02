@@ -90,7 +90,7 @@ export default function Signup() {
         </div>
 
         <div className="relative z-10 mt-12">
-          <h1 className="text-5xl font-bold mb-6 leading-tight">Join Our Community of<br/><span className="text-primary-muted-foreground">Care</span></h1>
+          <h1 className="text-5xl font-bold mb-6 leading-tight">Join Our Community of<br/><span className="text-emerald-400">Care</span></h1>
           <p className="text-primary-muted/80 text-xl max-w-md leading-relaxed">
             Create an account to access tailored professional support, resources, and a path to better mental wellness.
           </p>
@@ -99,7 +99,7 @@ export default function Signup() {
         <div className="relative z-10 bg-primary-dark/40 backdrop-blur-md p-8 rounded-xl border border-primary-hover/50 shadow-md mb-12">
           <div className="flex gap-4 items-center">
              <div className="w-16 h-16 rounded-lg bg-primary-hover flex items-center justify-center">
-                <svg className="w-8 h-8 text-primary-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
              </div>
