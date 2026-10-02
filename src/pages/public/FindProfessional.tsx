@@ -186,14 +186,20 @@ const FindProfessional = () => {
                 </div>
               ))}
             </div>
+          ) : professionals.length === 0 ? (
+             <div className="bg-surface rounded-xl p-12 shadow-sm border border-gray-100 text-center">
+                <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-foreground mb-2">Coming Soon</h3>
+                <p className="text-muted-foreground">Our network of professionals is currently growing. Please check back later.</p>
+             </div>
           ) : filteredProfessionals.length === 0 ? (
              <div className="bg-surface rounded-xl p-12 shadow-sm border border-gray-100 text-center">
                 <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-foreground mb-2">No professionals found</h3>
-                <p className="text-muted-foreground">Try adjusting your filters or search terms.</p>
+                <h3 className="text-xl font-bold text-foreground mb-2">No professionals match your filters</h3>
+                <p className="text-muted-foreground">Try adjusting your filters, price range, or search terms.</p>
                 <button onClick={() => {
                   setSelectedSpecs([]); setSelectedTypes([]); setMaxPrice(5000); setSearchTerm('');
-                }} className="mt-6 bg-primary-muted text-primary-hover font-semibold px-6 py-2 rounded-lg hover:bg-primary-muted transition-colors">Clear Filters</button>
+                }} className="mt-6 bg-primary-muted text-primary-hover font-semibold px-6 py-2 rounded-lg hover:bg-primary-hover hover:text-white transition-colors cursor-pointer">Clear Filters</button>
              </div>
           ) : (
             <div className="space-y-6">
