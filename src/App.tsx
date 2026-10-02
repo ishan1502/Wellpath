@@ -80,6 +80,7 @@ const PatientDashboard = React.lazy(() => import('./pages/patient/Dashboard').ca
 const Appointments = React.lazy(() => import('./pages/patient/Appointments').catch(() => ({ default: () => <Placeholder title="My Appointments" /> })));
 const Messages = React.lazy(() => import('./pages/patient/Messages').catch(() => ({ default: () => <Placeholder title="Messages" /> })));
 const Saved = React.lazy(() => import('./pages/patient/Saved').catch(() => ({ default: () => <Placeholder title="Saved Professionals" /> })));
+const MyCourses = React.lazy(() => import('./pages/patient/MyCourses').catch(() => ({ default: () => <Placeholder title="My Courses" /> })));
 
 // Auth Pages
 const Login = React.lazy(() => import('./pages/auth/Login').catch(() => ({ default: () => <Placeholder title="Login" /> })));
@@ -192,6 +193,7 @@ function App() {
               <Route path="appointments" element={<Appointments />} />
               <Route path="messages" element={<Messages />} />
               <Route path="saved" element={<Saved />} />
+              <Route path="courses" element={<MyCourses />} />
               <Route path="profile" element={<PatientProfile />} />
               
               {/* Shared pages inside Patient space */}

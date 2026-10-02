@@ -110,7 +110,7 @@ export default function PatientDashboard() {
               ) : (
                 <div className="py-10 text-center">
                   <p className="text-primary-muted mb-6 font-medium text-lg">You don't have any upcoming sessions.</p>
-                  <Button onClick={() => navigate('/find-professional')} className="bg-surface text-primary-dark hover:bg-primary-muted rounded-lg font-bold px-8 py-6 h-auto">Find a Professional</Button>
+                  <Button onClick={() => navigate('/patient/find-professional')} className="bg-surface text-primary-dark hover:bg-primary-muted rounded-lg font-bold px-8 py-6 h-auto">Find a Professional</Button>
                 </div>
               )}
             </CardContent>

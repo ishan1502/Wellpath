@@ -24,7 +24,7 @@ const Saved = () => {
           <h3 className="text-2xl font-bold text-primary-dark mb-3">No saved professionals</h3>
           <p className="text-primary-hover/70 mb-8 font-medium">You haven't bookmarked any professionals yet.</p>
           <Link 
-            to="/find-professional" 
+            to="/patient/find-professional" 
             className="inline-flex items-center text-white bg-primary hover:bg-primary-hover font-bold px-8 py-4 rounded-lg transition-all shadow-sm hover:shadow-md"
           >
             Browse professionals <ArrowRight className="w-5 h-5 ml-2" />

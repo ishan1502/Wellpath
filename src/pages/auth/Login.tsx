@@ -9,7 +9,8 @@ import { Mail, Shield } from 'lucide-react';
 export default function Login() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get('redirect');
+  // sessionStorage is more reliable than query params (survives Supabase auth callbacks)
+  const redirectTo = sessionStorage.getItem('postLoginRedirect') || searchParams.get('redirect');
   const { user, isAuthenticated, loginWithEmailAndPassword, resetPassword, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,15 +21,17 @@ export default function Login() {
 
   React.useEffect(() => {
     if (user && isAuthenticated) {
-      if (redirectTo) {
-        navigate(redirectTo);
+      const destination = sessionStorage.getItem('postLoginRedirect') || searchParams.get('redirect');
+      if (destination) {
+        sessionStorage.removeItem('postLoginRedirect'); // clear after use
+        navigate(destination, { replace: true });
         return;
       }
       const role = user.role || 'patient';
-      if (role === 'admin') navigate('/admin');
-      else navigate(`/${role}/dashboard`);
+      if (role === 'admin') navigate('/admin', { replace: true });
+      else navigate(`/${role}/dashboard`, { replace: true });
     }
-  }, [user, isAuthenticated, navigate, redirectTo]);
+  }, [user, isAuthenticated, navigate, searchParams]);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();

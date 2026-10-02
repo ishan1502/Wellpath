@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Search, Calendar, MessageSquare, Bookmark, BookOpen, LogOut, User as UserIcon, Menu, ShieldAlert, X } from 'lucide-react';
+import { Home, Search, Calendar, MessageSquare, Bookmark, BookOpen, LogOut, User as UserIcon, Menu, ShieldAlert, X, GraduationCap } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { NotificationBell } from '@/components/shared/NotificationBell';
 import { CrisisSupportModal } from '@/components/shared/CrisisSupportModal';
@@ -18,13 +18,14 @@ export default function PatientLayout() {
   };
 
   const navItems = [
-    { name: 'Dashboard', path: '/patient/dashboard', icon: Home },
+    { name: 'Dashboard',         path: '/patient/dashboard',         icon: Home },
     { name: 'Find Professionals', path: '/patient/find-professional', icon: Search },
-    { name: 'Appointments', path: '/patient/appointments', icon: Calendar },
-    { name: 'Messages', path: '/patient/messages', icon: MessageSquare },
-    { name: 'Saved', path: '/patient/saved', icon: Bookmark },
-    { name: 'Profile', path: '/patient/profile', icon: UserIcon },
-    { name: 'Resources', path: '/patient/resources', icon: BookOpen },
+    { name: 'Appointments',       path: '/patient/appointments',      icon: Calendar },
+    { name: 'Messages',           path: '/patient/messages',          icon: MessageSquare },
+    { name: 'My Courses',         path: '/patient/courses',           icon: GraduationCap },
+    { name: 'Saved',              path: '/patient/saved',             icon: Bookmark },
+    { name: 'Profile',            path: '/patient/profile',           icon: UserIcon },
+    { name: 'Resources',          path: '/patient/resources',         icon: BookOpen },
   ];
 
   return (

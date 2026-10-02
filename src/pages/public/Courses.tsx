@@ -107,8 +107,9 @@ const Courses = () => {
 
   const handleEnroll = (courseId: string) => {
     if (!isAuthenticated) {
-      // Redirect to login, remembering where to go after
-      navigate(`/login?redirect=/courses/${courseId}/checkout`);
+      // Store intended destination in sessionStorage (survives auth redirects)
+      sessionStorage.setItem('postLoginRedirect', `/courses/${courseId}/checkout`);
+      navigate(`/login?redirect=${encodeURIComponent(`/courses/${courseId}/checkout`)}`);
     } else {
       navigate(`/courses/${courseId}/checkout`);
     }
