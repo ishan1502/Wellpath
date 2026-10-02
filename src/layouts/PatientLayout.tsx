@@ -118,7 +118,7 @@ export default function PatientLayout() {
                 </button>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                {[navItems[4], navItems[5], navItems[6]].map((item) => (
+                {navItems.slice(4).map((item) => (
                   <Link
                     key={item.name}
                     to={item.path}
