@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Search, Filter, BookOpen, Clock, Star, Award, ChevronRight, CheckCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Search, Filter, BookOpen, Clock, Star, Award, ChevronRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 const COURSES_DATA = [
   {
@@ -92,6 +93,8 @@ const COURSES_DATA = [
 const CATEGORIES = ['All', 'CBT', 'ACT', 'DBT', 'Trauma', 'Mindfulness', 'Couples'];
 
 const Courses = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
@@ -101,32 +104,18 @@ const Courses = () => {
     const matchesCategory = selectedCategory === 'All' || course.tags.includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
-  const [toast, setToast] = useState<string | null>(null);
 
-  const showToast = (message: string) => {
-    setToast(message);
-    setTimeout(() => setToast(null), 4000);
-  };
-
-  const handleEnroll = (courseName: string) => {
-    showToast(`Successfully enrolled in "${courseName}". Check your dashboard for details!`);
+  const handleEnroll = (courseId: string) => {
+    if (!isAuthenticated) {
+      // Redirect to login, remembering where to go after
+      navigate(`/login?redirect=/courses/${courseId}/checkout`);
+    } else {
+      navigate(`/courses/${courseId}/checkout`);
+    }
   };
 
   return (
     <div className="bg-background min-h-screen pb-20">
-      {/* Toast Notification */}
-      {toast && (
-        <div className="fixed top-6 right-6 z-50 max-w-sm bg-surface border border-primary-muted rounded-lg shadow-md p-5 flex items-start gap-4 animate-in slide-in-from-right">
-          <div className="w-10 h-10 rounded-full bg-primary-muted flex items-center justify-center flex-shrink-0">
-            <CheckCircle className="w-5 h-5 text-primary" />
-          </div>
-          <div className="flex-1 mt-0.5">
-            <p className="text-sm font-bold text-primary-dark">Success!</p>
-            <p className="text-xs text-primary-hover/80 mt-1 leading-relaxed">{toast}</p>
-          </div>
-        </div>
-      )}
-
       {/* Hero Section */}
       <div className="bg-primary-dark text-white py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
@@ -228,7 +217,7 @@ const Courses = () => {
                     <span className="text-xl font-bold text-foreground">{course.price}</span>
                   </div>
                   <button 
-                    onClick={() => handleEnroll(course.title)}
+                    onClick={() => handleEnroll(course.id)}
                     className="bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors flex items-center gap-1 shadow-sm"
                   >
                     Enroll <ChevronRight className="w-4 h-4" />

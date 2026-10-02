@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -8,6 +8,8 @@ import { Mail, Shield } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirect');
   const { user, isAuthenticated, loginWithEmailAndPassword, resetPassword, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,11 +20,15 @@ export default function Login() {
 
   React.useEffect(() => {
     if (user && isAuthenticated) {
+      if (redirectTo) {
+        navigate(redirectTo);
+        return;
+      }
       const role = user.role || 'patient';
       if (role === 'admin') navigate('/admin');
       else navigate(`/${role}/dashboard`);
     }
-  }, [user, isAuthenticated, navigate]);
+  }, [user, isAuthenticated, navigate, redirectTo]);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();

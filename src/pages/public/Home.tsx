@@ -62,11 +62,11 @@ const Home = () => {
   return (
     <div className="flex flex-col w-full overflow-x-hidden">
       {/* Interactive Hero Section - BetterHelp/Talkspace inspired */}
-      <section className="relative bg-primary-dark pt-20 pb-28 lg:pt-32 lg:pb-40 overflow-hidden text-white">
-        <div className="absolute inset-0 z-0 opacity-20">
+      <section className="relative bg-primary-dark pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden text-white">
+        <div className="absolute inset-0 z-0 opacity-40">
           <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000" alt="Calming Nature" className="w-full h-full object-cover" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-900 via-emerald-900/90 to-emerald-900/40 z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/95 via-emerald-900/85 to-emerald-900/50 z-0"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center gap-12">
           <div className="w-full lg:w-3/5">
@@ -75,10 +75,10 @@ const Home = () => {
               <span>Ranked #1 Mental Health Platform 2026</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              You deserve to be <span className="text-primary-muted">happy.</span>
+              You deserve to be <span className="text-white drop-shadow-lg">happy.</span>
             </h1>
             <p className="text-lg md:text-xl text-primary-muted mb-10 leading-relaxed max-w-2xl">
-              Take the first step towards better mental health. Connect with licensed therapists, psychiatrists, and wellness courses designed for your unique journey.
+              Take the first step towards better mental health. Connect with licensed therapists, psychiatrists, and wellness courses — all designed for your unique journey.
             </p>
             
             <div className="bg-surface p-6 rounded-lg shadow-lg max-w-xl text-foreground">
@@ -134,16 +134,16 @@ const Home = () => {
       </section>
 
       {/* Holistic Services Section - Amaha inspired */}
-      <section className="py-20 bg-background -mt-8 rounded-t-[3rem] relative z-20">
+      <section className="py-14 bg-background -mt-8 rounded-t-[3rem] relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-foreground mb-4">Comprehensive Mental Healthcare</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">From therapy and psychiatry to self-paced courses, we offer a full ecosystem of support for your mind.</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Therapy */}
-            <Link to="/find-professional?type=therapy" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group">
+            <Link to="/find-professional?type=therapy" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group flex flex-col items-center text-center">
               <div className="w-14 h-14 bg-primary-muted rounded-lg flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
                 <Heart className="w-7 h-7" />
               </div>
@@ -153,7 +153,7 @@ const Home = () => {
             </Link>
 
             {/* Internships */}
-            <Link to="/student/find-internship" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group">
+            <Link to="/student/find-internship" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group flex flex-col items-center text-center">
               <div className="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform">
                 <Users className="w-7 h-7" />
               </div>
@@ -163,7 +163,7 @@ const Home = () => {
             </Link>
 
             {/* Courses */}
-            <Link to="/courses" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group">
+            <Link to="/courses" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group flex flex-col items-center text-center">
               <div className="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform">
                 <BookOpen className="w-7 h-7" />
               </div>
@@ -173,7 +173,7 @@ const Home = () => {
             </Link>
 
             {/* Events & Webinars */}
-            <Link to="/events" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group">
+            <Link to="/events" className="bg-surface rounded-xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100 group flex flex-col items-center text-center">
               <div className="w-14 h-14 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 mb-6 group-hover:scale-110 transition-transform">
                 <Activity className="w-7 h-7" />
               </div>
@@ -186,7 +186,7 @@ const Home = () => {
       </section>
 
       {/* How it works - Mindlercare Inspired */}
-      <section className="py-24 bg-surface">
+      <section className="py-16 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-16 items-center">
             <div className="lg:w-1/2">
@@ -217,8 +217,8 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="lg:w-1/2">
-              <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=1000" alt="Therapy App interface" className="rounded-xl shadow-lg" />
+            <div className="lg:w-1/2 flex justify-center">
+              <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800" alt="Therapy App interface" className="rounded-xl shadow-lg w-full max-w-md object-cover" />
             </div>
           </div>
         </div>
@@ -227,11 +227,8 @@ const Home = () => {
       {/* Featured Professionals */}
       <section className="py-24 bg-background border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl font-bold text-foreground mb-4">Meet our experts</h2>
-              <p className="text-muted-foreground">Every professional on WellPath is rigorously vetted, fully licensed, and highly experienced.</p>
-            </div>
+          <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
+            <h2 className="text-3xl font-bold text-foreground">Meet our experts</h2>
             <Link to="/find-professional" className="inline-flex items-center gap-2 px-6 py-3 bg-surface border border-border hover:border-primary rounded-xl text-gray-700 font-semibold transition-colors flex-shrink-0">
               View all <ChevronRight className="w-4 h-4" />
             </Link>
@@ -306,12 +303,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Trust & Safety Section */}
       <section className="py-20 bg-primary-dark text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <Shield className="w-16 h-16 text-primary-muted mb-6" />
+              <Shield className="w-16 h-16 text-emerald-400 mb-6" />
               <h2 className="text-3xl lg:text-4xl font-bold mb-6">Safe, secure, and completely confidential</h2>
               <p className="text-primary-muted text-lg mb-8 leading-relaxed">
                 Your privacy is non-negotiable. We employ state-of-the-art security measures to ensure that your conversations, personal data, and payment information are protected at all times.
@@ -319,23 +315,26 @@ const Home = () => {
               <ul className="space-y-4">
 
                 <li className="flex items-center gap-3 text-primary-muted">
-                  <CheckCircle2 className="w-6 h-6 text-primary-muted flex-shrink-0" />
+                  <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
                   <span>End-to-end 256-bit encryption</span>
                 </li>
                 <li className="flex items-center gap-3 text-primary-muted">
-                  <CheckCircle2 className="w-6 h-6 text-primary-muted flex-shrink-0" />
+                  <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
                   <span>Strict privacy protocols</span>
                 </li>
               </ul>
             </div>
-            <div className="bg-primary-dark/50 p-8 sm:p-12 rounded-xl border border-primary-hover backdrop-blur-sm">
+            <div className="bg-primary-dark/50 p-8 sm:p-12 rounded-xl border-2 border-emerald-400/60 backdrop-blur-sm">
+              <div className="w-10 h-10 bg-emerald-400 rounded-full flex items-center justify-center mb-4">
+                <Smile className="w-5 h-5 text-primary-dark" />
+              </div>
               <h3 className="text-2xl font-bold mb-6">Ready to prioritize yourself?</h3>
               <p className="text-primary-muted mb-8">Join millions of people who have found help, healing, and happiness through our platform.</p>
               <div className="space-y-4">
-                <Link to="/matching" className="block w-full py-4 bg-surface text-primary-dark text-center rounded-xl font-bold text-lg hover:bg-primary-muted transition-colors shadow-md shadow-emerald-900/20">
+                <Link to="/matching" className="block w-full py-4 bg-emerald-400 text-primary-dark text-center rounded-xl font-bold text-lg hover:bg-emerald-300 transition-colors shadow-md shadow-emerald-900/20">
                   Get Matched with a Therapist
                 </Link>
-                <Link to="/courses" className="block w-full py-4 bg-transparent border border-primary text-primary-muted text-center rounded-xl font-bold text-lg hover:bg-primary-dark transition-colors">
+                <Link to="/courses" className="block w-full py-4 bg-transparent border border-emerald-400/60 text-primary-muted text-center rounded-xl font-bold text-lg hover:bg-primary-dark transition-colors">
                   Explore Wellness Courses
                 </Link>
               </div>

@@ -126,7 +126,7 @@ const PublicLayout = () => {
 
       {/* Footer */}
       {!['/login', '/signup'].includes(location.pathname) && (
-        <footer className="bg-surface border-t border-border mt-16 rounded-t-3xl shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        <footer className="bg-surface border-t border-border rounded-t-3xl shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="col-span-1 md:col-span-1">

@@ -24,11 +24,62 @@ const mockTransactions: Transaction[] = [
 ];
 
 export const adminService = {
+  /**
+   * Best-effort deletion of all verification documents for a professional.
+   * Parses verificationDocUrl as JSON (new format) or comma-separated (legacy).
+   */
+  deleteVerificationDocs: async (verificationDocUrl: string): Promise<void> => {
+    try {
+      let urls: string[] = [];
+
+      // Try to parse as JSON first
+      try {
+        const parsed = JSON.parse(verificationDocUrl);
+        if (parsed && typeof parsed === 'object') {
+          urls = Object.entries(parsed)
+            .filter(([key]) => key !== 'type')
+            .map(([, val]) => val as string)
+            .filter(Boolean);
+        }
+      } catch {
+        // Fall back to comma-separated string
+        urls = verificationDocUrl.split(',').map((u) => u.trim()).filter(Boolean);
+      }
+
+      if (urls.length === 0) return;
+
+      // Extract storage paths after '/Verification Documents/' or '/Verification%20Documents/'
+      const paths: string[] = urls
+        .map((url) => {
+          const decoded = decodeURIComponent(url);
+          const marker = '/Verification Documents/';
+          const idx = decoded.indexOf(marker);
+          if (idx !== -1) {
+            return decoded.slice(idx + marker.length);
+          }
+          return null;
+        })
+        .filter((p): p is string => p !== null && p.length > 0);
+
+      if (paths.length === 0) return;
+
+      const { error } = await supabase.storage
+        .from('Verification Documents')
+        .remove(paths);
+
+      if (error) {
+        console.error('Error deleting verification documents from storage:', error);
+      }
+    } catch (err) {
+      console.error('Error in deleteVerificationDocs:', err);
+    }
+  },
+
   getPendingVerifications: async (): Promise<Professional[]> => {
     try {
       const { data, error } = await supabase
         .from('professionals')
-        .select('*, users(*)')
+        .select('*, created_at, users(*)')
         .eq('verification_status', 'pending');
 
       if (error || !data) return [];
@@ -60,15 +111,20 @@ export const adminService = {
         isInPersonAvailable: false,
         about: d.bio || '',
         approach: 'Evidence-based clinical approach.',
-        qualifications: [d.title || 'Licensed Professional']
+        qualifications: [d.title || 'Licensed Professional'],
+        submittedAt: d.created_at,
       })) as Professional[];
     } catch (err) {
       console.error('Error fetching pending verifications:', err);
       return [];
     }
   },
-  
-  updateVerificationStatus: async (id: string, status: 'approved' | 'rejected'): Promise<void> => {
+
+  updateVerificationStatus: async (
+    id: string,
+    status: 'approved' | 'rejected',
+    verificationDocUrl?: string
+  ): Promise<void> => {
     try {
       const { error } = await supabase
         .from('professionals')
@@ -76,6 +132,11 @@ export const adminService = {
         .eq('id', id);
 
       if (error) throw error;
+
+      // If approving, clean up uploaded documents (best-effort)
+      if (status === 'approved' && verificationDocUrl) {
+        await adminService.deleteVerificationDocs(verificationDocUrl);
+      }
     } catch (err) {
       console.error('Error updating verification status:', err);
       throw err;
