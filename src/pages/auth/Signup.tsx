@@ -17,12 +17,21 @@ export default function Signup() {
     }
   }, [user, isAuthenticated, navigate]);
   
+  const initialRole = (() => {
+    const params = new URLSearchParams(window.location.search);
+    const roleParam = params.get('role');
+    if (roleParam === 'professional' || roleParam === 'patient' || roleParam === 'student') {
+      return roleParam;
+    }
+    return '';
+  })();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-    role: '' as 'patient' | 'professional' | 'student' | ''
+    role: initialRole as 'patient' | 'professional' | 'student' | ''
   });
   
   const [error, setError] = useState('');

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/Button';
@@ -277,7 +277,8 @@ export default function Onboarding() {
       <Card className={`w-full border-0 shadow-md rounded-xl bg-surface ${isProfessional ? 'max-w-2xl' : 'max-w-lg'}`}>
         <CardHeader className="text-center pt-8">
           <CardTitle className="text-3xl font-bold text-primary-dark">Complete Your Profile</CardTitle>
-          <p className="text-primary-hover/70 mt-2">Just a few more details to get you started as a {user.role}.</p>
+          <p className="text-primary-hover/70 mt-2">Just a few more details to get you started as a <span className="font-bold capitalize">{user.role}</span>.</p>
+          <p className="text-xs text-muted-foreground mt-2">(Signed up as the wrong type? <Link to="/contact" className="underline">Contact support</Link>)</p>
         </CardHeader>
         <CardContent className="p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
