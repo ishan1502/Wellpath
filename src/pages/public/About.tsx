@@ -4,9 +4,7 @@ import {
   Heart, 
   ShieldCheck, 
   Sparkles, 
-  CheckCircle2, 
   ArrowRight, 
-  Award, 
   GraduationCap, 
   Lock,
   Target

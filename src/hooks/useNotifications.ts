@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export interface Notification {
   id: string;
@@ -9,22 +9,21 @@ export interface Notification {
 }
 
 export function useNotifications() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [notifications, setNotifications] = useState<Notification[]>(() => {
+    try {
+      const stored = localStorage.getItem('wellpath_notifications');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
 
-  useEffect(() => {
-    // Read from localStorage to ensure it's working but not placeholder
-    const stored = localStorage.getItem('wellpath_notifications');
-    const loadedNotifications: Notification[] = stored ? JSON.parse(stored) : [];
-    setNotifications(loadedNotifications);
-    setUnreadCount(loadedNotifications.filter(n => !n.read).length);
-  }, []);
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   const markAsRead = (id: string) => {
     setNotifications(prev => {
       const updated = prev.map(n => n.id === id ? { ...n, read: true } : n);
       localStorage.setItem('wellpath_notifications', JSON.stringify(updated));
-      setUnreadCount(updated.filter(n => !n.read).length);
       return updated;
     });
   };
@@ -33,7 +32,6 @@ export function useNotifications() {
     setNotifications(prev => {
       const updated = prev.map(n => ({ ...n, read: true }));
       localStorage.setItem('wellpath_notifications', JSON.stringify(updated));
-      setUnreadCount(0);
       return updated;
     });
   };
@@ -47,7 +45,6 @@ export function useNotifications() {
         time: 'Just now'
       }, ...prev];
       localStorage.setItem('wellpath_notifications', JSON.stringify(updated));
-      setUnreadCount(updated.filter(n => !n.read).length);
       return updated;
     });
   };

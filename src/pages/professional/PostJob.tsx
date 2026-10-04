@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Briefcase, Building, DollarSign, Calendar, FileText, CheckCircle, Loader2 } from 'lucide-react';
+import { Briefcase, Building, IndianRupee, Calendar, FileText, CheckCircle, Loader2 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -35,18 +35,40 @@ const PostJob = () => {
     setError('');
     
     try {
-      const { error: insertError } = await supabase
+      const basePayload: Record<string, any> = {
+        professional_id: user.id,
+        title: formData.title,
+        type: formData.type,
+        description: formData.description,
+        requirements: formData.requirements,
+        status: 'pending'
+      };
+
+      // The remote Supabase database uses 'stipend' for compensation
+      const primaryPayload: Record<string, any> = {
+        ...basePayload,
+        stipend: formData.compensation,
+        location: 'Remote'
+      };
+      if (formData.deadline) {
+        primaryPayload.duration = `Deadline: ${formData.deadline}`;
+      }
+
+      let { error: insertError } = await supabase
         .from('job_postings')
-        .insert({
-          professional_id: user.id,
-          title: formData.title,
-          type: formData.type,
-          description: formData.description,
-          requirements: formData.requirements,
-          compensation: formData.compensation,
-          deadline: formData.deadline,
-          status: 'pending'
-        });
+        .insert(primaryPayload);
+
+      // If 'stipend' does not exist in schema cache, fallback to 'compensation' & 'deadline'
+      if (insertError && (insertError.code === 'PGRST204' || insertError.message?.includes('schema cache'))) {
+        const { error: fallbackError } = await supabase
+          .from('job_postings')
+          .insert({
+            ...basePayload,
+            compensation: formData.compensation,
+            ...(formData.deadline ? { deadline: formData.deadline } : {})
+          });
+        insertError = fallbackError;
+      }
 
       if (insertError) throw insertError;
 
@@ -62,7 +84,11 @@ const PostJob = () => {
       });
     } catch (err: any) {
       console.error('Error posting job:', err);
-      setError(err.message || 'Failed to post job');
+      if (err.message?.includes('row-level security') || err.code === '42501') {
+        setError('Database permission error: Row Level Security for "job_postings" requires the INSERT policy. Please run the SQL migration in your Supabase SQL Editor.');
+      } else {
+        setError(err.message || 'Failed to post job');
+      }
     } finally {
       setLoading(false);
     }
@@ -173,7 +199,7 @@ const PostJob = () => {
               <label className="block text-sm font-bold text-primary-dark">Compensation</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <DollarSign className="h-5 w-5 text-primary" />
+                  <IndianRupee className="h-5 w-5 text-primary" />
                 </div>
                 <input
                   type="text"

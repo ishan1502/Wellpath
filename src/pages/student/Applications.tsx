@@ -5,8 +5,6 @@ import {
   XCircle, FileText, MessageSquare, Calendar, 
   GraduationCap, Trash2
 } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { useAuth } from '@/hooks/useAuth';
 
 interface ApplicationItem {
@@ -24,8 +22,6 @@ interface ApplicationItem {
   motivationText: string;
   feedbackNote?: string;
 }
-
-const DEFAULT_APPLICATIONS: ApplicationItem[] = [];
 
 export default function Applications() {
   const { user } = useAuth();
@@ -173,7 +169,11 @@ export default function Applications() {
       </div>
 
       {/* Applications List */}
-      {filteredApps.length === 0 ? (
+      {isLoading ? (
+        <div className="bg-surface rounded-xl border-0 p-16 text-center shadow-sm">
+          <p className="text-primary font-bold animate-pulse">Loading applications...</p>
+        </div>
+      ) : filteredApps.length === 0 ? (
         <div className="bg-surface rounded-xl border-0 p-16 text-center shadow-sm hover:shadow-md transition-all duration-300">
           <Briefcase className="w-20 h-20 text-primary-muted mx-auto mb-6" />
           <h3 className="text-2xl font-bold">No applications found</h3>

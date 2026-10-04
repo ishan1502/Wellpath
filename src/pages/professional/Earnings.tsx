@@ -9,7 +9,7 @@ import {
   Tooltip, 
   ResponsiveContainer 
 } from 'recharts';
-import { DollarSign, TrendingUp, CreditCard } from 'lucide-react';
+import { IndianRupee, TrendingUp, CreditCard } from 'lucide-react';
 
 const earningsData = [
   { name: 'Mon', amount: 1200 },
@@ -36,7 +36,7 @@ export default function Earnings() {
           <CardContent className="p-6 md:p-8">
             <div className="flex items-center space-x-5">
               <div className="p-4 bg-primary-muted text-primary-hover rounded-lg shadow-sm">
-                <DollarSign className="h-7 w-7" />
+                <IndianRupee className="h-7 w-7" />
               </div>
               <div>
                 <p className="text-sm font-bold text-primary-dark/70 uppercase tracking-wider">Weekly Earnings</p>

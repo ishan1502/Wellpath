@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabase';
 import { 
-  User, GraduationCap, Award, Briefcase, Plus, Trash2, 
-  Save, Edit3, CheckCircle2, BookOpen, Globe, Phone, MapPin
+  User, GraduationCap, Award, Plus, Trash2, 
+  Save, CheckCircle2, BookOpen, Globe, Phone, MapPin
 } from 'lucide-react';
 
 const PROFILE_KEY = 'wellpath_student_profile';
@@ -53,10 +53,6 @@ export default function StudentProfilePage() {
   const [profile, setProfile] = useState<StudentProfile>(defaultProfile);
   const [saved, setSaved] = useState(false);
   const [newSkill, setNewSkill] = useState('');
-
-  // Edit states
-  const [editingEduId, setEditingEduId] = useState<string | null>(null);
-  const [editingCertId, setEditingCertId] = useState<string | null>(null);
 
   // New item drafts
   const [newEdu, setNewEdu] = useState<Omit<Education, 'id'> | null>(null);

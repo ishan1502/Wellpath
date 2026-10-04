@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { adminService } from '../../services/adminService';
 import { Professional } from '../../types';
-import { Check, X, FileText, Search, User, ExternalLink } from 'lucide-react';
+import { Check, X, FileText, Search, User, ExternalLink, Eye, AlertCircle, Loader2 } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 // Map JSON document keys to human-readable labels
 const DOC_LABELS: Record<string, string> = {
@@ -17,6 +18,24 @@ const DOC_LABELS: Record<string, string> = {
 interface ParsedDoc {
   label: string;
   url: string;
+}
+
+interface ResolvedDoc extends ParsedDoc {
+  signedUrl: string | null;
+  loading: boolean;
+  notFound: boolean;
+}
+
+function getStoragePath(url: string): string {
+  if (!url) return '';
+  const decoded = decodeURIComponent(url);
+  const marker = '/Verification Documents/';
+  const idx = decoded.indexOf(marker);
+  if (idx !== -1) {
+    const pathWithQuery = decoded.slice(idx + marker.length);
+    return pathWithQuery.split('?')[0];
+  }
+  return url.split('?')[0];
 }
 
 /**
@@ -58,10 +77,8 @@ export default function VerificationQueue() {
   const [loading, setLoading] = useState(true);
   const [selectedProf, setSelectedProf] = useState<Professional | null>(null);
   const [actionLoading, setActionLoading] = useState<'approve' | 'reject' | null>(null);
-
-  useEffect(() => {
-    fetchPending();
-  }, []);
+  const [resolvedDocs, setResolvedDocs] = useState<ResolvedDoc[]>([]);
+  const [previewDoc, setPreviewDoc] = useState<{ label: string; url: string } | null>(null);
 
   const fetchPending = async () => {
     setLoading(true);
@@ -69,6 +86,63 @@ export default function VerificationQueue() {
     setProfessionals(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchPending();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedProf?.verificationDocUrl) {
+      setResolvedDocs([]);
+      return;
+    }
+
+    let isMounted = true;
+    const { docs } = parseVerificationDocs(selectedProf.verificationDocUrl);
+    setResolvedDocs(docs.map((d) => ({ ...d, signedUrl: null, loading: true, notFound: false })));
+
+    Promise.all(
+      docs.map(async (doc) => {
+        const path = getStoragePath(doc.url);
+        try {
+          const { data, error } = await supabase.storage
+            .from('Verification Documents')
+            .createSignedUrl(path, 7200);
+
+          if (error || !data?.signedUrl) {
+            return {
+              ...doc,
+              signedUrl: null,
+              loading: false,
+              notFound: true,
+            };
+          }
+
+          return {
+            ...doc,
+            signedUrl: data.signedUrl,
+            loading: false,
+            notFound: false,
+          };
+        } catch {
+          return {
+            ...doc,
+            signedUrl: null,
+            loading: false,
+            notFound: true,
+          };
+        }
+      })
+    ).then((results) => {
+      if (isMounted) {
+        setResolvedDocs(results);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedProf]);
 
   const handleApprove = async () => {
     if (!selectedProf) return;
@@ -182,7 +256,7 @@ export default function VerificationQueue() {
       </div>
 
       {selectedProf && (() => {
-        const { docs, profType } = parseVerificationDocs(selectedProf.verificationDocUrl || '');
+        const { profType } = parseVerificationDocs(selectedProf.verificationDocUrl || '');
         const displayType = profType || selectedProf.type || 'N/A';
         const submittedAt = (selectedProf as any).submittedAt;
         const appliedDate = submittedAt
@@ -246,26 +320,60 @@ export default function VerificationQueue() {
                 {/* Uploaded Documents */}
                 <div>
                   <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-4">Uploaded Documents</h4>
-                  {docs.length > 0 ? (
+                  {resolvedDocs.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {docs.map((doc, i) => (
-                        <a
+                      {resolvedDocs.map((doc, i) => (
+                        <div
                           key={i}
-                          href={doc.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-surface border border-primary-muted rounded-lg p-5 flex items-center hover:bg-primary-muted transition-all shadow-sm hover:shadow-md group"
+                          className="bg-surface border border-primary-muted rounded-xl p-5 flex flex-col justify-between transition-all shadow-sm hover:shadow-md"
                         >
-                          <div className="bg-primary-muted p-3 rounded-xl mr-4 group-hover:bg-primary-muted transition-colors flex-shrink-0">
-                            <FileText className="h-6 w-6 text-primary-hover" />
+                          <div className="flex items-start mb-3">
+                            <div className="bg-primary-muted p-3 rounded-xl mr-3.5 flex-shrink-0">
+                              <FileText className="h-6 w-6 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-bold text-foreground text-sm mb-1 leading-snug">{doc.label}</p>
+                              {doc.loading ? (
+                                <p className="text-xs text-primary flex items-center gap-1.5 font-medium">
+                                  <Loader2 className="w-3.5 h-3.5 animate-spin" /> Generating secure link...
+                                </p>
+                              ) : doc.notFound ? (
+                                <div className="space-y-1">
+                                  <p className="text-xs text-amber-700 flex items-center gap-1 font-semibold">
+                                    <AlertCircle className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" /> File unavailable in storage
+                                  </p>
+                                  <p className="text-[11px] text-muted-foreground leading-tight">
+                                    Cleaned up after approval to save storage, or expired.
+                                  </p>
+                                </div>
+                              ) : (
+                                <span className="inline-flex items-center text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                                  Verified in storage
+                                </span>
+                              )}
+                            </div>
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-bold text-foreground text-sm mb-1 truncate">{doc.label}</p>
-                            <p className="text-xs font-semibold text-primary flex items-center gap-1">
-                              View Document <ExternalLink className="h-3 w-3" />
-                            </p>
-                          </div>
-                        </a>
+
+                          {!doc.loading && !doc.notFound && doc.signedUrl && (
+                            <div className="pt-3 border-t border-primary-muted/40 flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => setPreviewDoc({ label: doc.label, url: doc.signedUrl! })}
+                                className="flex-1 py-2 px-3 bg-primary-muted hover:bg-primary-muted/80 text-primary-dark font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                              >
+                                <Eye className="w-3.5 h-3.5" /> Preview
+                              </button>
+                              <a
+                                href={doc.signedUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-1 py-2 px-3 bg-primary text-white hover:bg-primary-hover font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5" /> Open Tab
+                              </a>
+                            </div>
+                          )}
+                        </div>
                       ))}
                     </div>
                   ) : (
@@ -302,6 +410,51 @@ export default function VerificationQueue() {
           </div>
         );
       })()}
+
+      {/* In-Modal Document Viewer */}
+      {previewDoc && (
+        <div className="fixed inset-0 bg-primary-dark/80 backdrop-blur-md flex items-center justify-center z-[60] p-4 transition-all animate-fade-in">
+          <div className="bg-surface rounded-2xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden border border-primary-muted animate-in fade-in zoom-in-95">
+            <div className="p-5 border-b border-primary-muted flex justify-between items-center bg-primary-muted/40">
+              <div className="flex items-center gap-3">
+                <FileText className="w-5 h-5 text-primary" />
+                <h4 className="font-bold text-foreground text-base truncate">{previewDoc.label}</h4>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href={previewDoc.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 px-3 rounded-xl bg-surface hover:bg-primary-muted text-primary transition-colors text-xs font-bold flex items-center gap-1 shadow-sm"
+                >
+                  <ExternalLink className="w-4 h-4" /> Open Original
+                </a>
+                <button
+                  onClick={() => setPreviewDoc(null)}
+                  className="p-2 rounded-xl bg-surface hover:bg-primary-muted text-primary transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            <div className="p-4 flex-1 overflow-auto bg-gray-50 flex items-center justify-center min-h-[400px]">
+              {previewDoc.url.match(/\.(jpeg|jpg|png|webp|gif)($|\?)/i) ? (
+                <img
+                  src={previewDoc.url}
+                  alt={previewDoc.label}
+                  className="max-h-[75vh] w-auto max-w-full rounded-lg shadow-sm object-contain"
+                />
+              ) : (
+                <iframe
+                  src={previewDoc.url}
+                  title={previewDoc.label}
+                  className="w-full h-[75vh] rounded-lg border-0 bg-white"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

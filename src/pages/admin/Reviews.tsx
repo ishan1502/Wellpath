@@ -7,16 +7,16 @@ export default function Reviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
   const fetchReviews = async () => {
     setLoading(true);
     const data = await adminService.getReviews();
     setReviews(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
 
   const handleStatusChange = async (id: string, status: 'approved' | 'hidden' | 'pending') => {
     await adminService.updateReviewStatus(id, status);

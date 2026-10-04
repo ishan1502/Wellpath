@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Send, Search, Phone, Video, MoreVertical, MessageSquare } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { messageService } from '../../services/messageService';
@@ -10,26 +10,7 @@ const Messages = () => {
   const [newMessage, setNewMessage] = useState('');
   const [conversations, setConversations] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (!user) return;
-    loadConversations();
-
-    const subscription = messageService.subscribeToMessages((payload) => {
-      const newMsg = payload.new;
-      if (activeConv && newMsg.conversation_id === activeConv.id) {
-        setMessages((prev) => [...prev, newMsg]);
-      } else {
-        // Optionally update conversation list for unread count
-        loadConversations();
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [user, activeConv]);
-
-  async function loadConversations() {
+  const loadConversations = useCallback(async () => {
     if (!user) return;
     try {
       const data = await messageService.getConversations(user.id, 'patient');
@@ -49,7 +30,26 @@ const Messages = () => {
     } catch (error) {
       console.error('Error fetching conversations:', error);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    loadConversations();
+
+    const subscription = messageService.subscribeToMessages((payload) => {
+      const newMsg = payload.new;
+      if (activeConv && newMsg.conversation_id === activeConv.id) {
+        setMessages((prev) => [...prev, newMsg]);
+      } else {
+        // Optionally update conversation list for unread count
+        loadConversations();
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [user, activeConv, loadConversations]);
 
   const loadMessages = async (convId: string) => {
     try {

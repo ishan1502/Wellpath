@@ -231,8 +231,8 @@ const ProfessionalProfile = () => {
 
               <div className="bg-primary-dark rounded-lg p-6 mb-8 text-white shadow-inner">
                 <div className="flex items-start">
-                  <div className="bg-primary-dark p-2 rounded-xl mr-4 flex-shrink-0">
-                     <Clock className="w-5 h-5 text-primary-muted-foreground" />
+                  <div className="bg-primary-dark/80 p-2 rounded-xl mr-4 flex-shrink-0 border border-primary-hover/40">
+                     <Clock className="w-5 h-5 text-emerald-300" />
                   </div>
                   <div>
                     <h4 className="font-bold text-primary-muted text-sm tracking-wide uppercase mb-1">Next Available</h4>

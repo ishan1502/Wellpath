@@ -3,7 +3,7 @@ import {
   TrendingUp, 
   Users, 
   Calendar, 
-  DollarSign, 
+  IndianRupee, 
   ArrowUpRight, 
   Download, 
   Activity, 
@@ -120,7 +120,7 @@ export default function Analytics() {
           <div className="flex items-center justify-between text-primary mb-4">
             <span className="text-xs font-bold uppercase tracking-widest">Gross Booking Volume (GMV)</span>
             <div className="p-2.5 rounded-xl bg-primary-muted text-primary group-hover:scale-110 transition-transform">
-              <DollarSign className="h-5 w-5" />
+              <IndianRupee className="h-5 w-5" />
             </div>
           </div>
           <div className="text-3xl font-extrabold text-foreground">₹40,60,000</div>

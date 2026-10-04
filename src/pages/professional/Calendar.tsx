@@ -5,7 +5,7 @@ import { Appointment } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { 
   format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, 
-  eachDayOfInterval, isSameMonth, isSameDay, parseISO, addMonths, subMonths, isToday 
+  eachDayOfInterval, isSameMonth, addMonths, subMonths, isToday 
 } from 'date-fns';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import AvailabilitySlotModal from '@/components/appointment/AvailabilitySlotModal';
@@ -21,17 +21,16 @@ export default function CalendarView() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   
   // Availability State
-  const [availabilities, setAvailabilities] = useState<Record<string, string[]>>({});
+  const [availabilities, setAvailabilities] = useState<Record<string, string[]>>(() => {
+    try {
+      const saved = localStorage.getItem(AVAILABILITIES_KEY);
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
-  useEffect(() => {
-    // Load mock availabilities
-    const saved = localStorage.getItem(AVAILABILITIES_KEY);
-    if (saved) {
-      setAvailabilities(JSON.parse(saved));
-    }
-  }, []);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -115,7 +114,7 @@ export default function CalendarView() {
 
               {/* Calendar Grid */}
               <div className="grid grid-cols-7 gap-3">
-                {calendarDays.map((day, idx) => {
+                {calendarDays.map((day) => {
                   const dateKey = format(day, 'yyyy-MM-dd');
                   const dayAppointments = appointments.filter((appt) => 
                     appt.date === dateKey

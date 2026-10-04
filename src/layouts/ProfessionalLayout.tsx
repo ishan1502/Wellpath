@@ -8,7 +8,7 @@ import {
   Settings, 
   LogOut, 
   PieChart,
-  DollarSign,
+  IndianRupee,
   GraduationCap,
   Star,
   Briefcase,
@@ -42,7 +42,7 @@ export default function ProfessionalLayout() {
 
   const businessNav = [
     { name: 'Analytics', path: '/professional/analytics', icon: PieChart },
-    { name: 'Earnings', path: '/professional/earnings', icon: DollarSign },
+    { name: 'Earnings', path: '/professional/earnings', icon: IndianRupee },
     { name: 'Reviews', path: '/professional/reviews', icon: Star },
     { name: 'Post Job', path: '/professional/post-job', icon: Briefcase },
     { name: 'Post Event', path: '/professional/post-event', icon: CalendarPlus },
@@ -51,7 +51,7 @@ export default function ProfessionalLayout() {
 
   const renderNavGroup = (items: typeof clinicalNav, title?: string) => (
     <div className="mb-6">
-      {title && <p className="px-4 mb-2 text-xs font-bold text-primary-muted-foreground/70 uppercase tracking-wider">{title}</p>}
+      {title && <p className="px-4 mb-2 text-xs font-bold text-emerald-300/80 uppercase tracking-wider">{title}</p>}
       {items.map((item) => {
         const isActive = location.pathname.startsWith(item.path) || (item.path === '/professional/dashboard' && location.pathname === '/professional');
         return (
@@ -88,7 +88,7 @@ export default function ProfessionalLayout() {
         <div className="p-6 pb-4 flex justify-between items-center">
           <div>
             <Link to="/professional/dashboard" className="text-2xl font-bold text-white">WellPath</Link>
-            <p className="text-xs text-primary-muted-foreground mt-1 uppercase tracking-wider font-semibold">For Professionals</p>
+            <p className="text-xs text-emerald-300/80 mt-1 uppercase tracking-wider font-semibold">For Professionals</p>
           </div>
           <button className="md:hidden text-white" onClick={() => setIsMobileMenuOpen(false)}>
             <X className="h-6 w-6" />
@@ -107,7 +107,7 @@ export default function ProfessionalLayout() {
             </div>
             <div className="overflow-hidden flex-1">
               <p className="text-sm font-medium text-white truncate">Dr. {user?.firstName} {user?.lastName}</p>
-              <p className="text-xs text-primary-muted-foreground capitalize truncate">{(user as any)?.type || 'Professional'}</p>
+              <p className="text-xs text-primary-muted capitalize truncate">{(user as any)?.type || 'Professional'}</p>
             </div>
           </div>
           

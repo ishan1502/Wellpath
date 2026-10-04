@@ -3,14 +3,12 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Mail, Shield } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/Card';
+import { Shield } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  // sessionStorage is more reliable than query params (survives Supabase auth callbacks)
-  const redirectTo = sessionStorage.getItem('postLoginRedirect') || searchParams.get('redirect');
   const { user, isAuthenticated, loginWithEmailAndPassword, resetPassword, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -71,7 +69,7 @@ export default function Login() {
     }
   };
 
-  const handleDemoLogin = async (demoRole: 'admin' | 'doctor' | 'patient' | 'student') => {
+  const _handleDemoLogin = async (demoRole: 'admin' | 'doctor' | 'patient' | 'student') => {
     const emailMap = {
       admin: 'admin@wellpath.demo',
       doctor: 'doctor@wellpath.demo',

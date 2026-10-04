@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CalendarPlus, FileText, Calendar, Clock, Video, Users, DollarSign, CheckCircle, Loader2 } from 'lucide-react';
+import { CalendarPlus, FileText, Calendar, Clock, Video, Users, IndianRupee, CheckCircle, Loader2 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -66,7 +66,11 @@ const PostEvent = () => {
       });
     } catch (err: any) {
       console.error('Error posting event:', err);
-      setError(err.message || 'Failed to post event');
+      if (err.message?.includes('row-level security') || err.code === '42501') {
+        setError('Database permission error: Row Level Security for "events" requires the INSERT policy. Please run the SQL migration in your Supabase SQL Editor.');
+      } else {
+        setError(err.message || 'Failed to post event');
+      }
     } finally {
       setLoading(false);
     }
@@ -213,7 +217,7 @@ const PostEvent = () => {
               <label className="block text-sm font-bold text-primary-dark">Registration Fee <span className="font-medium text-primary/70">(₹)</span></label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <DollarSign className="h-5 w-5 text-primary" />
+                  <IndianRupee className="h-5 w-5 text-primary" />
                 </div>
                 <input
                   type="number"

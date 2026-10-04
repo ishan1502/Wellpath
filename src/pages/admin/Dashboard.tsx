@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Users, UserCheck, Calendar, DollarSign, Activity } from 'lucide-react';
+import { Users, UserCheck, Calendar, IndianRupee } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 export default function AdminDashboard() {
@@ -107,7 +107,7 @@ export default function AdminDashboard() {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-semibold text-primary">Platform Revenue</CardTitle>
             <div className="p-3 bg-primary-muted rounded-lg group-hover:bg-primary-muted transition-colors">
-              <DollarSign className="h-5 w-5 text-primary" />
+              <IndianRupee className="h-5 w-5 text-primary" />
             </div>
           </CardHeader>
           <CardContent>

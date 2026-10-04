@@ -126,10 +126,23 @@ export const authService = {
     }
 
     let needsOnboarding = false;
+    let verificationStatus: 'pending' | 'approved' | 'rejected' | undefined = undefined;
     if (profile.role !== 'admin') {
       const table = profile.role === 'professional' ? 'professionals' : (profile.role === 'student' ? 'students' : 'patients');
-      const { count } = await supabase.from(table).select('*', { count: 'exact', head: true }).eq('id', session.user.id);
-      needsOnboarding = count === 0;
+      if (profile.role === 'professional') {
+        const { data } = await supabase
+          .from('professionals')
+          .select('verification_status')
+          .eq('id', session.user.id)
+          .maybeSingle();
+        needsOnboarding = !data;
+        if (data) {
+          verificationStatus = data.verification_status || 'pending';
+        }
+      } else {
+        const { count } = await supabase.from(table).select('*', { count: 'exact', head: true }).eq('id', session.user.id);
+        needsOnboarding = count === 0;
+      }
     }
 
     return {
@@ -139,7 +152,9 @@ export const authService = {
       lastName: profile.last_name,
       role: profile.role,
       avatarUrl: profile.avatar_url,
-      needsOnboarding
+      needsOnboarding,
+      status: profile.status || 'active',
+      verificationStatus
     } as User;
   }
 };

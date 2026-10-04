@@ -182,6 +182,45 @@ export const adminService = {
     }
   },
 
+  suspendProfessional: async (id: string, status: 'active' | 'deactivated'): Promise<void> => {
+    try {
+      // 1. Update user record status
+      const { error: userError } = await supabase
+        .from('users')
+        .update({ status })
+        .eq('id', id);
+
+      if (userError) {
+        console.warn('Could not update users.status directly:', userError);
+      }
+
+      // 2. Also persist status in professionals metadata for resilience
+      const { data: profData } = await supabase
+        .from('professionals')
+        .select('metadata')
+        .eq('id', id)
+        .maybeSingle();
+
+      const existingMeta = (profData?.metadata as Record<string, any>) || {};
+      const { error: profError } = await supabase
+        .from('professionals')
+        .update({
+          metadata: {
+            ...existingMeta,
+            account_status: status
+          }
+        })
+        .eq('id', id);
+
+      if (userError && profError) {
+        throw userError;
+      }
+    } catch (err) {
+      console.error('Error updating professional status:', err);
+      throw err;
+    }
+  },
+
   getProfessionals: async (): Promise<Professional[]> => {
     try {
       const { data, error } = await supabase
@@ -190,35 +229,45 @@ export const adminService = {
 
       if (error || !data) return [];
 
-      return data.map((d: any) => ({
-        id: d.id,
-        firstName: d.users?.first_name || 'Professional',
-        lastName: d.users?.last_name || '',
-        email: d.users?.email || '',
-        role: 'professional',
-        avatarUrl: d.users?.avatar_url || '',
-        title: d.title || 'Therapist',
-        type: d.title || 'Therapist',
-        specializations: d.specialty ? [d.specialty] : ['Counseling'],
-        hourlyRate: d.hourly_rate || 120,
-        rating: 4.9,
-        reviewCount: 5,
-        bio: d.bio || '',
-        verificationStatus: d.verification_status || 'approved',
-        verificationDocUrl: d.verification_doc_url || '',
-        isVerified: d.verification_status === 'approved',
-        acceptsInterns: true,
-        subscriptionPaid: true,
-        yearsExperience: d.years_experience || 5,
-        languages: ['English'],
-        sessionFee: d.hourly_rate || 120,
-        sessionDuration: 50,
-        isOnlineAvailable: true,
-        isInPersonAvailable: true,
-        about: d.bio || '',
-        approach: 'Compassionate, client-centered care.',
-        qualifications: [d.title || 'Master of Psychology']
-      })) as Professional[];
+      return data.map((d: any) => {
+        const meta = d.metadata || {};
+        const userStatus = (d.users?.status as 'active' | 'deactivated') || meta.account_status || 'active';
+        const fee = d.hourly_rate || meta.fee || meta.sessionFee || 1500;
+        
+        return {
+          id: d.id,
+          firstName: d.users?.first_name || 'Professional',
+          lastName: d.users?.last_name || '',
+          email: d.users?.email || '',
+          phone: d.users?.phone || meta.phone || '',
+          role: 'professional',
+          avatarUrl: d.users?.avatar_url || '',
+          status: userStatus,
+          title: d.title || meta.title || 'Therapist',
+          type: d.title || meta.title || 'Therapist',
+          specializations: d.specialty 
+            ? d.specialty.split(',').map((s: string) => s.trim()) 
+            : meta.specializations || ['Counseling', 'Mental Health'],
+          hourlyRate: fee,
+          rating: meta.rating || 4.9,
+          reviewCount: meta.reviewCount || 5,
+          bio: d.bio || meta.about || '',
+          verificationStatus: d.verification_status || 'approved',
+          verificationDocUrl: d.verification_doc_url || '',
+          isVerified: d.verification_status === 'approved',
+          acceptsInterns: d.accepts_interns ?? meta.acceptsInterns ?? true,
+          subscriptionPaid: true,
+          yearsExperience: d.years_experience || meta.yearsExperience || 5,
+          languages: meta.languages || ['English', 'Hindi'],
+          sessionFee: fee,
+          sessionDuration: meta.sessionDuration || 50,
+          isOnlineAvailable: meta.isOnlineAvailable ?? true,
+          isInPersonAvailable: meta.isInPersonAvailable ?? true,
+          about: d.bio || meta.about || '',
+          approach: meta.approach || 'Compassionate, client-centered care.',
+          qualifications: meta.qualifications || [d.title || 'Master of Psychology']
+        };
+      }) as Professional[];
     } catch (err) {
       console.error('Error fetching professionals for admin:', err);
       return [];
@@ -260,7 +309,7 @@ export const adminService = {
     return [];
   },
 
-  updateReviewStatus: async (id: string, status: 'approved' | 'hidden' | 'pending'): Promise<void> => {
+  updateReviewStatus: async (_id: string, _status: 'approved' | 'hidden' | 'pending'): Promise<void> => {
     // Review status update handler
   },
 

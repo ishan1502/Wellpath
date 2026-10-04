@@ -55,7 +55,7 @@ export default function AdminLayout() {
             </div>
             WellPath
           </Link>
-          <p className="text-xs text-primary-muted-foreground mt-2 uppercase tracking-[0.2em] font-semibold">Admin Portal</p>
+          <p className="text-xs text-emerald-300/80 mt-2 uppercase tracking-[0.2em] font-semibold">Admin Portal</p>
         </div>
         
         <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto custom-scrollbar">
@@ -71,7 +71,7 @@ export default function AdminLayout() {
                     : 'text-primary-muted hover:bg-primary-dark/50 hover:text-white'
                 }`}
               >
-                <item.icon className={`mr-4 h-5 w-5 ${isActive ? 'text-primary-muted-foreground' : 'text-primary-muted-foreground'}`} />
+                <item.icon className={`mr-4 h-5 w-5 ${isActive ? 'text-white' : 'text-primary-muted'}`} />
                 {item.name}
               </Link>
             );
@@ -85,7 +85,7 @@ export default function AdminLayout() {
             </div>
             <div className="overflow-hidden">
               <p className="text-sm font-semibold text-white truncate">{user?.firstName} {user?.lastName}</p>
-              <p className="text-xs text-primary-muted-foreground capitalize truncate">{user?.role || 'Admin'}</p>
+              <p className="text-xs text-primary-muted capitalize truncate">{user?.role || 'Admin'}</p>
             </div>
           </div>
           
@@ -93,7 +93,7 @@ export default function AdminLayout() {
             onClick={handleLogout}
             className="flex w-full items-center px-4 py-2.5 text-sm font-medium text-primary-muted hover:text-white hover:bg-primary-dark rounded-lg transition-all duration-300"
           >
-            <LogOut className="mr-3 h-5 w-5 text-primary-muted-foreground" />
+            <LogOut className="mr-3 h-5 w-5 text-primary-muted" />
             Log Out
           </button>
         </div>
@@ -107,7 +107,7 @@ export default function AdminLayout() {
             <div className="p-6 pb-2 flex justify-between items-center">
               <div>
                 <Link to="/admin" className="text-2xl font-extrabold text-white tracking-tight">WellPath</Link>
-                <p className="text-[10px] text-primary-muted-foreground mt-1 uppercase tracking-widest font-bold">Admin Portal</p>
+                <p className="text-[10px] text-emerald-300/80 mt-1 uppercase tracking-widest font-bold">Admin Portal</p>
               </div>
               <button onClick={() => setMobileMenuOpen(false)} className="text-primary-muted hover:text-white bg-primary-dark p-2 rounded-xl">
                 <X className="h-5 w-5" />
@@ -127,7 +127,7 @@ export default function AdminLayout() {
                         : 'text-primary-muted hover:bg-primary-dark/50 hover:text-white'
                     }`}
                   >
-                    <item.icon className={`mr-4 h-5 w-5 ${isActive ? 'text-primary-muted-foreground' : 'text-primary-muted-foreground'}`} />
+                    <item.icon className={`mr-4 h-5 w-5 ${isActive ? 'text-white' : 'text-primary-muted'}`} />
                     {item.name}
                   </Link>
                 );
@@ -138,7 +138,7 @@ export default function AdminLayout() {
                 onClick={handleLogout}
                 className="flex w-full items-center px-4 py-2 text-sm font-medium text-primary-muted hover:text-white transition-all duration-300"
               >
-                <LogOut className="mr-3 h-5 w-5 text-primary-muted-foreground" />
+                <LogOut className="mr-3 h-5 w-5 text-primary-muted" />
                 Log Out
               </button>
             </div>

@@ -1,5 +1,4 @@
 import { supabase } from '../lib/supabase';
-import { InternshipApplication } from '../types';
 
 export const getInternshipApplications = async (professionalId: string): Promise<any[]> => {
   const { data, error } = await supabase

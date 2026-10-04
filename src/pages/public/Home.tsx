@@ -1,59 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Shield, Clock, Video, Star, User, Users, Smile, Heart, CheckCircle2, ChevronRight, BookOpen, Activity } from 'lucide-react';
-const mockProfessionals = [
-  {
-    id: 'p1',
-    firstName: 'Sarah',
-    lastName: 'Jenkins',
-    type: 'Clinical Psychologist',
-    rating: 4.9,
-    reviewCount: 124,
-    sessionFee: 150,
-    about: 'Specializing in cognitive behavioral therapy for anxiety and depression.',
-    specializations: ['Anxiety', 'Depression', 'CBT'],
-    imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400&h=400',
-    isOnlineAvailable: true,
-    isInPersonAvailable: false
-  },
-  {
-    id: 'p2',
-    firstName: 'Marcus',
-    lastName: 'Vance',
-    type: 'Psychiatrist',
-    rating: 4.8,
-    reviewCount: 89,
-    sessionFee: 200,
-    about: 'Adult psychiatry with a focus on holistic mood stabilization.',
-    specializations: ['Bipolar Disorder', 'ADHD', 'Medication Management'],
-    imageUrl: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=400&h=400',
-    isOnlineAvailable: true,
-    isInPersonAvailable: true
-  },
-  {
-    id: 'p3',
-    firstName: 'Elena',
-    lastName: 'Rostova',
-    type: 'Marriage & Family Therapist',
-    rating: 5.0,
-    reviewCount: 201,
-    sessionFee: 130,
-    about: 'Helping couples and families navigate difficult transitions.',
-    specializations: ['Couples Therapy', 'Family Counseling', 'Divorce'],
-    imageUrl: 'https://images.unsplash.com/photo-1594824436998-d70cb6bd16d6?auto=format&fit=crop&q=80&w=400&h=400',
-    isOnlineAvailable: true,
-    isInPersonAvailable: true
-  }
-];
+import { Shield, Star, Users, Smile, Heart, CheckCircle2, ChevronRight, BookOpen, Activity } from 'lucide-react';
+import { MultiSelect } from '@/components/ui/MultiSelect';
+import { CONCERN_OPTIONS } from '@/constants/concerns';
+import psychologistCareImg from '@/assets/psychologist-care.jpg';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [concern, setConcern] = useState('');
+  const [concerns, setConcerns] = useState<string[]>([]);
 
   const handleQuickMatch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (concern) {
-      navigate(`/matching?concern=${encodeURIComponent(concern)}`);
+    if (concerns.length > 0) {
+      navigate(`/matching?concern=${encodeURIComponent(concerns.join(','))}`);
     } else {
       navigate('/matching');
     }
@@ -78,26 +37,19 @@ const Home = () => {
               You deserve to be <span className="text-white drop-shadow-lg">happy.</span>
             </h1>
             <p className="text-lg md:text-xl text-primary-muted mb-10 leading-relaxed max-w-2xl">
-              Take the first step towards better mental health. Connect with licensed therapists, psychiatrists, and wellness courses — all designed for your unique journey.
+              Take the first step towards better mental health. Connect with licensed therapists, psychiatrists, and counselors — all designed for your unique journey.
             </p>
             
             <div className="bg-surface p-6 rounded-lg shadow-lg max-w-xl text-foreground">
               <h3 className="font-semibold text-lg mb-4">Let's find the right support for you</h3>
-              <form onSubmit={handleQuickMatch} className="flex flex-col sm:flex-row gap-3">
-                <select 
-                  className="flex-grow bg-background border border-border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-ring font-medium"
-                  value={concern}
-                  onChange={(e) => setConcern(e.target.value)}
-                >
-                  <option value="">I'm looking for help with...</option>
-                  <option value="anxiety">Anxiety & Stress</option>
-                  <option value="depression">Depression</option>
-                  <option value="relationships">Relationship Issues</option>
-                  <option value="trauma">Trauma & PTSD</option>
-                  <option value="career">Career/Burnout</option>
-                  <option value="other">Something else</option>
-                </select>
-                <button type="submit" className="bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-xl font-semibold transition-colors whitespace-nowrap flex items-center justify-center gap-2">
+              <form onSubmit={handleQuickMatch} className="flex flex-col sm:flex-row gap-3 items-stretch">
+                <MultiSelect
+                  options={CONCERN_OPTIONS}
+                  selected={concerns}
+                  onChange={setConcerns}
+                  placeholder="I'm looking for help with..."
+                />
+                <button type="submit" className="bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-xl font-semibold transition-colors whitespace-nowrap flex items-center justify-center gap-2 h-[48px] self-stretch sm:self-start">
                   Get Matched <ChevronRight className="w-4 h-4" />
                 </button>
               </form>
@@ -218,7 +170,11 @@ const Home = () => {
               </div>
             </div>
             <div className="lg:w-1/2 flex justify-center">
-              <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800" alt="Therapy App interface" className="rounded-xl shadow-lg w-full max-w-md object-cover" />
+              <img 
+                src={psychologistCareImg} 
+                alt="Quality care simplified - mental health professional" 
+                className="rounded-2xl shadow-xl w-full max-w-md object-cover object-top h-[480px] sm:h-[520px]" 
+              />
             </div>
           </div>
         </div>
@@ -333,9 +289,6 @@ const Home = () => {
               <div className="space-y-4">
                 <Link to="/matching" className="block w-full py-4 bg-emerald-400 text-primary-dark text-center rounded-xl font-bold text-lg hover:bg-emerald-300 transition-colors shadow-md shadow-emerald-900/20">
                   Get Matched with a Therapist
-                </Link>
-                <Link to="/courses" className="block w-full py-4 bg-transparent border border-emerald-400/60 text-primary-muted text-center rounded-xl font-bold text-lg hover:bg-primary-dark transition-colors">
-                  Explore Wellness Courses
                 </Link>
               </div>
             </div>

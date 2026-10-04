@@ -2,53 +2,72 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Check, ArrowRight, ArrowLeft, Heart, Sparkles, Activity, Shield } from 'lucide-react';
+import { CONCERN_LABELS, mapToConcernLabels } from '@/constants/concerns';
 
 const QUESTIONS = [
   {
     title: 'What brought you here today?',
     subtitle: 'This helps us find the best fit for your specific needs.',
     icon: <Heart className="w-8 h-8 text-rose-500 mb-4" />,
-    options: ['Anxiety', 'Stress', 'Depression', 'Relationship Issues', 'Work/Burnout', 'Trauma/Grief', 'Self-Esteem', 'Something else'],
+    options: CONCERN_LABELS,
     isMultiSelect: true
   },
   {
     title: 'How long have you been feeling this way?',
     subtitle: 'Understanding the duration helps us suggest the right approach.',
     icon: <Activity className="w-8 h-8 text-blue-500 mb-4" />,
-    options: ['Just recently', 'A few months', 'A year or more', 'It comes and goes']
+    options: ['Just recently', 'A few months', 'A year or more', 'It comes and goes'],
+    isMultiSelect: false
   },
   {
     title: 'What are your goals for therapy?',
     subtitle: 'We want to ensure your professional aligns with your objectives.',
     icon: <Sparkles className="w-8 h-8 text-amber-500 mb-4" />,
-    options: ['Learn coping skills', 'Understand my past', 'Improve relationships', 'Find purpose/direction', 'Just need someone to talk to']
+    options: ['Learn coping skills', 'Understand my past', 'Improve relationships', 'Find purpose/direction', 'Just need someone to talk to'],
+    isMultiSelect: true
   },
   {
     title: 'Do you have any preferences for your professional?',
     subtitle: 'Your comfort is our top priority.',
     icon: <Shield className="w-8 h-8 text-primary mb-4" />,
-    options: ['Female', 'Male', 'Non-binary', 'LGBTQ+ Affirming', 'Faith-based', 'No preference']
+    options: ['Female', 'Male', 'Non-binary', 'LGBTQ+ Affirming', 'Faith-based', 'No preference'],
+    isMultiSelect: true
   }
 ];
 
+function getInitialAnswers(searchParams: URLSearchParams): Record<number, string | string[]> {
+  const rawConcerns = [
+    ...(searchParams.get('concern')?.split(',') || []),
+    ...(searchParams.get('concerns')?.split(',') || []),
+    ...searchParams.getAll('concern'),
+    ...searchParams.getAll('concerns')
+  ];
+
+  const matched = mapToConcernLabels(rawConcerns);
+  if (matched.length > 0) {
+    return { 0: matched };
+  }
+  return {};
+}
+
 export default function Matching() {
   const [searchParams] = useSearchParams();
-  const initialConcern = searchParams.get('concern');
   
   const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
+  const [answers, setAnswers] = useState<Record<number, string | string[]>>(() => getInitialAnswers(searchParams));
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const navigate = useNavigate();
 
+  // Sync state if query parameters change
   useEffect(() => {
-    if (initialConcern) {
-      // Map initial concern from URL to first question if it matches roughly
-      const mapped = QUESTIONS[0].options.find(opt => opt.toLowerCase().includes(initialConcern.toLowerCase()));
-      if (mapped) {
-        setAnswers(prev => ({ ...prev, 0: [mapped] }));
-      }
+    const initial = getInitialAnswers(searchParams);
+    if (initial[0] && Array.isArray(initial[0]) && initial[0].length > 0) {
+      setAnswers(prev => ({
+        ...prev,
+        0: initial[0]
+      }));
     }
-  }, [initialConcern]);
+  }, [searchParams]);
 
   const handleSelect = (option: string) => {
     const isMultiSelect = QUESTIONS[currentStep].isMultiSelect;
@@ -56,10 +75,18 @@ export default function Matching() {
     if (isMultiSelect) {
       setAnswers(prev => {
         const currentAnswers = Array.isArray(prev[currentStep]) ? (prev[currentStep] as string[]) : [];
-        if (currentAnswers.includes(option)) {
-          return { ...prev, [currentStep]: currentAnswers.filter(a => a !== option) };
+        if (option === 'No preference') {
+          return {
+            ...prev,
+            [currentStep]: currentAnswers.includes('No preference') ? [] : ['No preference']
+          };
         } else {
-          return { ...prev, [currentStep]: [...currentAnswers, option] };
+          const withoutNoPref = currentAnswers.filter(a => a !== 'No preference');
+          if (withoutNoPref.includes(option)) {
+            return { ...prev, [currentStep]: withoutNoPref.filter(a => a !== option) };
+          } else {
+            return { ...prev, [currentStep]: [...withoutNoPref, option] };
+          }
         }
       });
       // No auto-advance for multi-select
@@ -143,6 +170,16 @@ export default function Matching() {
             <div className="flex justify-center">{currentQuestion.icon}</div>
             <h1 className="text-3xl font-extrabold text-foreground mb-3">{currentQuestion.title}</h1>
             <p className="text-muted-foreground">{currentQuestion.subtitle}</p>
+            {currentQuestion.isMultiSelect && (
+              <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                <span>Select all that apply</span>
+                {Array.isArray(answers[currentStep]) && (answers[currentStep] as string[]).length > 0 && (
+                  <span className="bg-primary text-white px-1.5 py-0.5 rounded-full text-[10px] font-bold">
+                    {(answers[currentStep] as string[]).length} selected
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-auto mb-8">
@@ -155,20 +192,25 @@ export default function Matching() {
               return (
                 <button
                   key={option}
+                  type="button"
                   onClick={() => handleSelect(option)}
-                  className={`relative p-5 text-left rounded-lg border-2 transition-all duration-200 flex items-center justify-between group ${
+                  className={`relative p-5 text-left rounded-xl border-2 transition-all duration-200 flex items-center justify-between group cursor-pointer ${
                     isSelected 
-                      ? 'border-primary bg-primary-muted text-primary-dark' 
-                      : 'border-gray-100 bg-surface hover:border-primary-muted-foreground hover:bg-primary-muted/50 text-gray-700'
+                      ? 'border-primary bg-primary-muted text-primary-dark shadow-xs' 
+                      : 'border-gray-200 bg-surface hover:border-primary/50 hover:bg-surface-hover text-foreground'
                   }`}
                 >
-                  <span className={`font-semibold ${isSelected ? '' : 'group-hover:text-primary-hover'}`}>
+                  <span className={`font-semibold ${isSelected ? 'text-primary-dark' : 'group-hover:text-primary-hover'}`}>
                     {option}
                   </span>
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
-                    isSelected ? 'bg-primary text-white' : 'bg-surface-hover group-hover:bg-primary-muted'
+                  <div className={`w-6 h-6 flex items-center justify-center transition-colors shrink-0 ${
+                    currentQuestion.isMultiSelect ? 'rounded-md' : 'rounded-full'
+                  } ${
+                    isSelected 
+                      ? 'bg-primary text-white border-primary' 
+                      : 'border-2 border-gray-300 bg-white group-hover:border-primary/60'
                   }`}>
-                    {isSelected && <Check className="w-4 h-4" />}
+                    {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                   </div>
                 </button>
               );

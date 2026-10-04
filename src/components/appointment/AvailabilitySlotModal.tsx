@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X, Plus, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -17,12 +17,14 @@ export default function AvailabilitySlotModal({
   existingSlots,
   onSave
 }: AvailabilitySlotModalProps) {
-  const [slots, setSlots] = useState<string[]>([]);
+  const [slots, setSlots] = useState<string[]>(existingSlots || []);
   const [newSlot, setNewSlot] = useState('');
+  const [prevExisting, setPrevExisting] = useState({ existingSlots, isOpen });
 
-  useEffect(() => {
+  if (prevExisting.existingSlots !== existingSlots || prevExisting.isOpen !== isOpen) {
+    setPrevExisting({ existingSlots, isOpen });
     setSlots(existingSlots || []);
-  }, [existingSlots, isOpen]);
+  }
 
   if (!isOpen || !date) return null;
 

@@ -1,10 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { getProfessionalById, uploadVerificationDocument } from '@/services/professionalService';
 import { getAppointmentsByProfessional } from '@/services/appointmentService';
 import { Professional, Appointment } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Users, Calendar as CalendarIcon, DollarSign, TrendingUp, Star, AlertCircle, Upload, CheckCircle2 } from 'lucide-react';
+import { 
+  Users, 
+  Calendar as CalendarIcon, 
+  IndianRupee, 
+  Star, 
+  AlertCircle, 
+  Upload, 
+  CheckCircle2, 
+  ShieldCheck, 
+  Sparkles, 
+  ExternalLink, 
+  X, 
+  Award,
+  Video,
+  GraduationCap
+} from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function ProfessionalDashboard() {
@@ -12,6 +28,7 @@ export default function ProfessionalDashboard() {
   const [professional, setProfessional] = useState<Professional | null>(null);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showApprovalModal, setShowApprovalModal] = useState(false);
   
   // File upload state
   const [uploading, setUploading] = useState(false);
@@ -23,7 +40,16 @@ export default function ProfessionalDashboard() {
       if (!user) return;
       try {
         const prof = await getProfessionalById(user.id);
-        if (prof) setProfessional(prof);
+        if (prof) {
+          setProfessional(prof);
+          // Check if documents are approved and popup hasn't been dismissed yet
+          if (prof.verificationStatus === 'approved') {
+            const dismissed = localStorage.getItem(`wellpath_approval_modal_dismissed_${user.id}`);
+            if (!dismissed) {
+              setShowApprovalModal(true);
+            }
+          }
+        }
 
         const appts = await getAppointmentsByProfessional(user.id);
         setAppointments(appts);
@@ -36,6 +62,13 @@ export default function ProfessionalDashboard() {
 
     fetchDashboardData();
   }, [user]);
+
+  const handleDismissApprovalModal = () => {
+    if (user?.id) {
+      localStorage.setItem(`wellpath_approval_modal_dismissed_${user.id}`, 'true');
+    }
+    setShowApprovalModal(false);
+  };
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -71,7 +104,6 @@ export default function ProfessionalDashboard() {
     .sort((a, b) => new Date(`${a.date}T${a.time}`).getTime() - new Date(`${b.date}T${b.time}`).getTime());
     
   const todayAppts = upcomingAppts.filter(a => a.date === todayStr);
-
   const completedAppts = appointments.filter(a => a.status === 'completed');
   
   // Derived stats
@@ -81,11 +113,66 @@ export default function ProfessionalDashboard() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-primary-dark tracking-tight">Welcome, Dr. {user?.lastName || user?.firstName}</h1>
-        <p className="text-primary-hover/80 mt-1">Here's what's happening with your practice today.</p>
+      {/* Welcome Header & Verified Badge */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-primary-dark tracking-tight">
+            Welcome, Dr. {user?.lastName || user?.firstName}
+          </h1>
+          <p className="text-primary-hover/80 mt-1">Here's what's happening with your practice today.</p>
+        </div>
+
+        {professional?.verificationStatus === 'approved' && (
+          <button
+            onClick={() => setShowApprovalModal(true)}
+            className="self-start sm:self-auto inline-flex items-center gap-2 px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold rounded-full transition-all shadow-sm group"
+          >
+            <ShieldCheck className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
+            <span>Documents & Profile Verified</span>
+          </button>
+        )}
       </div>
 
+      {/* Approved Documents Banner */}
+      {professional && professional.verificationStatus === 'approved' && (
+        <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md flex-shrink-0">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-base font-bold text-emerald-950">Documents Approved & Verified</h3>
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-200 text-emerald-900">
+                  Active
+                </span>
+              </div>
+              <p className="text-sm font-medium text-emerald-800/90 mt-0.5">
+                Your clinical credentials have been approved. Your profile is live in the directory and accepting bookings.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 w-full sm:w-auto">
+            <Link
+              to={`/professionals/${user?.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto text-xs font-bold px-3.5 py-2 bg-white text-emerald-800 border border-emerald-300 rounded-xl hover:bg-emerald-50 transition-colors shadow-sm inline-flex items-center justify-center gap-1.5"
+            >
+              <span>View Live Profile</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </Link>
+            <button
+              onClick={() => setShowApprovalModal(true)}
+              className="w-full sm:w-auto text-xs font-bold px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl transition-all shadow-sm inline-flex items-center justify-center gap-1.5"
+            >
+              <span>Verification Info</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Pending / Unverified Action Banner */}
       {professional && professional.verificationStatus !== 'approved' && (
         <Card className={`rounded-xl border-0 shadow-sm transition-all duration-300 hover:shadow-md ${professional.verificationDocUrl ? 'bg-amber-50' : 'bg-rose-50'}`}>
           <CardHeader className="pb-3">
@@ -107,7 +194,7 @@ export default function ProfessionalDashboard() {
             <CardContent className="ml-9 pb-6">
               <input 
                 type="file" 
-                accept="application/pdf"
+                accept="application/pdf" 
                 className="hidden" 
                 ref={fileInputRef} 
                 onChange={handleFileUpload} 
@@ -164,7 +251,7 @@ export default function ProfessionalDashboard() {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-semibold text-primary-dark/70">Earnings</CardTitle>
             <div className="p-2 bg-primary-muted rounded-lg">
-              <DollarSign className="h-5 w-5 text-primary" />
+              <IndianRupee className="h-5 w-5 text-primary" />
             </div>
           </CardHeader>
           <CardContent>
@@ -249,6 +336,106 @@ export default function ProfessionalDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Documents Approved Celebratory Popup Modal */}
+      {showApprovalModal && (
+        <div className="fixed inset-0 bg-primary-dark/65 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity animate-in fade-in duration-200">
+          <div className="bg-surface rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-emerald-200 animate-in fade-in zoom-in-95 duration-200 relative">
+            {/* Celebratory Banner Header */}
+            <div className="bg-gradient-to-br from-emerald-600 via-teal-700 to-emerald-800 p-6 text-white text-center relative overflow-hidden">
+              {/* Background Glow Decorations */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none" />
+              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-emerald-400/20 rounded-full blur-xl pointer-events-none" />
+
+              {/* Close Button */}
+              <button
+                onClick={handleDismissApprovalModal}
+                className="absolute top-4 right-4 text-white/80 hover:text-white p-1.5 rounded-full hover:bg-white/10 transition-colors"
+                title="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Verified Badge Icon */}
+              <div className="mx-auto w-16 h-16 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-lg mb-3 relative ring-4 ring-emerald-400/40">
+                <ShieldCheck className="w-10 h-10" />
+                <Sparkles className="w-5 h-5 text-amber-400 absolute -top-1 -right-1 fill-amber-400 animate-pulse" />
+              </div>
+
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/15 backdrop-blur-sm rounded-full text-xs font-bold text-emerald-100 mb-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
+                <span>Verification Approved</span>
+              </div>
+
+              <h2 className="text-2xl font-black tracking-tight text-white">
+                Documents Approved!
+              </h2>
+              <p className="text-emerald-100/90 text-sm mt-1 font-medium">
+                Your credentials have been successfully verified
+              </p>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 space-y-5">
+              <div className="text-sm text-foreground/90 leading-relaxed">
+                <p className="font-semibold text-primary-dark">
+                  Dear Dr. {user?.lastName || user?.firstName || 'Doctor'},
+                </p>
+                <p className="mt-1.5 text-muted-foreground">
+                  Our clinical compliance team has reviewed your uploaded verification documents. Your license and credentials have been verified, and your professional practice is now <strong className="text-emerald-700 font-bold">100% active</strong> on WellPath.
+                </p>
+              </div>
+
+              {/* Features Unlocked List */}
+              <div className="bg-primary-muted/20 border border-primary-muted/50 rounded-xl p-4 space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-primary">
+                  What's now active on your account:
+                </h4>
+                <ul className="space-y-2.5 text-xs text-foreground/90 font-medium">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span><strong>Live Public Profile:</strong> Patients can view your credentials and approach in the specialist directory.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <Video className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span><strong>Direct Booking Enabled:</strong> Patients can book online consultations and in-person sessions with you.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <Award className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span><strong>Host Events & Webinars:</strong> Publish paid or free mental health workshops and masterclasses.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <GraduationCap className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span><strong>Mentorship & Internships:</strong> Post internship opportunities to mentor psychology students.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Actions */}
+              <div className="space-y-2.5 pt-2">
+                <Button
+                  onClick={handleDismissApprovalModal}
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl shadow-md transition-all hover:shadow-lg text-sm"
+                >
+                  Awesome, Let's Get Started!
+                </Button>
+
+                {user?.id && (
+                  <Link
+                    to={`/professionals/${user.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-1.5 py-2 text-xs font-bold text-primary hover:text-primary-dark transition-colors"
+                  >
+                    <span>Preview My Public Profile</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

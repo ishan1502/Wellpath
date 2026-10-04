@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { adminService } from '../../services/adminService';
 import { Transaction } from '../../types';
-import { Search, DollarSign, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { Search, IndianRupee, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 export default function Payments() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
 
   const fetchTransactions = async () => {
     setLoading(true);
@@ -17,6 +13,10 @@ export default function Payments() {
     setTransactions(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
 
   if (loading) return <div className="p-8 text-center text-primary font-medium">Loading payments...</div>;
 
@@ -41,7 +41,7 @@ export default function Payments() {
         <div className="bg-surface p-6 rounded-xl shadow-sm border border-primary-muted hover:shadow-md transition-all duration-300 group">
           <div className="flex items-center text-primary font-bold mb-4">
             <div className="p-2 bg-primary-muted rounded-xl mr-3 group-hover:bg-primary-muted transition-colors">
-              <DollarSign className="w-5 h-5 text-primary" />
+              <IndianRupee className="w-5 h-5 text-primary" />
             </div>
             Total Processed
           </div>
@@ -112,7 +112,7 @@ export default function Payments() {
         </div>
         {transactions.length === 0 && (
           <div className="p-16 text-center">
-            <DollarSign className="w-12 h-12 text-primary-muted mx-auto mb-4" />
+            <IndianRupee className="w-12 h-12 text-primary-muted mx-auto mb-4" />
             <p className="text-xl font-bold text-foreground">No transactions found</p>
             <p className="text-primary font-medium mt-1">Payments and transfers will appear here.</p>
           </div>

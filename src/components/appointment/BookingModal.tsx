@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X, Calendar, Clock, Video, MapPin, CheckCircle, MessageCircle, ExternalLink } from 'lucide-react';
 import { Professional } from '../../types';
 import { appointmentService } from '../../services/appointmentService';

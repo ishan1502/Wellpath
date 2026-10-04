@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Briefcase, GraduationCap, Clock, DollarSign, Calendar, CheckCircle, X, Loader2 } from 'lucide-react';
+import { Briefcase, GraduationCap, Clock, IndianRupee, Calendar, CheckCircle, X, Loader2 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { JobPosting } from '../../types';
 import { supabase } from '../../lib/supabase';
@@ -13,10 +13,6 @@ const JobBoard = () => {
   const [toast, setToast] = useState<string | null>(null);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-
-  useEffect(() => {
-    fetchJobs();
-  }, []);
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -35,6 +31,10 @@ const JobBoard = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
   const allJobs = jobs;
 
@@ -114,9 +114,15 @@ const JobBoard = () => {
         </div>
 
         <div className="grid gap-8">
-          {filteredJobs.length > 0 ? (
+          {loading ? (
+            <div className="flex flex-col items-center justify-center p-16 text-primary">
+              <Loader2 className="w-8 h-8 animate-spin mb-3" />
+              <p className="font-semibold text-sm">Loading opportunities...</p>
+            </div>
+          ) : filteredJobs.length > 0 ? (
             filteredJobs.map((job) => {
               const isApplied = appliedJobs.has(job.id);
+              const postedDateStr = job.postedAt || (job as any).created_at;
               return (
                 <div key={job.id} className="bg-surface border border-primary-muted rounded-xl p-8 sm:p-10 shadow-sm hover:shadow-md transition-all duration-300 group">
                   <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
@@ -125,16 +131,30 @@ const JobBoard = () => {
                       <div className="flex flex-wrap items-center gap-4 text-sm font-medium text-primary-dark/70">
                         <span className="flex items-center bg-primary-muted px-3 py-1.5 rounded-lg">
                           <Clock className="w-4 h-4 mr-2 text-primary" />
-                          Posted {new Date(job.postedAt).toLocaleDateString()}
+                          Posted {postedDateStr ? new Date(postedDateStr).toLocaleDateString() : 'Recently'}
                         </span>
                         <span className="flex items-center bg-primary-muted px-3 py-1.5 rounded-lg">
-                          <DollarSign className="w-4 h-4 mr-1 text-primary" />
-                          {job.compensation}
+                          <IndianRupee className="w-4 h-4 mr-1 text-primary" />
+                          {job.compensation || (job as any).stipend || 'Competitive'}
                         </span>
-                        <span className="flex items-center bg-amber-50 text-amber-700 px-3 py-1.5 rounded-lg">
-                          <Calendar className="w-4 h-4 mr-2 text-amber-500" />
-                          Deadline: {new Date(job.deadline).toLocaleDateString()}
-                        </span>
+                        {(() => {
+                          const deadlineVal = job.deadline
+                            ? new Date(job.deadline).toLocaleDateString()
+                            : (job as any).duration?.startsWith('Deadline:')
+                            ? (job as any).duration.replace('Deadline:', '').trim()
+                            : null;
+                          return deadlineVal ? (
+                            <span className="flex items-center bg-amber-50 text-amber-700 px-3 py-1.5 rounded-lg">
+                              <Calendar className="w-4 h-4 mr-2 text-amber-500" />
+                              Deadline: {deadlineVal}
+                            </span>
+                          ) : (
+                            <span className="flex items-center bg-primary-muted px-3 py-1.5 rounded-lg">
+                              <Calendar className="w-4 h-4 mr-2 text-primary" />
+                              Status: Open
+                            </span>
+                          );
+                        })()}
                       </div>
                     </div>
                     <button
@@ -159,7 +179,12 @@ const JobBoard = () => {
                       <CheckCircle className="w-4 h-4 mr-2 text-primary" /> Requirements
                     </h3>
                     <ul className="grid sm:grid-cols-2 gap-3">
-                      {job.requirements.map((req: string, index: number) => (
+                      {(Array.isArray(job.requirements)
+                        ? job.requirements
+                        : typeof job.requirements === 'string'
+                        ? (job.requirements as string).split(',').map((s: string) => s.trim()).filter(Boolean)
+                        : []
+                      ).map((req: string, index: number) => (
                         <li key={index} className="flex items-start text-sm text-primary-dark/80 font-medium">
                            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 mr-3 flex-shrink-0" />
                            {req}

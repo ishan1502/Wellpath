@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
   }, []);
 
-  const login = async (email: string) => {
+  const login = async (_email: string) => {
     // Legacy mock function - you might want to remove this
     console.warn("Legacy login called");
   };
@@ -124,7 +124,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const loginWithOTP = async (phone: string, otp: string) => {
+  const loginWithOTP = async (_phone: string, _otp: string) => {
     console.warn("OTP Login not implemented yet with Supabase");
   };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Search, Filter, Star, MapPin, Video, CheckCircle, SlidersHorizontal, ChevronRight, GraduationCap } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Search, Filter, Star, Video, CheckCircle, SlidersHorizontal, ChevronRight, GraduationCap } from 'lucide-react';
 import { professionalService } from '../../services/professionalService';
 import { Professional } from '../../types';
 import { useAuth } from '@/hooks/useAuth';
@@ -163,12 +163,17 @@ const FindProfessional = () => {
 
         {/* Results */}
         <div className="md:w-3/4 flex-grow">
-          <div className="flex justify-between items-center mb-6 px-2">
-            <h2 className="text-gray-700 font-medium">
-              Showing <span className="font-bold text-foreground">{filteredProfessionals.length}</span> professionals
+          <div className="flex justify-between items-center mb-6 px-4 py-3 bg-primary-dark/60 backdrop-blur-md rounded-xl border border-primary-hover/50 shadow-xs">
+            <h2 className="text-emerald-100 font-medium text-sm sm:text-base">
+              Showing <span className="font-bold text-white">{filteredProfessionals.length}</span> professionals
             </h2>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              Sort by: <select className="bg-transparent font-semibold text-foreground border-none outline-none cursor-pointer"><option>Recommended</option><option>Highest Rated</option><option>Lowest Price</option></select>
+            <div className="flex items-center gap-2 text-sm text-emerald-100 font-medium">
+              <span>Sort by:</span>
+              <select className="bg-primary-dark/90 text-white font-semibold border border-emerald-400/40 rounded-lg px-2.5 py-1 text-sm outline-none cursor-pointer focus:ring-2 focus:ring-emerald-400">
+                <option className="bg-surface text-foreground" value="recommended">Recommended</option>
+                <option className="bg-surface text-foreground" value="rating">Highest Rated</option>
+                <option className="bg-surface text-foreground" value="price">Lowest Price</option>
+              </select>
             </div>
           </div>
 

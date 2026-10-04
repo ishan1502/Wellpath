@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Phone, AlertCircle, Heart, ExternalLink } from 'lucide-react';
+import { X, Phone, AlertCircle, Heart } from 'lucide-react';
 
 interface CrisisSupportModalProps {
   isOpen: boolean;

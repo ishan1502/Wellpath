@@ -5,7 +5,7 @@ import {
   Settings as SettingsIcon, 
   Save, 
   ShieldCheck, 
-  DollarSign, 
+  IndianRupee, 
   Bell, 
   Lock, 
   Globe, 
@@ -144,7 +144,7 @@ export default function Settings() {
 
   const tabs = [
     { id: 'general', label: 'General & Support', icon: Globe },
-    { id: 'payouts', label: 'Commissions & Payouts', icon: DollarSign },
+    { id: 'payouts', label: 'Commissions & Payouts', icon: IndianRupee },
     { id: 'verification', label: 'Clinical Compliance', icon: ShieldCheck },
     { id: 'security', label: 'Security & Privacy', icon: Lock },
     { id: 'notifications', label: 'Alerts & Webhooks', icon: Bell },

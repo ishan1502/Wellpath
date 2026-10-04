@@ -1,51 +1,29 @@
 import React, { useState } from 'react';
 import { Calendar, CheckCircle, XCircle, Clock, Video, Users, User, PlusCircle } from 'lucide-react';
 
-const mockPendingEvents = [
-  {
-    id: 'e1',
-    professionalId: 'p1',
-    professionalName: 'Dr. Sarah Jenkins',
-    title: 'Coping with Anxiety in the Workplace',
-    type: 'webinar',
-    date: '2023-11-15',
-    time: '18:00',
-    platform: 'Zoom',
-    maxAttendees: 50,
-    fee: 0,
-    status: 'pending'
-  }
-];
-
-const mockAdminEvents = [
-  {
-    id: 'a1',
-    hostType: 'admin',
-    title: 'Wellpath Community Guidelines 2024',
-    type: 'event',
-    date: '2023-12-01',
-    time: '12:00',
-    platform: 'Google Meet',
-    maxAttendees: 200,
-    currentAttendees: 120,
-    status: 'approved'
-  }
-];
-
 export default function AdminEvents() {
   const [activeTab, setActiveTab] = useState<'pending' | 'admin'>('pending');
-  const [pendingEvents, setPendingEvents] = useState<any[]>([]);
-  const [adminEvents, setAdminEvents] = useState<any[]>([]);
+  const [pendingEvents, setPendingEvents] = useState<any[]>(() => {
+    try {
+      const stored = localStorage.getItem('wellpath_events');
+      if (stored) {
+        const allEvents = JSON.parse(stored);
+        return allEvents.filter((e: any) => e.status === 'pending');
+      }
+    } catch {}
+    return [];
+  });
+  const [adminEvents, setAdminEvents] = useState<any[]>(() => {
+    try {
+      const stored = localStorage.getItem('wellpath_events');
+      if (stored) {
+        const allEvents = JSON.parse(stored);
+        return allEvents.filter((e: any) => e.status === 'approved' || e.hostType === 'admin');
+      }
+    } catch {}
+    return [];
+  });
   const [isCreating, setIsCreating] = useState(false);
-  
-  React.useEffect(() => {
-    const stored = localStorage.getItem('wellpath_events');
-    if (stored) {
-      const allEvents = JSON.parse(stored);
-      setPendingEvents(allEvents.filter((e: any) => e.status === 'pending'));
-      setAdminEvents(allEvents.filter((e: any) => e.status === 'approved' || e.hostType === 'admin'));
-    }
-  }, []);
 
   const saveEvents = (updatedEvents: any[]) => {
     localStorage.setItem('wellpath_events', JSON.stringify(updatedEvents));

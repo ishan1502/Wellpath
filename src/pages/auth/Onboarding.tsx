@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/Button';
@@ -120,7 +120,6 @@ function FileSlot({ slot, file, uploadState, onFileChange }: FileSlotProps) {
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function Onboarding() {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -185,7 +184,6 @@ export default function Onboarding() {
 
         const docUrls: string[] = [];
         for (const file of studentDocs) {
-          const fileExt = file.name.split('.').pop();
           const fileName = `student/${user.id}/${Date.now()}-${file.name}`;
           const { error: uploadError } = await supabase.storage.from('Verification Documents').upload(fileName, file);
           if (uploadError) throw uploadError;

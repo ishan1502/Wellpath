@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/Card';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Card } from '@/components/ui/Card';
 import { Search, Send, User, MessageSquare } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { messageService } from '../../services/messageService';
@@ -11,25 +11,7 @@ export default function Messages() {
   const [chats, setChats] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (!user) return;
-    loadConversations();
-
-    const subscription = messageService.subscribeToMessages((payload) => {
-      const newMsg = payload.new;
-      if (selectedChat && newMsg.conversation_id === selectedChat.id) {
-        setMessages((prev) => [...prev, newMsg]);
-      } else {
-        loadConversations();
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [user, selectedChat]);
-
-  const loadConversations = async () => {
+  const loadConversations = useCallback(async () => {
     if (!user) return;
     try {
       const data = await messageService.getConversations(user.id, 'professional');
@@ -48,7 +30,25 @@ export default function Messages() {
     } catch (error) {
       console.error('Error fetching conversations:', error);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    loadConversations();
+
+    const subscription = messageService.subscribeToMessages((payload) => {
+      const newMsg = payload.new;
+      if (selectedChat && newMsg.conversation_id === selectedChat.id) {
+        setMessages((prev) => [...prev, newMsg]);
+      } else {
+        loadConversations();
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [user, selectedChat, loadConversations]);
 
   const loadMessages = async (convId: string) => {
     try {

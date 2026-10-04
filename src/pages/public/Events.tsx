@@ -15,10 +15,6 @@ const Events = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
-
   const fetchEvents = async () => {
     setLoading(true);
     try {
@@ -36,6 +32,10 @@ const Events = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   const showToast = (message: string, eventId: string) => {
     setToast({ message, eventId });
@@ -138,7 +138,12 @@ const Events = () => {
         </p>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredEvents.length > 0 ? (
+          {loading ? (
+            <div className="col-span-full flex flex-col items-center justify-center p-16 text-primary">
+              <Loader2 className="w-8 h-8 animate-spin mb-3" />
+              <p className="font-semibold text-sm">Loading upcoming events...</p>
+            </div>
+          ) : filteredEvents.length > 0 ? (
             filteredEvents.map(event => {
               const isRegistered = registeredEvents.has(event.id);
               const isFull = event.currentAttendees >= event.maxAttendees;
@@ -153,7 +158,7 @@ const Events = () => {
                           {event.platform === 'In-person' ? 'Workshop' : 'Webinar'}
                         </span>
                         <span className="text-lg font-bold text-white bg-primary-dark/80 px-3 py-1 rounded-lg backdrop-blur-sm">
-                          {event.fee === 0 ? 'Free' : `$${event.fee}`}
+                          {event.fee === 0 ? 'Free' : `₹${event.fee}`}
                         </span>
                       </div>
                       <h2 className="text-2xl font-bold text-white leading-snug">{event.title}</h2>

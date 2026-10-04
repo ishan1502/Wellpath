@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, BookOpen, Clock, Star, Award, ChevronRight } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
 const COURSES_DATA = [
@@ -15,7 +15,7 @@ const COURSES_DATA = [
     lessons: 24,
     rating: 4.8,
     reviews: 128,
-    price: '$199',
+    price: '₹1,999',
     cpd: '12 CPD Hours',
   },
   {
@@ -29,7 +29,7 @@ const COURSES_DATA = [
     lessons: 32,
     rating: 4.9,
     reviews: 256,
-    price: '$249',
+    price: '₹2,499',
     cpd: '16 CPD Hours',
   },
   {
@@ -43,7 +43,7 @@ const COURSES_DATA = [
     lessons: 40,
     rating: 4.7,
     reviews: 89,
-    price: '$299',
+    price: '₹2,999',
     cpd: '20 CPD Hours',
   },
   {
@@ -57,7 +57,7 @@ const COURSES_DATA = [
     lessons: 16,
     rating: 4.9,
     reviews: 412,
-    price: '$149',
+    price: '₹1,499',
     cpd: '8 CPD Hours',
   },
   {
@@ -71,7 +71,7 @@ const COURSES_DATA = [
     lessons: 28,
     rating: 4.8,
     reviews: 175,
-    price: '$179',
+    price: '₹1,799',
     cpd: '14 CPD Hours',
   },
   {
@@ -85,7 +85,7 @@ const COURSES_DATA = [
     lessons: 20,
     rating: 4.6,
     reviews: 95,
-    price: '$229',
+    price: '₹2,299',
     cpd: '12 CPD Hours',
   },
 ];

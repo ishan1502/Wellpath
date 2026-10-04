@@ -119,7 +119,7 @@ export const uploadVerificationDocument = async (userId: string, file: File): Pr
   const fileExt = file.name.split('.').pop();
   const filePath = `${userId}/verification_${Date.now()}.${fileExt}`;
   
-  const { error: uploadError, data } = await supabase.storage
+  const { error: uploadError } = await supabase.storage
     .from('Storage')
     .upload(filePath, file);
 

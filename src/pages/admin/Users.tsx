@@ -7,10 +7,6 @@ export default function Users() {
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
   const fetchUsers = async () => {
     setLoading(true);
     const data = await adminService.getUsers();
@@ -18,13 +14,18 @@ export default function Users() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
   const handleToggleStatus = async (id: string, currentStatus: string | undefined) => {
     const newStatus = currentStatus === 'deactivated' ? 'active' : 'deactivated';
     try {
       await adminService.updateUserStatus(id, newStatus);
       setUsers(users.map(u => u.id === id ? { ...u, status: newStatus } : u));
-    } catch (err) {
-      alert('Failed to update user status');
+    } catch (err: any) {
+      console.error('Failed to update user status:', err);
+      alert('Failed to update user status: ' + (err?.message || 'Unknown error'));
     }
   };
 

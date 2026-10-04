@@ -9,6 +9,7 @@ export interface User {
   avatarUrl?: string;
   needsOnboarding?: boolean;
   status?: 'active' | 'deactivated';
+  verificationStatus?: VerificationStatus;
 }
 
 export type VerificationStatus = 'pending' | 'approved' | 'rejected';
@@ -24,6 +25,7 @@ export interface Professional extends User {
   specializations: string[];
   languages: string[];
   sessionFee: number;
+  hourlyRate?: number;
   sessionDuration: number;
   isOnlineAvailable: boolean;
   isInPersonAvailable: boolean;
@@ -31,6 +33,7 @@ export interface Professional extends User {
   phone?: string;
   nextAvailableSlot?: string;
   about: string;
+  bio?: string;
   approach: string;
   qualifications: string[];
   rating: number;

@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  CheckCircle2, 
   ArrowRight, 
   Calendar, 
   Users, 
   ShieldCheck, 
-  DollarSign, 
+  IndianRupee, 
   Video, 
-  Sparkles, 
   ChevronDown, 
-  ChevronUp,
   GraduationCap,
   Briefcase
 } from 'lucide-react';
@@ -34,7 +31,7 @@ const ForProfessionals = () => {
       description: 'Real-time calendar synchronization, automated client reminders, and self-serve rescheduling eliminate endless back-and-forth coordination.'
     },
     {
-      icon: DollarSign,
+      icon: IndianRupee,
       title: 'Set Your Own Fees',
       description: 'Retain complete financial autonomy. You set your per-session rate and receive automated bank transfers securely.'
     },

@@ -13,11 +13,7 @@ export default function Content() {
   
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchData();
-  }, [activeTab]);
-
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     setLoading(true);
     if (activeTab === 'articles') {
       const data = await adminService.getArticles();
@@ -30,7 +26,11 @@ export default function Content() {
       setPendingEvents(data || []);
     }
     setLoading(false);
-  };
+  }, [activeTab]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleJobAction = async (id: string, action: 'approved' | 'rejected') => {
     await supabase.from('job_postings').update({ status: action }).eq('id', id);
@@ -162,7 +162,7 @@ export default function Content() {
                       </td>
                       <td className="px-6 py-5">
                         <div className="text-sm text-primary-dark truncate max-w-xs">{job.description}</div>
-                        <div className="text-xs text-primary mt-1">Comp: {job.compensation}</div>
+                        <div className="text-xs text-primary mt-1">Comp: {job.compensation || (job as any).stipend || 'N/A'}</div>
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
                         <button onClick={() => handleJobAction(job.id, 'approved')} className="text-primary hover:text-white hover:bg-primary bg-primary-muted p-2 rounded-xl transition-colors mr-2 shadow-sm">

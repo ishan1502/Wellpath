@@ -7,16 +7,16 @@ export default function Appointments() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
-
   const fetchAppointments = async () => {
     setLoading(true);
     const data = await adminService.getAppointments();
     setAppointments(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
 
   if (loading) return <div className="p-8 text-center text-muted-foreground">Loading appointments...</div>;
 

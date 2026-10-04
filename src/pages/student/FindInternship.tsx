@@ -23,14 +23,14 @@ export default function FindInternship() {
   const [selectedProfessional, setSelectedProfessional] = useState<Professional | null>(null);
   const [motivationText, setMotivationText] = useState('');
   const [useProfileAsResume, setUseProfileAsResume] = useState(false);
-  const [studentProfile, setStudentProfile] = useState<any>(null);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(PROFILE_KEY);
-    if (stored) {
-      try { setStudentProfile(JSON.parse(stored)); } catch {}
+  const [studentProfile] = useState<any>(() => {
+    try {
+      const stored = localStorage.getItem(PROFILE_KEY);
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
     }
-  }, []);
+  });
 
   useEffect(() => {
     const fetchProfessionals = async () => {
