@@ -59,9 +59,9 @@ const About = () => {
     },
     {
       name: 'Ishan Jain',
-      role: 'Chief Technology Officer & Co-Founder',
-      qualifications: 'Platform Architecture & AI Systems',
-      bio: 'Leads full-stack architecture, secure HIPAA-ready telehealth systems, data encryption, and AI-assisted provider matching across WellPath.',
+      role: 'Platform Architect & Lead Web Engineer',
+      qualifications: 'Web Architecture & Full-Stack Systems',
+      bio: 'Architected and engineered the WellPath web platform end-to-end, delivering its clinical-grade security, interactive care matching, and telehealth infrastructure.',
       image: '/images/ishan.jpeg',
       portfolioUrl: 'https://iamishan.in'
     },
@@ -182,12 +182,12 @@ const About = () => {
         </div>
       </section>
 
-      {/* Leadership Team */}
+      {/* Leadership & Core Team */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Meet Our Leadership</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Guided by clinical experts and healthcare innovators committed to systemic change.</p>
+            <h2 className="text-3xl font-bold text-foreground mb-4">Leadership & Core Team</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Guided by healthcare innovators, clinical experts, and engineers committed to systemic change.</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
