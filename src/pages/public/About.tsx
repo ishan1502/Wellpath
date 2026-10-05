@@ -44,11 +44,11 @@ const About = () => {
 
   const team = [
     {
-      name: 'Vikramaditya Sharma',
+      name: 'Mridul Munjal',
       role: 'Chief Executive Officer & Founder',
       qualifications: 'B.Tech, MBA (Health Systems)',
       bio: 'Passionate about democratizing mental health access after navigating family experiences with fragmented and stigmatized healthcare systems.',
-      image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=600'
+      image: '/images/mridul-munjal.png'
     },
     {
       name: 'Dr. Ananya Mehta',
