@@ -58,14 +58,6 @@ const About = () => {
       image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600'
     },
     {
-      name: 'Ishan Jain',
-      role: 'Platform Architect & Lead Web Engineer',
-      qualifications: 'Web Architecture & Full-Stack Systems',
-      bio: 'Architected and engineered the WellPath web platform end-to-end, delivering its clinical-grade security, interactive care matching, and telehealth infrastructure.',
-      image: '/images/ishan.jpeg',
-      portfolioUrl: 'https://iamishan.in'
-    },
-    {
       name: 'Marcus Vance',
       role: 'Chief Operating Officer',
       qualifications: 'M.S. Healthcare Administration',
@@ -78,6 +70,14 @@ const About = () => {
       qualifications: 'Ed.D. in Counseling Psychology',
       bio: 'Pioneered our evidence-based wellness courses, psychoeducation frameworks, and student internship supervision curriculum.',
       image: 'https://images.unsplash.com/photo-1598550880863-4e8aa3d0edb4?auto=format&fit=crop&q=80&w=600'
+    },
+    {
+      name: 'Ishan Jain',
+      role: 'Platform Architect & Lead Web Engineer',
+      qualifications: 'Web Architecture & Full-Stack Systems',
+      bio: 'Architected and engineered the WellPath web platform end-to-end, delivering its clinical-grade security, interactive care matching, and telehealth infrastructure.',
+      image: '/images/ishan.jpeg',
+      portfolioUrl: 'https://iamishan.in'
     },
     {
       name: 'Priya Nair',
