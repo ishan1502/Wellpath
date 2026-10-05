@@ -11,14 +11,27 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 
-const About = () => {
-  const stats = [
-    { label: 'Therapy Sessions Delivered', value: '1M+' },
-    { label: 'Verified Clinicians & Doctors', value: '10,000+' },
-    { label: 'Client Satisfaction Rating', value: '4.9/5' },
-    { label: 'Specializations Supported', value: '50+' }
-  ];
+const LinkedinIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+  </svg>
+);
 
+interface TeamMember {
+  name: string;
+  role: string;
+  qualifications: string;
+  bio: string;
+  image: string;
+  linkedinUrl: string;
+}
+
+const About = () => {
   const coreValues = [
     {
       icon: ShieldCheck,
@@ -42,34 +55,22 @@ const About = () => {
     }
   ];
 
-  const team = [
+  const team: TeamMember[] = [
     {
       name: 'Mridul Munjal',
-      role: 'Chief Executive Officer & Founder',
+      role: 'Founder & CEO',
       qualifications: 'B.Tech, MBA (Health Systems)',
-      bio: 'Passionate about democratizing mental health access after navigating family experiences with fragmented and stigmatized healthcare systems.',
-      image: '/images/mridul-munjal.png'
+      bio: 'Passionate about democratizing mental health access after navigating family experiences with fragmented and stigmatized healthcare systems. Driving WellPath to make high-quality, compassionate mental healthcare accessible to all.',
+      image: '/images/mridul-munjal.png',
+      linkedinUrl: 'https://www.linkedin.com/in/mridul-munjal-01061998/'
     },
     {
-      name: 'Dr. Ananya Mehta',
-      role: 'Chief Clinical Officer & Co-Founder',
-      qualifications: 'Ph.D. in Clinical Psychology',
-      bio: 'Former consultant at top tertiary hospital centers with over 14 years of clinical experience specializing in CBT and affective disorders.',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      name: 'Marcus Vance',
-      role: 'Chief Operating Officer',
-      qualifications: 'M.S. Healthcare Administration',
-      bio: 'Oversees operational scaling, nationwide therapist credentialing pipelines, and regulatory compliance across clinical care networks.',
-      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      name: 'Dr. Sarah Jenkins',
-      role: 'Head of Clinical Research & Education',
-      qualifications: 'Ed.D. in Counseling Psychology',
-      bio: 'Pioneered our evidence-based wellness courses, psychoeducation frameworks, and student internship supervision curriculum.',
-      image: 'https://images.unsplash.com/photo-1598550880863-4e8aa3d0edb4?auto=format&fit=crop&q=80&w=600'
+      name: 'Garima Munjal',
+      role: 'Co-Founder',
+      qualifications: 'Healthcare Strategy & Operations',
+      bio: 'Dedicated to revolutionizing mental healthcare delivery by scaling patient-centric operations and compassionate clinician networks. Spearheading strategic initiatives and organizational growth across WellPath.',
+      image: '/images/garima-munjal.jpg',
+      linkedinUrl: 'https://www.linkedin.com/in/garima-munjal-55b2b9288/'
     },
     {
       name: 'Ishan Jain',
@@ -77,21 +78,14 @@ const About = () => {
       qualifications: 'Web Architecture & Full-Stack Systems',
       bio: 'Architected and engineered the WellPath web platform end-to-end, delivering its clinical-grade security, interactive care matching, and telehealth infrastructure.',
       image: '/images/ishan.jpeg',
-      portfolioUrl: 'https://iamishan.in'
-    },
-    {
-      name: 'Priya Nair',
-      role: 'Head of Product & Design',
-      qualifications: 'B.Des, Human-Computer Interaction',
-      bio: 'Crafts empathetic, accessible digital patient experiences designed to eliminate cognitive overload and friction when seeking therapy.',
-      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600'
+      linkedinUrl: 'https://www.linkedin.com/in/ishan1501/'
     }
   ];
 
   return (
     <div className="flex flex-col bg-background min-h-screen pb-20">
       {/* Hero Section */}
-      <section className="relative bg-primary-dark pt-24 pb-32 overflow-hidden text-white">
+      <section className="relative bg-primary-dark py-24 sm:py-28 overflow-hidden text-white">
         <div className="absolute inset-0 z-0 opacity-20">
           <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2000" alt="Team meeting" className="w-full h-full object-cover" />
         </div>
@@ -108,18 +102,6 @@ const About = () => {
           <p className="text-xl text-primary-muted max-w-2xl mx-auto leading-relaxed">
             We're building a future where getting the right mental health support is as simple, normal, and effective as visiting a primary care doctor.
           </p>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="relative z-20 -mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="bg-surface rounded-xl shadow-md p-8 md:p-12 border border-gray-100 grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, idx) => (
-            <div key={idx} className="text-center">
-              <div className="text-3xl md:text-4xl font-extrabold text-primary mb-2">{stat.value}</div>
-              <div className="text-sm md:text-base font-medium text-muted-foreground uppercase tracking-wide">{stat.label}</div>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -171,7 +153,7 @@ const About = () => {
                   Between endless waitlists, confusing insurance networks, and trial-and-error matching, the system was broken. We decided to fix it by building a platform that prioritizes clinical quality and patient-provider fit above all else.
                 </p>
                 <p>
-                  Today, we're proud to be the trusted mental health partner for over a million individuals. By integrating therapy, psychiatry, and educational courses, we provide a holistic ecosystem of care tailored to exactly where you are in your journey.
+                  Today, we are committed to being your trusted mental health partner. By integrating therapy, psychiatry, and educational resources, we provide a holistic ecosystem of care tailored to exactly where you are in your journey.
                 </p>
               </div>
               <Link to="/matching" className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-xl font-bold mt-10 hover:bg-primary-hover transition-all shadow-lg shadow-emerald-200">
@@ -190,65 +172,57 @@ const About = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Guided by healthcare innovators, clinical experts, and engineers committed to systemic change.</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {team.map((member, idx) => {
-              const hasLink = Boolean((member as any).portfolioUrl);
-              const CardInner = (
-                <div className={`h-full bg-surface rounded-xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 flex flex-col ${
-                  hasLink ? 'hover:shadow-lg hover:border-primary/50 group cursor-pointer ring-1 ring-transparent hover:ring-primary/20' : 'hover:shadow-md'
-                }`}>
-                  <div className="h-64 overflow-hidden relative">
-                    <img 
-                      src={member.image} 
-                      alt={member.name} 
-                      className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500" 
-                    />
-                    {hasLink && (
-                      <div className="absolute top-3 right-3 bg-surface/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-primary flex items-center gap-1 shadow-sm border border-border">
-                        <span>Portfolio</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-8 text-center flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3 className="text-2xl font-bold text-foreground mb-1 flex items-center justify-center gap-1.5">
-                        <span>{member.name}</span>
-                        {hasLink && <ArrowUpRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />}
-                      </h3>
-                      <p className="text-primary font-bold text-sm mb-3 uppercase tracking-wider">{member.role}</p>
-                      <div className="inline-block px-3 py-1 bg-surface-hover text-gray-700 rounded-full text-xs font-semibold mb-6">
-                        {member.qualifications}
-                      </div>
-                      <p className="text-muted-foreground text-sm leading-relaxed">{member.bio}</p>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {team.map((member, idx) => (
+              <div
+                key={idx}
+                className="h-full bg-surface rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col group"
+              >
+                <div className="h-64 sm:h-72 overflow-hidden relative">
+                  <img 
+                    src={member.image} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" 
+                  />
+                  <a
+                    href={member.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${member.name} on LinkedIn`}
+                    title={`Connect with ${member.name} on LinkedIn`}
+                    className="absolute top-3.5 right-3.5 bg-white/95 hover:bg-[#0A66C2] text-[#0A66C2] hover:text-white p-2 rounded-full shadow-sm backdrop-blur-md border border-gray-200/80 transition-all duration-200 hover:scale-110 z-10"
+                  >
+                    <LinkedinIcon className="w-4 h-4 fill-current" />
+                  </a>
+                </div>
+
+                <div className="p-8 text-center flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-foreground mb-1">
+                      {member.name}
+                    </h3>
+                    <p className="text-primary font-bold text-sm mb-3 uppercase tracking-wider">{member.role}</p>
+                    <div className="inline-block px-3 py-1 bg-surface-hover text-gray-700 rounded-full text-xs font-semibold mb-6">
+                      {member.qualifications}
                     </div>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{member.bio}</p>
+                  </div>
 
-                    {hasLink && (
-                      <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-center gap-1.5 text-xs font-semibold text-primary group-hover:text-primary-hover">
-                        <span>Visit Ishan's Portfolio & Connect</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </div>
-                    )}
+                  <div className="mt-8 pt-5 border-t border-gray-100">
+                    <a
+                      href={member.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-[#0A66C2]/20 bg-[#0A66C2]/5 hover:bg-[#0A66C2] text-[#0A66C2] hover:text-white font-semibold text-sm transition-all duration-200 group/btn shadow-xs hover:shadow-md"
+                    >
+                      <LinkedinIcon className="w-4 h-4 fill-current" />
+                      <span>Connect on LinkedIn</span>
+                      <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                    </a>
                   </div>
                 </div>
-              );
-
-              return hasLink ? (
-                <a
-                  key={idx}
-                  href={(member as any).portfolioUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block h-full focus:outline-none focus:ring-2 focus:ring-primary rounded-xl"
-                >
-                  {CardInner}
-                </a>
-              ) : (
-                <div key={idx} className="h-full">
-                  {CardInner}
-                </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </section>

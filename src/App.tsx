@@ -4,7 +4,6 @@ import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth';
 import { PwaInstallProvider } from './contexts/PwaInstallContext';
 import { InstallAppModal } from './components/shared/InstallAppModal';
-import { InstallPromptBanner } from './components/shared/InstallPromptBanner';
 
 // Layouts
 import PublicLayout from './layouts/PublicLayout';
@@ -157,7 +156,6 @@ function App() {
       <PwaInstallProvider>
         <Router>
           <ScrollToTop />
-          <InstallPromptBanner />
           <InstallAppModal />
           <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
           <Routes>

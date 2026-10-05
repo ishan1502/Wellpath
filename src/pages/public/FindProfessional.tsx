@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { Search, Filter, Star, Video, CheckCircle, SlidersHorizontal, ChevronRight, GraduationCap } from 'lucide-react';
 import { professionalService } from '../../services/professionalService';
 import { Professional } from '../../types';
@@ -52,12 +52,16 @@ const FindProfessional = () => {
     return matchesSearch && matchesSpec && matchesType && matchesPrice;
   });
 
+  const getProfileUrl = (profId: string) => {
+    const prefix = window.location.pathname.startsWith('/patient') ? '/patient' : '';
+    return `${prefix}/professionals/${profId}`;
+  };
+
   const handleBookSession = (profId: string) => {
     if (!user) {
       setIsLoginModalOpen(true);
     } else {
-      const prefix = window.location.pathname.startsWith('/patient') ? '/patient' : '';
-      navigate(`${prefix}/professionals/${profId}`);
+      navigate(getProfileUrl(profId));
     }
   };
 
@@ -212,21 +216,26 @@ const FindProfessional = () => {
                 <div key={prof.id} className="bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 flex flex-col sm:flex-row gap-6 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 w-2 h-full bg-primary transform translate-x-2 group-hover:translate-x-0 transition-transform duration-300"></div>
                   
-                  <div className="w-full sm:w-32 h-40 sm:h-auto bg-primary-muted rounded-lg flex-shrink-0 flex items-center justify-center text-primary-hover font-bold text-4xl object-cover overflow-hidden relative">
+                  <Link
+                    to={getProfileUrl(prof.id)}
+                    className="w-full sm:w-32 h-40 sm:h-auto bg-primary-muted rounded-lg flex-shrink-0 flex items-center justify-center text-primary-hover font-bold text-4xl object-cover overflow-hidden relative hover:opacity-90 transition-opacity"
+                  >
                     {prof.firstName[0]}{prof.lastName[0]}
                     {prof.isVerified && (
                       <div className="absolute bottom-2 right-2 bg-surface rounded-full p-0.5 shadow-sm">
                         <CheckCircle className="w-5 h-5 text-blue-500" fill="currentColor" />
                       </div>
                     )}
-                  </div>
+                  </Link>
                   
                   <div className="flex flex-col flex-grow">
                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2 gap-4">
                       <div>
-                        <h3 className="text-2xl font-bold text-foreground hover:text-primary-hover transition-colors cursor-pointer" onClick={() => handleBookSession(prof.id)}>
-                          {prof.firstName} {prof.lastName}
-                        </h3>
+                        <Link to={getProfileUrl(prof.id)}>
+                          <h3 className="text-2xl font-bold text-foreground hover:text-primary-hover transition-colors">
+                            {prof.firstName} {prof.lastName}
+                          </h3>
+                        </Link>
                         <p className="text-primary font-medium flex items-center gap-2">
                           {prof.type} <span className="text-gray-300">•</span> <GraduationCap className="w-4 h-4"/> {prof.yearsExperience} yrs exp
                         </p>
@@ -261,16 +270,16 @@ const FindProfessional = () => {
                     <div className="mt-auto flex flex-col sm:flex-row gap-3">
                       <button 
                         onClick={() => handleBookSession(prof.id)}
-                        className="bg-primary hover:bg-primary-hover text-white font-bold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-emerald-200 flex-grow text-center flex items-center justify-center gap-2"
+                        className="bg-primary hover:bg-primary-hover text-white font-bold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-emerald-200 flex-grow text-center flex items-center justify-center gap-2 cursor-pointer"
                       >
                         Book Session <ChevronRight className="w-4 h-4" />
                       </button>
-                      <button 
-                        onClick={() => handleBookSession(prof.id)}
-                        className="bg-surface border-2 border-border hover:border-border text-gray-700 font-bold py-3 px-6 rounded-xl transition-colors sm:w-auto w-full text-center"
+                      <Link 
+                        to={getProfileUrl(prof.id)}
+                        className="bg-surface border-2 border-border hover:border-gray-300 text-gray-700 hover:text-primary font-bold py-3 px-6 rounded-xl transition-colors sm:w-auto w-full text-center inline-flex items-center justify-center cursor-pointer"
                       >
                         View Profile
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
