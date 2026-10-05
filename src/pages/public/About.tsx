@@ -7,8 +7,7 @@ import {
   ArrowRight, 
   GraduationCap, 
   Lock,
-  Target,
-  ArrowUpRight
+  Target
 } from 'lucide-react';
 
 const LinkedinIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -196,30 +195,15 @@ const About = () => {
                   </a>
                 </div>
 
-                <div className="p-8 text-center flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-2xl font-bold text-foreground mb-1">
-                      {member.name}
-                    </h3>
-                    <p className="text-primary font-bold text-sm mb-3 uppercase tracking-wider">{member.role}</p>
-                    <div className="inline-block px-3 py-1 bg-surface-hover text-gray-700 rounded-full text-xs font-semibold mb-6">
-                      {member.qualifications}
-                    </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{member.bio}</p>
+                <div className="p-8 text-center flex-1 flex flex-col">
+                  <h3 className="text-2xl font-bold text-foreground mb-1">
+                    {member.name}
+                  </h3>
+                  <p className="text-primary font-bold text-sm mb-3 uppercase tracking-wider">{member.role}</p>
+                  <div className="inline-block px-3 py-1 bg-surface-hover text-gray-700 rounded-full text-xs font-semibold mb-6">
+                    {member.qualifications}
                   </div>
-
-                  <div className="mt-8 pt-5 border-t border-gray-100">
-                    <a
-                      href={member.linkedinUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-[#0A66C2]/20 bg-[#0A66C2]/5 hover:bg-[#0A66C2] text-[#0A66C2] hover:text-white font-semibold text-sm transition-all duration-200 group/btn shadow-xs hover:shadow-md"
-                    >
-                      <LinkedinIcon className="w-4 h-4 fill-current" />
-                      <span>Connect on LinkedIn</span>
-                      <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                    </a>
-                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{member.bio}</p>
                 </div>
               </div>
             ))}
