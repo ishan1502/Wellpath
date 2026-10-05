@@ -3,6 +3,7 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { GraduationCap, Search, Briefcase, MessageSquare, LogOut, UserCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { NotificationBell } from '@/components/shared/NotificationBell';
+import { InstallAppButton } from '@/components/shared/InstallAppButton';
 
 export default function StudentLayout() {
   const location = useLocation();
@@ -51,8 +52,10 @@ export default function StudentLayout() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-100 bg-background/50">
-          <div className="flex items-center gap-3 mb-4 px-2">
+        <div className="p-4 border-t border-gray-100 bg-background/50 space-y-3">
+          <InstallAppButton variant="sidebar" />
+
+          <div className="flex items-center gap-3 px-2">
             <div className="h-12 w-12 rounded-lg bg-primary-muted flex items-center justify-center text-primary-dark font-bold text-lg shadow-sm">
               {user?.firstName?.charAt(0) || 'S'}
             </div>
@@ -81,7 +84,8 @@ export default function StudentLayout() {
             <Link to="/student/dashboard" className="text-2xl font-bold text-primary-dark tracking-tight">WellPath</Link>
             <span className="text-[10px] ml-2 text-primary uppercase font-bold bg-primary-muted px-2 py-0.5 rounded-full">Student</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <InstallAppButton variant="header" className="py-1 px-2.5 text-[11px]" />
             <NotificationBell />
             <div className="h-9 w-9 rounded-xl bg-primary-muted flex items-center justify-center text-primary-dark font-bold text-sm shadow-sm">
               {user?.firstName?.charAt(0) || 'S'}

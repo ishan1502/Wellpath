@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, Link, useLocation, Navigate } from 'react-router-dom';
 import { HeartPulse, Menu, ChevronDown } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { InstallAppButton } from '@/components/shared/InstallAppButton';
 
 const PublicLayout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -55,6 +56,7 @@ const PublicLayout = () => {
               <Link to="/resources" className="text-primary-dark hover:text-primary font-medium text-sm transition-colors">Resources</Link>
 
               <div className="flex items-center gap-4 ml-4 border-l pl-8 border-border">
+                <InstallAppButton variant="header" />
                 {isAuthenticated ? (
                   <>
                     <Link to={user?.role === 'admin' ? '/admin' : `/${user?.role || 'patient'}/dashboard`} className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-semibold text-sm transition-all duration-300 shadow-sm hover:shadow-md">
@@ -73,7 +75,8 @@ const PublicLayout = () => {
               </div>
             </nav>
             
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center gap-2">
+              <InstallAppButton variant="header" className="py-1 px-2.5 text-[11px]" />
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="text-primary-dark hover:text-primary p-2 rounded-xl hover:bg-primary-muted transition-colors"
@@ -100,6 +103,9 @@ const PublicLayout = () => {
                 <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-primary-dark hover:bg-primary-muted font-medium text-sm rounded-xl transition-colors">About Us</Link>
                 <Link to="/for-professionals" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-primary-dark hover:bg-primary-muted font-medium text-sm rounded-xl transition-colors">For Professionals</Link>
                 <Link to="/resources" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2 text-primary-dark hover:bg-primary-muted font-medium text-sm rounded-xl transition-colors">Resources</Link>
+                <div className="pt-2 border-t border-gray-100">
+                  <InstallAppButton variant="mobileMenu" />
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-4 pt-2">
                 {isAuthenticated ? (
@@ -155,6 +161,7 @@ const PublicLayout = () => {
                 <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
                 <li><Link to="/for-professionals" className="hover:text-primary transition-colors">For Professionals</Link></li>
                 <li><Link to="/jobs" className="hover:text-primary transition-colors">Student Internships</Link></li>
+                <li><InstallAppButton variant="ghost" className="text-primary-dark/80 hover:text-primary font-normal text-sm" /></li>
               </ul>
             </div>
             <div>

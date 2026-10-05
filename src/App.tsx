@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth';
+import { PwaInstallProvider } from './contexts/PwaInstallContext';
+import { InstallAppModal } from './components/shared/InstallAppModal';
+import { InstallPromptBanner } from './components/shared/InstallPromptBanner';
 
 // Layouts
 import PublicLayout from './layouts/PublicLayout';
@@ -151,9 +154,12 @@ function App() {
 
   return (
     <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <PwaInstallProvider>
+        <Router>
+          <ScrollToTop />
+          <InstallPromptBanner />
+          <InstallAppModal />
+          <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
           <Routes>
             {/* Public & Auth Routes */}
             <Route path="/" element={<PublicLayout />}>
@@ -271,7 +277,8 @@ function App() {
           <ChatBot />
         </React.Suspense>
       </Router>
-    </AuthProvider>
+    </PwaInstallProvider>
+  </AuthProvider>
 
   );
 }

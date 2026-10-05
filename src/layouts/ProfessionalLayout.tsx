@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { NotificationBell } from '@/components/shared/NotificationBell';
+import { InstallAppButton } from '@/components/shared/InstallAppButton';
 
 export default function ProfessionalLayout() {
   const location = useLocation();
@@ -100,8 +101,12 @@ export default function ProfessionalLayout() {
           {renderNavGroup(businessNav, 'Growth & Business')}
         </nav>
 
-        <div className="p-4 border-t border-primary-dark">
-          <div className="flex items-center gap-3 mb-4 px-4">
+        <div className="p-4 border-t border-primary-dark space-y-2">
+          <div className="px-2">
+            <InstallAppButton variant="sidebar" className="text-white bg-white/10 hover:bg-white/15 border-white/15" />
+          </div>
+
+          <div className="flex items-center gap-3 mb-2 px-4">
             <div className="h-10 w-10 rounded-full bg-primary-hover flex items-center justify-center text-white font-bold shadow-sm">
               {user?.firstName?.charAt(0) || 'D'}
             </div>
@@ -134,7 +139,8 @@ export default function ProfessionalLayout() {
               <span className="text-[10px] ml-2 text-primary uppercase font-bold">Pro</span>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <InstallAppButton variant="header" className="py-1 px-2.5 text-[11px]" />
             <NotificationBell />
             <div className="h-8 w-8 rounded-full bg-primary-muted flex items-center justify-center text-primary-dark font-medium text-sm">
               {user?.firstName?.charAt(0) || 'D'}
@@ -144,7 +150,8 @@ export default function ProfessionalLayout() {
 
         {/* Desktop Header */}
         <header className="hidden md:flex bg-background p-6 pb-0 items-center justify-end sticky top-0 z-10">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
+            <InstallAppButton variant="header" />
             <NotificationBell />
           </div>
         </header>

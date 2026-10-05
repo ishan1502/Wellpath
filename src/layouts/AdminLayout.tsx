@@ -17,6 +17,7 @@ import {
   X
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { InstallAppButton } from '@/components/shared/InstallAppButton';
 
 export default function AdminLayout() {
   const location = useLocation();
@@ -78,6 +79,10 @@ export default function AdminLayout() {
           })}
         </nav>
 
+        <div className="px-4 pb-2">
+          <InstallAppButton variant="sidebar" className="text-white bg-white/10 hover:bg-white/15 border-white/15" />
+        </div>
+
         <div className="p-6 m-4 mt-0 bg-primary-dark rounded-xl border border-primary-dark shadow-sm">
           <div className="flex items-center gap-4 mb-5">
             <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center text-white font-bold shadow-sm">
@@ -133,8 +138,9 @@ export default function AdminLayout() {
                 );
               })}
             </nav>
-            <div className="p-5 m-4 bg-primary-dark rounded-xl border border-primary-dark">
-               <button 
+            <div className="p-4 m-4 bg-primary-dark rounded-xl border border-primary-dark space-y-3">
+              <InstallAppButton variant="mobileMenu" className="text-white bg-white/10 hover:bg-white/15" />
+              <button 
                 onClick={handleLogout}
                 className="flex w-full items-center px-4 py-2 text-sm font-medium text-primary-muted hover:text-white transition-all duration-300"
               >
@@ -179,7 +185,8 @@ export default function AdminLayout() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <InstallAppButton variant="header" />
             <div className="hidden sm:flex items-center px-4 py-2 bg-primary-muted rounded-lg shadow-sm border border-primary-muted">
               <span className="relative flex h-3 w-3 mr-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>

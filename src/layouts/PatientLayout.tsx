@@ -4,6 +4,7 @@ import { Home, Search, Calendar, MessageSquare, Bookmark, BookOpen, LogOut, User
 import { useAuth } from '@/hooks/useAuth';
 import { NotificationBell } from '@/components/shared/NotificationBell';
 import { CrisisSupportModal } from '@/components/shared/CrisisSupportModal';
+import { InstallAppButton } from '@/components/shared/InstallAppButton';
 
 export default function PatientLayout() {
   const location = useLocation();
@@ -56,7 +57,8 @@ export default function PatientLayout() {
           })}
         </nav>
 
-        <div className="px-4 py-4 mt-auto">
+        <div className="px-4 py-2 mt-auto space-y-2">
+          <InstallAppButton variant="sidebar" />
           <button 
             onClick={() => setIsCrisisModalOpen(true)}
             className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-red-50 text-red-700 hover:bg-red-100 hover:shadow-md font-bold rounded-lg text-sm transition-all duration-300 border border-red-100"
@@ -93,7 +95,8 @@ export default function PatientLayout() {
         {/* Mobile Header */}
         <header className="md:hidden bg-surface border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
           <Link to="/patient/dashboard" className="text-2xl font-bold text-primary-dark">WellPath</Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <InstallAppButton variant="header" className="py-1 px-2.5 text-[11px]" />
             <NotificationBell />
             <div className="h-9 w-9 rounded-xl bg-primary-muted flex items-center justify-center text-primary-dark font-bold text-sm shadow-sm">
               {user?.firstName?.charAt(0) || 'U'}
@@ -139,6 +142,9 @@ export default function PatientLayout() {
                   <ShieldAlert className="h-6 w-6 mb-2" />
                   <span className="text-sm font-semibold text-center">Crisis Support</span>
                 </button>
+                <div className="col-span-2 pt-2 border-t border-gray-100">
+                  <InstallAppButton variant="mobileMenu" />
+                </div>
                 <button
                   onClick={handleLogout}
                   className="flex flex-col items-center p-4 rounded-lg border border-gray-100 bg-background text-muted-foreground active:bg-surface-hover transition-colors col-span-2"
