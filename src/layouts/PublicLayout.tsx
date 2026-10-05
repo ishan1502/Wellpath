@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation, Navigate } from 'react-router-dom';
-import { HeartPulse, Menu, ChevronDown, ArrowUpRight } from 'lucide-react';
+import { HeartPulse, Menu, ChevronDown } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 const PublicLayout = () => {
@@ -165,17 +165,8 @@ const PublicLayout = () => {
               </ul>
             </div>
           </div>
-          <div className="border-t border-primary-muted mt-16 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-primary-hover/60">
+          <div className="border-t border-primary-muted mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-hover/60">
             <p>&copy; {new Date().getFullYear()} WellPath Inc. All rights reserved.</p>
-            <a
-              href="https://iamishan.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-primary transition-colors font-medium inline-flex items-center gap-1.5 group"
-            >
-              <span>Platform Architecture & Engineering by Ishan Jain</span>
-              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
           </div>
         </div>
       </footer>
