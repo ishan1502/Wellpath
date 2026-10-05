@@ -165,8 +165,18 @@ const PublicLayout = () => {
               </ul>
             </div>
           </div>
-          <div className="border-t border-primary-muted mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-hover/60">
+          <div className="border-t border-primary-muted mt-16 pt-8 flex flex-col items-center justify-center gap-2 text-sm text-primary-hover/60 text-center">
             <p>&copy; {new Date().getFullYear()} WellPath. All rights reserved.</p>
+            <p>
+              <a
+                href="https://iamishan.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors font-medium inline-flex items-center gap-1"
+              >
+                Made with ❤️ by Ishan
+              </a>
+            </p>
           </div>
         </div>
       </footer>
