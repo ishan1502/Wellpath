@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { Check, ChevronDown, X } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
@@ -26,11 +27,93 @@ export function MultiSelect({
 }: MultiSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
+
+  const updatePosition = useCallback(() => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    const minDesiredHeight = 240;
+    const openUpward = spaceBelow < minDesiredHeight && spaceAbove > spaceBelow;
+
+    const margin = 8;
+    const width = Math.min(rect.width, viewportWidth - margin * 2);
+    const left = Math.max(margin, Math.min(rect.left, viewportWidth - width - margin));
+
+    if (openUpward) {
+      const maxHeight = Math.min(360, Math.max(160, spaceAbove - margin * 2));
+      setDropdownStyle({
+        position: 'fixed',
+        left: `${left}px`,
+        bottom: `${viewportHeight - rect.top + 6}px`,
+        width: `${width}px`,
+        maxHeight: `${maxHeight}px`,
+        zIndex: 9999,
+      });
+    } else {
+      const maxHeight = Math.min(360, Math.max(160, spaceBelow - margin * 2));
+      setDropdownStyle({
+        position: 'fixed',
+        left: `${left}px`,
+        top: `${rect.bottom + 6}px`,
+        width: `${width}px`,
+        maxHeight: `${maxHeight}px`,
+        zIndex: 9999,
+      });
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    if (isOpen) {
+      updatePosition();
+    }
+  }, [isOpen, selected, updatePosition]);
+
+  useEffect(() => {
+    if (!isOpen || !containerRef.current) return;
+
+    const handleScrollOrResize = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) {
+          setIsOpen(false);
+          return;
+        }
+      }
+      updatePosition();
+    };
+
+    window.addEventListener('resize', handleScrollOrResize);
+    window.addEventListener('scroll', handleScrollOrResize, true);
+
+    const resizeObserver = new ResizeObserver(() => {
+      updatePosition();
+    });
+    resizeObserver.observe(containerRef.current);
+
+    return () => {
+      window.removeEventListener('resize', handleScrollOrResize);
+      window.removeEventListener('scroll', handleScrollOrResize, true);
+      resizeObserver.disconnect();
+    };
+  }, [isOpen, updatePosition]);
 
   // Close when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | TouchEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target)
+      ) {
         setIsOpen(false);
       }
     }
@@ -154,79 +237,83 @@ export function MultiSelect({
         </div>
       </div>
 
-      {/* Popover Dropdown */}
-      {isOpen && (
-        <div
-          role="listbox"
-          aria-multiselectable="true"
-          className="absolute left-0 right-0 top-full mt-2 z-50 bg-surface border border-border rounded-xl shadow-xl overflow-hidden py-1 animate-in divide-y divide-border/40"
-        >
-          {/* Header */}
-          <div className="px-3.5 py-2.5 bg-muted/20 flex items-center justify-between text-xs text-muted-foreground">
-            <span className="font-semibold text-foreground">Select all that apply</span>
-            {selected.length > 0 ? (
-              <button
-                type="button"
-                onClick={() => onChange([])}
-                className="text-primary hover:text-primary-hover font-semibold transition-colors"
-              >
-                Clear all ({selected.length})
-              </button>
-            ) : (
-              <span className="text-[11px] text-muted-foreground">Multiple selections allowed</span>
-            )}
-          </div>
-
-          {/* Options List */}
-          <div className="max-h-64 overflow-y-auto py-1">
-            {options.map((option) => {
-              const isSelected = selected.includes(option.value);
-              return (
-                <div
-                  key={option.value}
-                  role="option"
-                  aria-selected={isSelected}
-                  onClick={() => toggleOption(option.value)}
-                  className={cn(
-                    "px-3.5 py-2.5 flex items-center gap-3 transition-colors cursor-pointer select-none",
-                    isSelected
-                      ? "bg-primary/5 text-primary-dark font-medium"
-                      : "text-foreground hover:bg-muted/60"
-                  )}
+      {/* Popover Dropdown via Portal */}
+      {isOpen &&
+        createPortal(
+          <div
+            ref={dropdownRef}
+            role="listbox"
+            aria-multiselectable="true"
+            style={dropdownStyle}
+            className="bg-surface border border-border rounded-xl shadow-2xl overflow-hidden py-1 animate-in divide-y divide-border/40 flex flex-col"
+          >
+            {/* Header */}
+            <div className="px-3.5 py-2.5 bg-muted/20 flex items-center justify-between text-xs text-muted-foreground shrink-0">
+              <span className="font-semibold text-foreground">Select all that apply</span>
+              {selected.length > 0 ? (
+                <button
+                  type="button"
+                  onClick={() => onChange([])}
+                  className="text-primary hover:text-primary-hover font-semibold transition-colors cursor-pointer"
                 >
+                  Clear all ({selected.length})
+                </button>
+              ) : (
+                <span className="text-[11px] text-muted-foreground">Multiple selections allowed</span>
+              )}
+            </div>
+
+            {/* Options List */}
+            <div className="overflow-y-auto py-1 flex-1 min-h-0">
+              {options.map((option) => {
+                const isSelected = selected.includes(option.value);
+                return (
                   <div
+                    key={option.value}
+                    role="option"
+                    aria-selected={isSelected}
+                    onClick={() => toggleOption(option.value)}
                     className={cn(
-                      "w-4 h-4 rounded border flex items-center justify-center transition-all shrink-0",
+                      "px-3.5 py-2.5 flex items-center gap-3 transition-colors cursor-pointer select-none",
                       isSelected
-                        ? "bg-primary border-primary text-white"
-                        : "border-border bg-background"
+                        ? "bg-primary/5 text-primary-dark font-medium"
+                        : "text-foreground hover:bg-muted/60"
                     )}
                   >
-                    {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                    <div
+                      className={cn(
+                        "w-4 h-4 rounded border flex items-center justify-center transition-all shrink-0",
+                        isSelected
+                          ? "bg-primary border-primary text-white"
+                          : "border-border bg-background"
+                      )}
+                    >
+                      {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                    </div>
+                    <span className="text-sm flex-1">{option.label}</span>
                   </div>
-                  <span className="text-sm flex-1">{option.label}</span>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
 
-          {/* Footer */}
-          <div className="px-3.5 py-2 bg-muted/20 flex items-center justify-between text-xs">
-            <span className="text-muted-foreground font-medium">
-              {selected.length === 0
-                ? "No topics selected"
-                : `${selected.length} topic${selected.length > 1 ? 's' : ''} selected`}
-            </span>
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              className="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-lg hover:bg-primary-hover transition-colors"
-            >
-              Done
-            </button>
-          </div>
-        </div>
-      )}
+            {/* Footer */}
+            <div className="px-3.5 py-2 bg-muted/20 flex items-center justify-between text-xs shrink-0">
+              <span className="text-muted-foreground font-medium">
+                {selected.length === 0
+                  ? "No topics selected"
+                  : `${selected.length} topic${selected.length > 1 ? 's' : ''} selected`}
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-lg hover:bg-primary-hover transition-colors cursor-pointer"
+              >
+                Done
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

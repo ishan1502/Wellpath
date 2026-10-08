@@ -21,7 +21,7 @@ const Home = () => {
   return (
     <div className="flex flex-col w-full overflow-x-hidden">
       {/* Interactive Hero Section - BetterHelp/Talkspace inspired */}
-      <section className="relative bg-primary-dark pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden text-white">
+      <section className="relative bg-primary-dark pt-16 pb-24 lg:pt-24 lg:pb-32 overflow-hidden text-white">
         <div className="absolute inset-0 z-0 opacity-40">
           <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000" alt="Calming Nature" className="w-full h-full object-cover" />
         </div>
