@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent } from '@/components/ui/Card';
@@ -10,10 +11,9 @@ export default function Signup() {
   const { user, isAuthenticated, signup, loginWithGoogle } = useAuth();
   
   React.useEffect(() => {
-    if (user && isAuthenticated) {
-      const role = user.role || 'patient';
-      if (role === 'admin') navigate('/admin');
-      else navigate(`/${role}/dashboard`);
+    if (user && isAuthenticated && user.role) {
+      if (user.role === 'admin') navigate('/admin');
+      else navigate(`/${user.role}/dashboard`);
     }
   }, [user, isAuthenticated, navigate]);
   
@@ -63,8 +63,13 @@ export default function Signup() {
         formData.role
       );
       
-      alert('Registration successful! Please log in.');
-      navigate('/login');
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate(`/${formData.role}/dashboard`);
+      } else {
+        alert('Registration successful! Please log in.');
+        navigate('/login');
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to create account.');
     } finally {

@@ -256,12 +256,35 @@ export default function Onboarding() {
         if (proError) throw proError;
       }
 
-      // Reload to trigger auth check
-      window.location.href = '/';
+      // Redirect to their respective dashboard
+      window.location.href = `/${user.role}/dashboard`;
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'An error occurred during onboarding.');
     } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSwitchRole = async (newRole: 'patient' | 'professional' | 'student') => {
+    if (!user || user.role === newRole) return;
+    setIsLoading(true);
+    setError('');
+    try {
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ role: newRole })
+        .eq('id', user.id);
+      if (updateError) throw updateError;
+
+      await supabase.auth.updateUser({
+        data: { role: newRole }
+      });
+
+      window.location.reload();
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'Failed to switch role');
       setIsLoading(false);
     }
   };
@@ -276,7 +299,20 @@ export default function Onboarding() {
         <CardHeader className="text-center pt-8">
           <CardTitle className="text-3xl font-bold text-primary-dark">Complete Your Profile</CardTitle>
           <p className="text-primary-hover/70 mt-2">Just a few more details to get you started as a <span className="font-bold capitalize">{user.role}</span>.</p>
-          <p className="text-xs text-muted-foreground mt-2">(Signed up as the wrong type? <Link to="/contact" className="underline">Contact support</Link>)</p>
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-3 pt-3 border-t border-border">
+            <span className="text-xs text-muted-foreground">Signed up as the wrong role? Switch to:</span>
+            {(['patient', 'professional', 'student'] as const).filter(r => r !== user.role).map(r => (
+              <button
+                key={r}
+                type="button"
+                disabled={isLoading}
+                onClick={() => handleSwitchRole(r)}
+                className="text-xs text-primary hover:text-primary-dark font-semibold capitalize underline bg-transparent border-none cursor-pointer disabled:opacity-50"
+              >
+                {r}
+              </button>
+            ))}
+          </div>
         </CardHeader>
         <CardContent className="p-8">
           <form onSubmit={handleSubmit} className="space-y-6">

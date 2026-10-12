@@ -1,6 +1,40 @@
 import { supabase } from '../lib/supabase';
 import { User } from '../types';
 
+async function buildUserObject(profile: any, userId: string): Promise<User> {
+  let needsOnboarding = false;
+  let verificationStatus: 'pending' | 'approved' | 'rejected' | undefined = undefined;
+  if (profile.role !== 'admin') {
+    const table = profile.role === 'professional' ? 'professionals' : (profile.role === 'student' ? 'students' : 'patients');
+    if (profile.role === 'professional') {
+      const { data } = await supabase
+        .from('professionals')
+        .select('verification_status')
+        .eq('id', userId)
+        .maybeSingle();
+      needsOnboarding = !data;
+      if (data) {
+        verificationStatus = data.verification_status || 'pending';
+      }
+    } else {
+      const { count } = await supabase.from(table).select('*', { count: 'exact', head: true }).eq('id', userId);
+      needsOnboarding = count === 0;
+    }
+  }
+
+  return {
+    id: profile.id,
+    email: profile.email,
+    firstName: profile.first_name,
+    lastName: profile.last_name,
+    role: profile.role,
+    avatarUrl: profile.avatar_url,
+    needsOnboarding,
+    status: profile.status || 'active',
+    verificationStatus
+  } as User;
+}
+
 export const authService = {
   loginWithEmailAndPassword: async (email: string, password: string): Promise<User> => {
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
@@ -12,62 +46,102 @@ export const authService = {
     if (!authData.user) throw new Error('Login failed');
 
     // Fetch user profile from public.users table
-    const { data: profile, error: profileError } = await supabase
+    let { data: profile } = await supabase
       .from('users')
       .select('*')
       .eq('id', authData.user.id)
-      .single();
+      .maybeSingle();
 
-    if (profileError) throw new Error('User profile not found');
+    if (!profile) {
+      // If profile is missing, create it from auth metadata
+      const metaRole = authData.user.user_metadata?.role || localStorage.getItem('pending_signup_role') || 'patient';
+      const fullName = authData.user.user_metadata?.full_name || authData.user.user_metadata?.name || '';
+      const metaFirstName = authData.user.user_metadata?.first_name || authData.user.user_metadata?.given_name || (fullName ? fullName.split(' ')[0] : '') || 'User';
+      const metaLastName = authData.user.user_metadata?.last_name || authData.user.user_metadata?.family_name || (fullName ? fullName.split(' ').slice(1).join(' ') : '') || '';
 
-    let needsOnboarding = false;
-    if (profile.role !== 'admin') {
-      const table = profile.role === 'professional' ? 'professionals' : (profile.role === 'student' ? 'students' : 'patients');
-      const { count } = await supabase.from(table).select('*', { count: 'exact', head: true }).eq('id', authData.user.id);
-      needsOnboarding = count === 0;
+      const { data: newProfile, error: createError } = await supabase
+        .from('users')
+        .upsert([
+          {
+            id: authData.user.id,
+            email: authData.user.email!,
+            first_name: metaFirstName,
+            last_name: metaLastName,
+            role: metaRole,
+            avatar_url: authData.user.user_metadata?.avatar_url || authData.user.user_metadata?.picture || ''
+          }
+        ], { onConflict: 'id' })
+        .select()
+        .single();
+
+      if (createError || !newProfile) {
+        throw new Error('User profile not found and could not be created');
+      }
+      profile = newProfile;
+    } else {
+      // If auth metadata has a role that differs from profile, sync it
+      const metaRole = authData.user.user_metadata?.role;
+      if (metaRole && profile.role !== metaRole) {
+        const { data: updatedProfile } = await supabase
+          .from('users')
+          .update({ role: metaRole })
+          .eq('id', authData.user.id)
+          .select()
+          .single();
+        if (updatedProfile) {
+          profile = updatedProfile;
+        }
+      }
     }
 
-    return {
-      id: profile.id,
-      email: profile.email,
-      firstName: profile.first_name,
-      lastName: profile.last_name,
-      role: profile.role,
-      avatarUrl: profile.avatar_url,
-      needsOnboarding
-    } as User;
+    return buildUserObject(profile, authData.user.id);
   },
 
   signup: async (email: string, password: string, firstName: string, lastName: string, role: string): Promise<void> => {
-    // 1. Create the user in Supabase Auth
+    // 1. Store pending role in localStorage so concurrent listeners/OAuth/sessions know the chosen role
+    localStorage.setItem('pending_signup_role', role);
+
+    // 2. Create the user in Supabase Auth with metadata so role is stored in auth.users
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+          role: role,
+        }
+      }
     });
 
-    if (authError) throw new Error(authError.message);
-    if (!authData.user) throw new Error('Signup failed');
+    if (authError) {
+      localStorage.removeItem('pending_signup_role');
+      throw new Error(authError.message);
+    }
+    if (!authData.user) {
+      localStorage.removeItem('pending_signup_role');
+      throw new Error('Signup failed');
+    }
 
-    // 2. Insert the user into the public.users table
+    // 3. Upsert user into the public.users table with the selected role
     const { error: profileError } = await supabase
       .from('users')
-      .insert([
+      .upsert([
         {
           id: authData.user.id,
           email,
           first_name: firstName,
           last_name: lastName,
-          role,
+          role: role,
         }
-      ]);
+      ], { onConflict: 'id' });
 
     if (profileError) {
-      console.error(profileError);
-      throw new Error('Failed to create user profile');
+      console.error('Failed to create user profile:', profileError);
+      throw new Error('Failed to create user profile: ' + profileError.message);
     }
 
-    // We do not insert into role-specific tables here. 
-    // This is handled by the onboarding flow.
+    localStorage.removeItem('pending_signup_role');
   },
 
   resetPassword: async (email: string): Promise<void> => {
@@ -78,6 +152,7 @@ export const authService = {
   },
 
   logout: async (): Promise<void> => {
+    localStorage.removeItem('pending_signup_role');
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
   },
@@ -91,70 +166,60 @@ export const authService = {
       .from('users')
       .select('*')
       .eq('id', session.user.id)
-      .single();
+      .maybeSingle();
 
-    // If profile doesn't exist, this is a first-time OAuth login
+    // If profile doesn't exist, create it from pending role or auth metadata
     if (!profile) {
-      const pendingRole = localStorage.getItem('pending_signup_role') || 'patient';
+      const metaRole = session.user.user_metadata?.role;
+      const pendingRole = localStorage.getItem('pending_signup_role') || metaRole || 'patient';
       
-      // Extract name from Google metadata if available
-      const fullName = session.user.user_metadata?.full_name || '';
-      const [firstName = '', lastName = ''] = fullName.split(' ');
+      // Extract name from Google metadata or signup metadata if available
+      const fullName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || '';
+      const metaFirstName = session.user.user_metadata?.first_name || session.user.user_metadata?.given_name || (fullName ? fullName.split(' ')[0] : '') || 'User';
+      const metaLastName = session.user.user_metadata?.last_name || session.user.user_metadata?.family_name || (fullName ? fullName.split(' ').slice(1).join(' ') : '') || '';
       
       const { data: newProfile, error } = await supabase
         .from('users')
-        .insert([
+        .upsert([
           {
             id: session.user.id,
             email: session.user.email!,
-            first_name: firstName || 'User',
-            last_name: lastName,
+            first_name: metaFirstName,
+            last_name: metaLastName,
             role: pendingRole,
-            avatar_url: session.user.user_metadata?.avatar_url || ''
+            avatar_url: session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || ''
           }
-        ])
+        ], { onConflict: 'id' })
         .select()
         .single();
 
       if (error) {
-        console.error('Failed to create OAuth profile:', error);
+        console.error('Failed to create user profile:', error);
         return null;
       }
 
       profile = newProfile;
       localStorage.removeItem('pending_signup_role');
-    }
+    } else {
+      // If profile exists, check if pending role or auth metadata role differs
+      const metaRole = session.user.user_metadata?.role;
+      const pendingRole = localStorage.getItem('pending_signup_role');
+      const targetRole = pendingRole || metaRole;
 
-    let needsOnboarding = false;
-    let verificationStatus: 'pending' | 'approved' | 'rejected' | undefined = undefined;
-    if (profile.role !== 'admin') {
-      const table = profile.role === 'professional' ? 'professionals' : (profile.role === 'student' ? 'students' : 'patients');
-      if (profile.role === 'professional') {
-        const { data } = await supabase
-          .from('professionals')
-          .select('verification_status')
+      if (targetRole && profile.role !== targetRole) {
+        const { data: updatedProfile } = await supabase
+          .from('users')
+          .update({ role: targetRole })
           .eq('id', session.user.id)
-          .maybeSingle();
-        needsOnboarding = !data;
-        if (data) {
-          verificationStatus = data.verification_status || 'pending';
+          .select()
+          .single();
+        if (updatedProfile) {
+          profile = updatedProfile;
         }
-      } else {
-        const { count } = await supabase.from(table).select('*', { count: 'exact', head: true }).eq('id', session.user.id);
-        needsOnboarding = count === 0;
+        localStorage.removeItem('pending_signup_role');
       }
     }
 
-    return {
-      id: profile.id,
-      email: profile.email,
-      firstName: profile.first_name,
-      lastName: profile.last_name,
-      role: profile.role,
-      avatarUrl: profile.avatar_url,
-      needsOnboarding,
-      status: profile.status || 'active',
-      verificationStatus
-    } as User;
+    return buildUserObject(profile, session.user.id);
   }
 };

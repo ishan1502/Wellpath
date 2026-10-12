@@ -18,16 +18,15 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   React.useEffect(() => {
-    if (user && isAuthenticated) {
+    if (user && isAuthenticated && user.role) {
       const destination = sessionStorage.getItem('postLoginRedirect') || searchParams.get('redirect');
       if (destination) {
         sessionStorage.removeItem('postLoginRedirect'); // clear after use
         navigate(destination, { replace: true });
         return;
       }
-      const role = user.role || 'patient';
-      if (role === 'admin') navigate('/admin', { replace: true });
-      else navigate(`/${role}/dashboard`, { replace: true });
+      if (user.role === 'admin') navigate('/admin', { replace: true });
+      else navigate(`/${user.role}/dashboard`, { replace: true });
     }
   }, [user, isAuthenticated, navigate, searchParams]);
 
