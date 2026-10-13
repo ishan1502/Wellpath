@@ -18,6 +18,19 @@ export default function Appointments() {
     fetchAppointments();
   }, []);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredAppointments = appointments.filter(a => {
+    const term = searchTerm.toLowerCase();
+    const id = (a.id || '').toLowerCase();
+    const date = (a.date || '').toLowerCase();
+    const status = (a.status || '').toLowerCase();
+    const format = (a.format || '').toLowerCase();
+    const patId = (a.patientId || '').toLowerCase();
+    const profId = (a.professionalId || '').toLowerCase();
+    return id.includes(term) || date.includes(term) || status.includes(term) || format.includes(term) || patId.includes(term) || profId.includes(term);
+  });
+
   if (loading) return <div className="p-8 text-center text-muted-foreground">Loading appointments...</div>;
 
   return (
@@ -28,6 +41,8 @@ export default function Appointments() {
           <input 
             type="text" 
             placeholder="Search appointments..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           />
           <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
@@ -47,7 +62,7 @@ export default function Appointments() {
             </tr>
           </thead>
           <tbody className="bg-surface divide-y divide-gray-200">
-            {appointments.map((appt) => (
+            {filteredAppointments.map((appt) => (
               <tr key={appt.id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                   {appt.id}

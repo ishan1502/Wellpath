@@ -38,6 +38,7 @@ export interface Professional extends User {
   qualifications: string[];
   rating: number;
   reviewCount: number;
+  availabilities?: Record<string, string[]>;
 }
 
 export interface InternshipApplication {

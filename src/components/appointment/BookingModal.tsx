@@ -6,6 +6,8 @@ import { generateGoogleCalendarLink } from '../../utils/googleCalendar';
 import { generateSessionLink } from '../../utils/sessionLinks';
 import { generateWhatsAppLink } from '../../utils/whatsapp';
 
+import { supabase } from '../../lib/supabase';
+
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -24,18 +26,49 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, profession
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
 
-  const handleDateChange = (newDate: string) => {
+  const handleDateChange = async (newDate: string) => {
     setDate(newDate);
     if (newDate) {
-      const saved = localStorage.getItem('wellpath_mock_availabilities');
       let slotsForDate: string[] = [];
-      if (saved) {
-        const availabilities = JSON.parse(saved);
-        slotsForDate = availabilities[newDate] || [];
+
+      // 1. Check if professional prop has availabilities
+      if (professional.availabilities && professional.availabilities[newDate]) {
+        slotsForDate = professional.availabilities[newDate];
       }
+
+      // 2. Fetch directly from database if empty
+      if (slotsForDate.length === 0 && professional.id) {
+        try {
+          const { data } = await supabase
+            .from('professionals')
+            .select('availabilities')
+            .eq('id', professional.id)
+            .single();
+
+          if (data?.availabilities && data.availabilities[newDate]) {
+            slotsForDate = data.availabilities[newDate];
+          }
+        } catch {
+          // ignore error
+        }
+      }
+
+      // 3. Fallback to localStorage
+      if (slotsForDate.length === 0) {
+        try {
+          const saved = localStorage.getItem('wellpath_mock_availabilities');
+          if (saved) {
+            const availabilities = JSON.parse(saved);
+            slotsForDate = availabilities[newDate] || [];
+          }
+        } catch {}
+      }
+
+      // 4. Default slots if no custom configuration
       if (slotsForDate.length === 0) {
         slotsForDate = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
       }
+
       setAvailableSlots(slotsForDate);
       setTime('');
     } else {

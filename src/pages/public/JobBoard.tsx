@@ -9,10 +9,18 @@ const JobBoard = () => {
   const [jobs, setJobs] = useState<JobPosting[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'job' | 'internship'>('job');
-  const [appliedJobs, setAppliedJobs] = useState<Set<string>>(new Set());
+  const APPLIED_JOBS_KEY = 'wellpath_applied_jobs';
+  const [appliedJobs, setAppliedJobs] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem('wellpath_applied_jobs');
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
   const [toast, setToast] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -43,12 +51,33 @@ const JobBoard = () => {
     setTimeout(() => setToast(null), 4000);
   };
 
-  const handleApply = (jobId: string, jobTitle: string) => {
+  const handleApply = async (jobId: string, jobTitle: string) => {
     if (!isAuthenticated) {
       navigate('/login');
       return;
     }
-    setAppliedJobs(prev => new Set([...prev, jobId]));
+    setAppliedJobs(prev => {
+      const next = new Set([...prev, jobId]);
+      try { localStorage.setItem(APPLIED_JOBS_KEY, JSON.stringify([...next])); } catch {}
+      return next;
+    });
+
+    if (user?.id) {
+      const job = jobs.find(j => j.id === jobId);
+      const targetProfId = (job as any)?.professionalId || (job as any)?.professional_id;
+      if (targetProfId) {
+        try {
+          await supabase.from('internship_applications').insert([{
+            student_id: user.id,
+            professional_id: targetProfId,
+            motivation_text: `Application submitted for ${jobTitle}`
+          }]);
+        } catch (err) {
+          console.warn('Could not record application in DB:', err);
+        }
+      }
+    }
+
     showToast(`Application submitted for "${jobTitle}". You'll hear back soon!`);
   };
 

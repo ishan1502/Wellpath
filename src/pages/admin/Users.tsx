@@ -29,6 +29,16 @@ export default function Users() {
     }
   };
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredUsers = users.filter(u => {
+    const term = searchTerm.toLowerCase();
+    const fullName = `${u.firstName || ''} ${u.lastName || ''}`.toLowerCase();
+    const email = (u.email || '').toLowerCase();
+    const role = (u.role || '').toLowerCase();
+    return fullName.includes(term) || email.includes(term) || role.includes(term);
+  });
+
   if (loading) return <div className="p-8 text-center text-primary font-medium">Loading users...</div>;
 
   return (
@@ -39,6 +49,8 @@ export default function Users() {
           <input 
             type="text" 
             placeholder="Search users..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-11 pr-4 py-2.5 bg-surface border border-primary-muted rounded-lg text-primary-dark focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-primary transition-all shadow-sm hover:shadow-md placeholder-emerald-300"
           />
           <Search className="absolute left-4 top-3 h-5 w-5 text-primary-muted-foreground" />
@@ -57,7 +69,7 @@ export default function Users() {
               </tr>
             </thead>
             <tbody className="bg-surface divide-y divide-emerald-50">
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user.id} className="hover:bg-primary-muted/30 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">

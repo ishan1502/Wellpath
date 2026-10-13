@@ -133,10 +133,7 @@ export const adminService = {
 
       if (error) throw error;
 
-      // If approving, clean up uploaded documents (best-effort)
-      if (status === 'approved' && verificationDocUrl) {
-        await adminService.deleteVerificationDocs(verificationDocUrl);
-      }
+      // Note: On approval, keep verification documents safely retained for compliance and profile verification.
     } catch (err) {
       console.error('Error updating verification status:', err);
       throw err;

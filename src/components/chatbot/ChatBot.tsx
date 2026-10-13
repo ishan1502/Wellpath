@@ -51,32 +51,39 @@ export function ChatBot() {
     
     try {
       let botResponse = '';
+
+      const getFallbackResponse = (input: string) => {
+        const lowerInput = input.toLowerCase();
+        if (lowerInput.includes('book') || lowerInput.includes('schedule') || lowerInput.includes('appointment')) {
+          return "To book a session, please sign up or log in, then browse our professionals. You can select an available time slot on their profile page.";
+        } else if (lowerInput.includes('find') || lowerInput.includes('search') || lowerInput.includes('professional') || lowerInput.includes('doctor') || lowerInput.includes('therapist')) {
+          return "You can discover verified professionals by visiting 'Find a Professional'. Filter by specialty, language, and session format to find the best match.";
+        } else if (lowerInput.includes('price') || lowerInput.includes('pricing') || lowerInput.includes('fee') || lowerInput.includes('cost')) {
+          return "Session fees vary by practitioner and are transparently listed on each professional's profile page.";
+        } else if (lowerInput.includes('job') || lowerInput.includes('career') || lowerInput.includes('internship')) {
+          return "Explore clinical and mental health opportunities on our Jobs & Internships board!";
+        } else if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('hey')) {
+          return "Hello! I am your Wellpath AI guide. How can I support your mental wellness journey today?";
+        }
+        return "I am here to help you navigate Wellpath! You can ask me about finding a professional, booking sessions, internships, or crisis resources.";
+      };
       
       if (aiService.isConfigured()) {
-        const history = messages
-          .filter(m => m.id !== 'welcome')
-          .map(m => ({
-            role: m.sender === 'user' ? ('user' as const) : ('model' as const),
-            parts: [{ text: m.text }]
-          }));
-          
-        botResponse = await aiService.getChatResponse(userText, history);
-      } else {
-        // Fallback rule-based response
-        botResponse = "I'm sorry, I'm currently running in limited mode. Could you try asking about finding a professional, booking, pricing, or jobs?";
-        const lowerInput = userText.toLowerCase();
-
-        if (lowerInput.includes('book') || lowerInput.includes('schedule') || lowerInput.includes('appointment')) {
-          botResponse = "To book a session, please sign up or log in, then browse our professionals. You can select a time slot on their profile page.";
-        } else if (lowerInput.includes('find') || lowerInput.includes('search') || lowerInput.includes('professional')) {
-          botResponse = "You can find professionals by browsing our directory. Use filters for specialty, language, and availability to find the right match.";
-        } else if (lowerInput.includes('price') || lowerInput.includes('pricing') || lowerInput.includes('cost')) {
-          botResponse = "Pricing varies by professional. Each professional lists their session rates on their profile page.";
-        } else if (lowerInput.includes('job') || lowerInput.includes('career') || lowerInput.includes('internship')) {
-          botResponse = "Check out our Jobs & Internships board for mental health opportunities! Visit the 'Jobs' link in the navigation.";
-        } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
-          botResponse = "Hello there! How can I assist you with Wellpath today?";
+        try {
+          const history = messages
+            .filter(m => m.id !== 'welcome')
+            .map(m => ({
+              role: m.sender === 'user' ? ('user' as const) : ('model' as const),
+              parts: [{ text: m.text }]
+            }));
+            
+          botResponse = await aiService.getChatResponse(userText, history);
+        } catch (aiErr) {
+          console.warn("AI service call failed, using graceful fallback:", aiErr);
+          botResponse = getFallbackResponse(userText);
         }
+      } else {
+        botResponse = getFallbackResponse(userText);
       }
 
       const botMsg: Message = {

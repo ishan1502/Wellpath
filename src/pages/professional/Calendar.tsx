@@ -10,7 +10,9 @@ import {
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import AvailabilitySlotModal from '@/components/appointment/AvailabilitySlotModal';
 
-// Mock local storage key for availabilities
+import { supabase } from '@/lib/supabase';
+
+// Local storage key for fallback availabilities
 const AVAILABILITIES_KEY = 'wellpath_mock_availabilities';
 
 export default function CalendarView() {
@@ -33,19 +35,31 @@ export default function CalendarView() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   useEffect(() => {
-    const fetchAppointments = async () => {
+    const fetchAppointmentsAndAvailabilities = async () => {
       if (user) {
         try {
           const data = await getAppointmentsByProfessional(user.id);
           setAppointments(data);
+
+          // Fetch persisted availabilities from Supabase
+          const { data: profData } = await supabase
+            .from('professionals')
+            .select('availabilities')
+            .eq('id', user.id)
+            .single();
+
+          if (profData?.availabilities && Object.keys(profData.availabilities).length > 0) {
+            setAvailabilities(profData.availabilities);
+            localStorage.setItem(AVAILABILITIES_KEY, JSON.stringify(profData.availabilities));
+          }
         } catch (error) {
-          console.error("Error fetching appointments:", error);
+          console.error("Error fetching appointments and availabilities:", error);
         } finally {
           setLoading(false);
         }
       }
     };
-    fetchAppointments();
+    fetchAppointmentsAndAvailabilities();
   }, [user]);
 
   const monthStart = startOfMonth(currentMonth);
@@ -63,11 +77,22 @@ export default function CalendarView() {
     setIsModalOpen(true);
   };
 
-  const handleSaveAvailability = (date: Date, slots: string[]) => {
+  const handleSaveAvailability = async (date: Date, slots: string[]) => {
     const dateKey = format(date, 'yyyy-MM-dd');
     const newAvailabilities = { ...availabilities, [dateKey]: slots };
     setAvailabilities(newAvailabilities);
     localStorage.setItem(AVAILABILITIES_KEY, JSON.stringify(newAvailabilities));
+
+    if (user) {
+      try {
+        await supabase
+          .from('professionals')
+          .update({ availabilities: newAvailabilities })
+          .eq('id', user.id);
+      } catch (err) {
+        console.error('Failed to sync availabilities to Supabase:', err);
+      }
+    }
   };
 
   return (

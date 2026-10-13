@@ -51,7 +51,8 @@ export const getProfessionalById = async (id: string): Promise<Professional | un
     isInPersonAvailable: true,
     about: data.bio || '',
     approach: 'Client-centered cognitive and mindfulness-based therapy.',
-    qualifications: [data.title || 'Master in Clinical Psychology']
+    qualifications: [data.title || 'Master in Clinical Psychology'],
+    availabilities: data.availabilities || {}
   } as Professional;
 };
 
@@ -94,7 +95,8 @@ export const professionalService = {
       isInPersonAvailable: true,
       about: d.bio || '',
       approach: 'Compassionate, evidence-guided care.',
-      qualifications: [d.title || 'Licensed Practitioner']
+      qualifications: [d.title || 'Licensed Practitioner'],
+      availabilities: d.availabilities || {}
     })) as Professional[];
   },
 
@@ -115,13 +117,13 @@ export const professionalService = {
 };
 
 export const uploadVerificationDocument = async (userId: string, file: File): Promise<string> => {
-  // 1. Upload to Supabase Storage
+  // 1. Upload to Supabase Storage ('Verification Documents')
   const fileExt = file.name.split('.').pop();
   const filePath = `${userId}/verification_${Date.now()}.${fileExt}`;
   
   const { error: uploadError } = await supabase.storage
-    .from('Storage')
-    .upload(filePath, file);
+    .from('Verification Documents')
+    .upload(filePath, file, { upsert: true });
 
   if (uploadError) {
     throw new Error(`Upload failed: ${uploadError.message}`);
@@ -129,7 +131,7 @@ export const uploadVerificationDocument = async (userId: string, file: File): Pr
 
   // 2. Get Public URL
   const { data: { publicUrl } } = supabase.storage
-    .from('Storage')
+    .from('Verification Documents')
     .getPublicUrl(filePath);
 
   // 3. Update professionals table

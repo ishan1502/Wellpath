@@ -2,13 +2,27 @@ import React, { useState } from 'react';
 import { Star, MapPin, Video, Heart, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+const SAVED_KEY = 'wellpath_saved_professionals';
+
 const Saved = () => {
-  // Simulate saved professionals (empty for real users)
-  const [savedProfessionals, setSavedProfessionals] = useState<any[]>([]);
+  const [savedProfessionals, setSavedProfessionals] = useState<any[]>(() => {
+    try {
+      const stored = localStorage.getItem(SAVED_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
 
   const removeSaved = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
-    setSavedProfessionals(prev => prev.filter(p => p.id !== id));
+    setSavedProfessionals(prev => {
+      const next = prev.filter(p => p.id !== id);
+      try {
+        localStorage.setItem(SAVED_KEY, JSON.stringify(next));
+      } catch {}
+      return next;
+    });
   };
 
   return (

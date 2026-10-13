@@ -68,29 +68,6 @@ export default function Login() {
     }
   };
 
-  const _handleDemoLogin = async (demoRole: 'admin' | 'doctor' | 'patient' | 'student') => {
-    const emailMap = {
-      admin: 'admin@wellpath.demo',
-      doctor: 'doctor@wellpath.demo',
-      patient: 'patient@wellpath.demo',
-      student: 'student@wellpath.demo'
-    };
-    const targetEmail = emailMap[demoRole];
-    setEmail(targetEmail);
-    setPassword('Wellpath2026!');
-    setIsLoading(true);
-    setLoginError('');
-    try {
-      await loginWithEmailAndPassword(targetEmail, 'Wellpath2026!');
-      if (demoRole === 'admin') navigate('/admin');
-      else navigate(`/${demoRole === 'doctor' ? 'professional' : demoRole}/dashboard`);
-    } catch (err: any) {
-      setLoginError(err.message || 'Demo login failed.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="flex-1 flex w-full">
       <div className="hidden lg:flex lg:w-1/2 bg-primary-dark text-white flex-col justify-between p-12 relative overflow-hidden">

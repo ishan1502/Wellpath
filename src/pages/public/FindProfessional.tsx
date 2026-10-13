@@ -14,7 +14,11 @@ const FindProfessional = () => {
   const matched = searchParams.get('matched');
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedSpecs, setSelectedSpecs] = useState<string[]>([]);
+  const [selectedSpecs, setSelectedSpecs] = useState<string[]>(() => {
+    const raw = searchParams.get('concern') || searchParams.get('concerns');
+    if (!raw) return [];
+    return raw.split(',').map(s => s.trim()).filter(Boolean);
+  });
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
   const [maxPrice, setMaxPrice] = useState(5000);

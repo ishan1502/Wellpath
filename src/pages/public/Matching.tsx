@@ -107,7 +107,13 @@ export default function Matching() {
       setTimeout(() => {
         const basePath = window.location.pathname.startsWith('/patient') ? '/patient' : 
                          window.location.pathname.startsWith('/student') ? '/student' : '';
-        navigate(`${basePath}/find-professional?matched=true`);
+        const concerns = Array.isArray(answers[0]) ? answers[0].join(',') : answers[0] || '';
+        const preferences = Array.isArray(answers[3]) ? answers[3].join(',') : answers[3] || '';
+        const params = new URLSearchParams();
+        params.set('matched', 'true');
+        if (concerns) params.set('concern', concerns);
+        if (preferences) params.set('preference', preferences);
+        navigate(`${basePath}/find-professional?${params.toString()}`);
       }, 2500);
     }
   };

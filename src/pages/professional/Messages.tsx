@@ -18,11 +18,13 @@ export default function Messages() {
       const formattedConvs = data.map((conv: any) => {
         const msgs = conv.messages || [];
         const lastMsg = msgs.length > 0 ? msgs[msgs.length - 1] : null;
+        const displayName = conv.otherUserName || 'Patient';
         return {
           id: conv.id,
-          name: 'Patient User', 
-          lastMessage: lastMsg ? lastMsg.content : 'No messages yet',
-          time: lastMsg ? new Date(lastMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '',
+          name: displayName,
+          avatar: conv.otherUserAvatar || displayName[0] || 'P',
+          lastMessage: conv.last_message || (lastMsg ? lastMsg.content : 'No messages yet'),
+          time: lastMsg ? new Date(lastMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : (conv.updated_at ? new Date(conv.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''),
           unread: 0,
         };
       });
