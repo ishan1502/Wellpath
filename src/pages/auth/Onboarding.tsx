@@ -43,6 +43,14 @@ const TYPE_INFO: Record<string, string> = {
     'As a Clinical Psychologist, you must hold an RCI-recognised qualification in Clinical Psychology and be registered with the Rehabilitation Council of India (RCI) or hold a Certificate of Registration (CRR).',
 };
 
+// ── Utilities ──────────────────────────────────────────────────────────────────
+function formatFileSize(bytes: number): string {
+  if (!bytes || bytes === 0) return '0 B';
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 // ── FileSlotInput component ────────────────────────────────────────────────────
 interface FileSlotProps {
   slot: DocSlot;
@@ -121,6 +129,7 @@ function FileSlot({ slot, file, uploadState, onFileChange }: FileSlotProps) {
 export default function Onboarding() {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadProgressText, setUploadProgressText] = useState('');
   const [error, setError] = useState('');
 
   // Patient states
@@ -161,6 +170,27 @@ export default function Onboarding() {
     setUploadStates(prev => ({ ...prev, [key]: 'idle' }));
   };
 
+  const handleStudentDocsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      // Synchronously capture File list into array before clearing input value
+      const newFiles = Array.from(e.target.files);
+      setStudentDocs(prev => {
+        const existingKeys = new Set(prev.map(f => `${f.name}-${f.size}`));
+        const unique = newFiles.filter(f => !existingKeys.has(`${f.name}-${f.size}`));
+        return [...prev, ...unique];
+      });
+    }
+    // Clear input so user can re-select the same file if removed
+    e.target.value = '';
+  };
+
+  const handleResumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setResumeDoc(e.target.files[0]);
+    }
+    e.target.value = '';
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -169,35 +199,58 @@ export default function Onboarding() {
 
     try {
       if (user.role === 'patient') {
-        const { error: pError } = await supabase.from('patients').insert([{
+        const { error: pError } = await supabase.from('patients').upsert([{
           id: user.id,
           age: parseInt(age),
           emergency_contact_name: emergencyContactName,
           emergency_contact_phone: emergencyContactPhone,
           clinical_focus: clinicalFocusAreas.split(',').map(s => s.trim()),
-        }]);
+        }], { onConflict: 'id' });
         if (pError) throw pError;
 
       } else if (user.role === 'student') {
-        if (studentDocs.length === 0) throw new Error('At least one verification document is required');
-        if (!resumeDoc) throw new Error('Resume is required');
+        if (studentDocs.length === 0) {
+          throw new Error('Please upload at least one verification document (e.g. marksheets or degree certificate).');
+        }
+        if (!resumeDoc) {
+          throw new Error('Please upload your resume.');
+        }
 
         const docUrls: string[] = [];
-        for (const file of studentDocs) {
-          const fileName = `student/${user.id}/${Date.now()}-${file.name}`;
-          const { error: uploadError } = await supabase.storage.from('Verification Documents').upload(fileName, file);
-          if (uploadError) throw uploadError;
-          const { data: { publicUrl } } = supabase.storage.from('Verification Documents').getPublicUrl(fileName);
+        for (let i = 0; i < studentDocs.length; i++) {
+          const file = studentDocs[i];
+          setUploadProgressText(`Uploading verification document (${i + 1}/${studentDocs.length})...`);
+          const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+          const fileName = `student/${user.id}/${Date.now()}-${i}-${cleanFileName}`;
+          const { error: uploadError } = await supabase.storage
+            .from('Verification Documents')
+            .upload(fileName, file, { upsert: true });
+          if (uploadError) {
+            console.error('Failed to upload document:', file.name, uploadError);
+            throw new Error(`Failed to upload ${file.name}: ${uploadError.message}`);
+          }
+          const { data: { publicUrl } } = supabase.storage
+            .from('Verification Documents')
+            .getPublicUrl(fileName);
           docUrls.push(publicUrl);
         }
 
-        const resumeExt = resumeDoc.name.split('.').pop();
-        const resumeFileName = `student/${user.id}/resume/${Date.now()}.${resumeExt}`;
-        const { error: resumeUploadError } = await supabase.storage.from('Verification Documents').upload(resumeFileName, resumeDoc);
-        if (resumeUploadError) throw resumeUploadError;
-        const { data: { publicUrl: resumeUrl } } = supabase.storage.from('Verification Documents').getPublicUrl(resumeFileName);
+        setUploadProgressText('Uploading resume...');
+        const cleanResumeName = resumeDoc.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+        const resumeFileName = `student/${user.id}/resume/${Date.now()}-${cleanResumeName}`;
+        const { error: resumeUploadError } = await supabase.storage
+          .from('Verification Documents')
+          .upload(resumeFileName, resumeDoc, { upsert: true });
+        if (resumeUploadError) {
+          console.error('Failed to upload resume:', resumeUploadError);
+          throw new Error(`Failed to upload resume: ${resumeUploadError.message}`);
+        }
+        const { data: { publicUrl: resumeUrl } } = supabase.storage
+          .from('Verification Documents')
+          .getPublicUrl(resumeFileName);
 
-        const { error: sError } = await supabase.from('students').insert([{
+        setUploadProgressText('Saving profile...');
+        const { error: sError } = await supabase.from('students').upsert([{
           id: user.id,
           university,
           degree,
@@ -205,7 +258,7 @@ export default function Onboarding() {
           contact_number: studentContact,
           documents_url: docUrls.join(','),
           resume_url: resumeUrl,
-        }]);
+        }], { onConflict: 'id' });
         if (sError) throw sError;
 
       } else if (user.role === 'professional') {
@@ -230,7 +283,7 @@ export default function Onboarding() {
           
           const { error: uploadError } = await supabase.storage
             .from('Verification Documents')
-            .upload(filePath, file);
+            .upload(filePath, file, { upsert: true });
           
           if (uploadError) {
             setUploadStates(prev => ({ ...prev, [slot.key]: 'error' }));
@@ -245,14 +298,14 @@ export default function Onboarding() {
           setUploadStates(prev => ({ ...prev, [slot.key]: 'done' }));
         }
 
-        const { error: proError } = await supabase.from('professionals').insert([{
+        const { error: proError } = await supabase.from('professionals').upsert([{
           id: user.id,
           title: title,
           specialty: specializations,
           hourly_rate: parseFloat(hourlyRate),
           verification_doc_url: JSON.stringify(urlMap),
           verification_status: 'pending',
-        }]);
+        }], { onConflict: 'id' });
         if (proError) throw proError;
       }
 
@@ -263,6 +316,7 @@ export default function Onboarding() {
       setError(err.message || 'An error occurred during onboarding.');
     } finally {
       setIsLoading(false);
+      setUploadProgressText('');
     }
   };
 
@@ -349,61 +403,123 @@ export default function Onboarding() {
             {user.role === 'student' && (
               <>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-primary-dark">University</label>
+                  <label className="text-sm font-bold text-primary-dark">University <span className="text-red-500">*</span></label>
                   <Input required value={university} onChange={e => setUniversity(e.target.value)} placeholder="University Name" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-primary-dark">Degree</label>
+                  <label className="text-sm font-bold text-primary-dark">Degree <span className="text-red-500">*</span></label>
                   <Input required value={degree} onChange={e => setDegree(e.target.value)} placeholder="e.g. BSc Psychology" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-primary-dark">Graduation Year</label>
+                  <label className="text-sm font-bold text-primary-dark">Graduation Year <span className="text-red-500">*</span></label>
                   <Input type="number" required value={graduationYear} onChange={e => setGraduationYear(e.target.value)} placeholder="e.g. 2025" className="rounded-xl" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-primary-dark">Contact Number</label>
+                  <label className="text-sm font-bold text-primary-dark">Contact Number <span className="text-red-500">*</span></label>
                   <Input required type="tel" value={studentContact} onChange={e => setStudentContact(e.target.value)} placeholder="Phone Number" className="rounded-xl" />
                 </div>
+
+                {/* Verification Documents */}
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-primary-dark">Verification Documents</label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-bold text-primary-dark">
+                      Verification Documents <span className="text-red-500">*</span>
+                    </label>
+                    {studentDocs.length > 0 && (
+                      <span className="text-xs font-semibold text-primary">
+                        {studentDocs.length} {studentDocs.length === 1 ? 'file' : 'files'} selected
+                      </span>
+                    )}
+                  </div>
+
                   {studentDocs.length > 0 && (
-                    <div className="space-y-2 mb-3">
+                    <div className="space-y-2 mb-2">
                       {studentDocs.map((doc, index) => (
-                        <div key={index} className="flex items-center justify-between bg-background p-2 rounded-lg border border-border">
-                          <span className="text-sm truncate max-w-[250px] font-medium">{doc.name}</span>
+                        <div key={index} className="flex items-center justify-between bg-primary-muted/20 border border-border p-3 rounded-xl">
+                          <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                            <FileText className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span className="text-sm font-medium text-foreground truncate">{doc.name}</span>
+                            <span className="text-xs text-muted-foreground flex-shrink-0">({formatFileSize(doc.size)})</span>
+                          </div>
                           <button
                             type="button"
                             onClick={() => setStudentDocs(docs => docs.filter((_, i) => i !== index))}
-                            className="text-red-500 hover:text-red-700 text-sm font-semibold px-2 py-1"
+                            className="text-muted-foreground hover:text-red-600 p-1 rounded-md transition-colors"
+                            title="Remove document"
                           >
-                            Remove
+                            <X className="w-4 h-4" />
                           </button>
                         </div>
                       ))}
                     </div>
                   )}
-                  <Input
-                    type="file"
-                    multiple
-                    required={studentDocs.length === 0}
-                    onChange={e => {
-                      if (e.target.files) setStudentDocs(prev => [...prev, ...Array.from(e.target.files!)]);
-                      e.target.value = '';
-                    }}
-                    className="rounded-xl pt-2 cursor-pointer"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">Please upload your semester marksheets (if not graduated) or degree (if graduated).</p>
+
+                  <label className="flex flex-col items-center justify-center gap-2 p-5 border-2 border-dashed border-border hover:border-primary rounded-xl cursor-pointer bg-surface hover:bg-primary-muted/20 transition-all group">
+                    <Upload className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {studentDocs.length === 0 ? 'Click to upload verification document(s)' : '+ Add more documents'}
+                    </span>
+                    <span className="text-xs text-muted-foreground text-center">
+                      Please upload your semester marksheets (if not graduated) or degree (if graduated).
+                    </span>
+                    <input
+                      type="file"
+                      multiple
+                      accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                      className="sr-only"
+                      onChange={handleStudentDocsChange}
+                    />
+                  </label>
+                  <p className="text-xs text-muted-foreground">Accepted formats: PDF, JPG, PNG, DOCX. Max 10 MB per file.</p>
                 </div>
+
+                {/* Resume */}
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-primary-dark">Resume</label>
-                  <Input
-                    type="file"
-                    required={!resumeDoc}
-                    onChange={e => setResumeDoc(e.target.files?.[0] || null)}
-                    className="rounded-xl pt-2 cursor-pointer"
-                  />
-                  {resumeDoc && <p className="text-xs font-medium text-primary mt-1">Selected: {resumeDoc.name}</p>}
-                  {!resumeDoc && <p className="text-xs text-muted-foreground mt-1">Please upload your latest resume.</p>}
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-bold text-primary-dark">
+                      Resume <span className="text-red-500">*</span>
+                    </label>
+                    {resumeDoc && (
+                      <span className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Selected
+                      </span>
+                    )}
+                  </div>
+
+                  {resumeDoc ? (
+                    <div className="flex items-center justify-between bg-primary-muted/20 border border-border p-3 rounded-xl">
+                      <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                        <FileText className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span className="text-sm font-medium text-foreground truncate">{resumeDoc.name}</span>
+                        <span className="text-xs text-muted-foreground flex-shrink-0">({formatFileSize(resumeDoc.size)})</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setResumeDoc(null)}
+                        className="text-muted-foreground hover:text-red-600 p-1 rounded-md transition-colors"
+                        title="Remove resume"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="flex flex-col items-center justify-center gap-2 p-5 border-2 border-dashed border-border hover:border-primary rounded-xl cursor-pointer bg-surface hover:bg-primary-muted/20 transition-all group">
+                      <Upload className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                      <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                        Click to upload your latest resume
+                      </span>
+                      <span className="text-xs text-muted-foreground text-center">
+                        Upload your latest CV or resume in PDF or Word format.
+                      </span>
+                      <input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        className="sr-only"
+                        onChange={handleResumeChange}
+                      />
+                    </label>
+                  )}
+                  <p className="text-xs text-muted-foreground">Accepted formats: PDF, DOC, DOCX. Max 10 MB.</p>
                 </div>
               </>
             )}
@@ -479,7 +595,7 @@ export default function Onboarding() {
               disabled={isLoading}
               className="w-full rounded-xl bg-primary hover:bg-primary-hover text-white font-semibold py-6 shadow-sm"
             >
-              {isLoading ? 'Saving & Uploading...' : 'Complete Profile'}
+              {isLoading ? (uploadProgressText || 'Saving & Uploading...') : 'Complete Profile'}
             </Button>
           </form>
         </CardContent>

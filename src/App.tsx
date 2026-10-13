@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth';
 import { PwaInstallProvider } from './contexts/PwaInstallContext';
@@ -22,18 +22,46 @@ const Placeholder = ({ title }: { title: string }) => (
   </div>
 );
 
-const PendingVerification = () => (
-  <div className="min-h-screen flex items-center justify-center bg-background p-4">
-    <div className="max-w-md w-full bg-surface p-8 rounded-lg shadow-sm border border-border text-center">
-      <div className="mx-auto w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-        <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+const PendingVerification = () => {
+  const { logout } = useAuth();
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="max-w-md w-full bg-surface p-8 rounded-lg shadow-sm border border-border text-center">
+        <div className="mx-auto w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+          <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        </div>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Verification Pending</h2>
+        <p className="text-muted-foreground mb-6">Your documents are currently being reviewed by our admin team. You can continue to your dashboard to review your practice setup.</p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <Link to="/professional/dashboard" className="w-full sm:w-auto px-5 py-2.5 bg-primary text-white rounded-xl font-semibold hover:bg-primary-hover transition-colors shadow-sm">
+            Go to Dashboard
+          </Link>
+          <button onClick={() => logout()} className="w-full sm:w-auto px-4 py-2.5 border border-border text-foreground rounded-xl font-medium hover:bg-surface-muted transition-colors bg-transparent cursor-pointer">
+            Log Out
+          </button>
+        </div>
       </div>
-      <h2 className="text-2xl font-bold text-foreground mb-2">Verification Pending</h2>
-      <p className="text-muted-foreground mb-6">Your documents are currently being reviewed by our admin team. Once approved, you will have full access to your professional dashboard.</p>
-      <a href="/" className="text-primary font-medium hover:underline">Return to Home</a>
     </div>
-  </div>
-);
+  );
+};
+
+const AccountRejected = () => {
+  const { logout } = useAuth();
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="max-w-md w-full bg-surface p-8 rounded-lg shadow-sm border border-border text-center">
+        <div className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+          <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </div>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Verification Not Approved</h2>
+        <p className="text-muted-foreground mb-6">Unfortunately, your verification credentials could not be approved by the admin team. Please contact support or log in with another account.</p>
+        <button onClick={() => logout()} className="text-primary font-medium hover:underline bg-transparent border-0 cursor-pointer">
+          Log Out
+        </button>
+      </div>
+    </div>
+  );
+};
 
 // Protected Route wrappers
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode, allowedRoles: string[] }) => {
@@ -63,9 +91,9 @@ const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode,
     return <Navigate to="/patient/dashboard" replace />;
   }
 
-  // Intercept pending professionals for professional routes only
-  if (user.role === 'professional' && (user as any).verificationStatus === 'pending') {
-    return <PendingVerification />;
+  // Intercept rejected professionals for professional routes only
+  if (user.role === 'professional' && (user as any).verificationStatus === 'rejected') {
+    return <AccountRejected />;
   }
   
   return <>{children}</>;
