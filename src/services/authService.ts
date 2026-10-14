@@ -79,18 +79,12 @@ export const authService = {
       }
       profile = newProfile;
     } else {
-      // If auth metadata has a role that differs from profile, sync it
+      // If auth metadata has a role that differs from profile, sync auth metadata to canonical profile role
       const metaRole = authData.user.user_metadata?.role;
-      if (metaRole && profile.role !== metaRole) {
-        const { data: updatedProfile } = await supabase
-          .from('users')
-          .update({ role: metaRole })
-          .eq('id', authData.user.id)
-          .select()
-          .single();
-        if (updatedProfile) {
-          profile = updatedProfile;
-        }
+      if (profile.role && metaRole !== profile.role) {
+        supabase.auth.updateUser({
+          data: { role: profile.role }
+        }).catch(() => {});
       }
     }
 
@@ -201,15 +195,12 @@ export const authService = {
       profile = newProfile;
       localStorage.removeItem('pending_signup_role');
     } else {
-      // If profile exists, check if pending role or auth metadata role differs
-      const metaRole = session.user.user_metadata?.role;
+      // If profile exists, only update from pending_signup_role if user explicitly initiated a new signup with a chosen role
       const pendingRole = localStorage.getItem('pending_signup_role');
-      const targetRole = pendingRole || metaRole;
-
-      if (targetRole && profile.role !== targetRole) {
+      if (pendingRole && profile.role !== pendingRole) {
         const { data: updatedProfile } = await supabase
           .from('users')
-          .update({ role: targetRole })
+          .update({ role: pendingRole })
           .eq('id', session.user.id)
           .select()
           .single();
@@ -217,6 +208,11 @@ export const authService = {
           profile = updatedProfile;
         }
         localStorage.removeItem('pending_signup_role');
+      } else if (session.user.user_metadata?.role !== profile.role) {
+        // Keep auth metadata in sync with canonical profile role
+        supabase.auth.updateUser({
+          data: { role: profile.role }
+        }).catch(() => {});
       }
     }
 

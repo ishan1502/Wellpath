@@ -325,15 +325,22 @@ export default function Onboarding() {
     setIsLoading(true);
     setError('');
     try {
+      localStorage.removeItem('pending_signup_role');
+
       const { error: updateError } = await supabase
         .from('users')
         .update({ role: newRole })
         .eq('id', user.id);
       if (updateError) throw updateError;
 
-      await supabase.auth.updateUser({
+      const { error: authError } = await supabase.auth.updateUser({
         data: { role: newRole }
       });
+      if (authError) {
+        console.warn('Failed to update auth metadata:', authError);
+      }
+
+      await supabase.auth.refreshSession();
 
       window.location.reload();
     } catch (err: any) {
